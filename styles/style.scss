@@ -1,0 +1,46 @@
+@import "./variables";
+@import "./functions";
+@import "./main";
+@import "./about-section";
+@import "./our-specialities-section";
+@import "./our-menu-section";
+@import "./reservation-section";
+@import "./information-section";
+
+html,
+body {
+  margin: auto;
+  display: block;
+}
+
+p,
+a {
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+}
+
+button {
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+@media #{$information-resolution} {
+  .about-section,
+  .our-specialities-section,
+  .options,
+  .our-menu-head,
+  .menu,
+  .reservation,
+  .date-selection,
+  .infos,
+  #copy-right {
+    width: auto;
+    padding: 10px;
+  }
+}

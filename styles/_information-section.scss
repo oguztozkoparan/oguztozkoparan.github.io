@@ -1,0 +1,117 @@
+.information-section {
+  background-color: $darkBgc;
+  @include flexing(column, wrap, center, center);
+
+  p {
+    margin: 0px;
+    padding: 12px 0px;
+    text-align: left;
+    font-size: 12px;
+    color: #fff;
+  }
+
+  .infos {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 2fr 1fr;
+    grid-column-gap: 20px;
+    grid-template-rows: auto;
+    width: 60%;
+    margin: 20px auto;
+    padding-top: 20px;
+
+    button {
+      cursor: pointer;
+      margin: 14px 0px 10px 0px;
+      padding: 8px 10px;
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid $textAndBorderColor;
+    }
+
+    .info-option {
+      top: 0;
+      @include flexing(column, wrap, center, flex-start);
+
+      h4 {
+        margin: 0px 0px 10px 0px;
+        color: #fff;
+        font-weight: lighter;
+      }
+    }
+
+    .social-buttons {
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-column-gap: 10px;
+
+      button {
+        width: 35px;
+        height: 35px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        grid-row: 2;
+      }
+
+      #facebook {
+        background-image: url("../resources/facebook-logo.png");
+      }
+
+      #twitter {
+        background-image: url("../resources/twitter-logo.png");
+      }
+
+      #google {
+        background-image: url("../resources/google-logo.png");
+      }
+
+      #youtube {
+        background-image: url("../resources/youtube-logo.png");
+      }
+    }
+  }
+
+  #copy-right {
+    width: 60%;
+    margin: auto;
+    color: $textAndBorderColor;
+    padding-top: 50px;
+  }
+
+  #info-reservation-button {
+    place-self: start;
+    text-align: center;
+    grid-row: 2;
+  }
+
+  #info-view-button {
+    place-self: start;
+    text-align: center;
+    grid-row: 2;
+  }
+}
+
+@media #{$information-resolution} {
+  .information-section {
+    .infos {
+      grid-template-rows: auto;
+      grid-template-columns: 1fr;
+      grid-gap: 20px;
+
+      .social-buttons {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #info-reservation-button {
+        grid-row: auto;
+      }
+
+      #info-view-button {
+        grid-row: auto;
+      }
+    }
+  }
+}
