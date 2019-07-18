@@ -630,6 +630,7 @@
   grid-row: 2;
   color: #bcbcbd;
   padding: 0;
+  max-width: 400px;
 }
 
 .our-menu-section .menu .all-options .single-option h2 {
