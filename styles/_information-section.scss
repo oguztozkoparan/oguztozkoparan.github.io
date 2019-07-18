@@ -16,8 +16,8 @@
     grid-template-rows: 2fr 1fr;
     grid-column-gap: 20px;
     grid-template-rows: auto;
-    width: 60%;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding-top: 20px;
 
     button {
@@ -74,8 +74,6 @@
   }
 
   #copy-right {
-    width: 60%;
-    margin: auto;
     color: $textAndBorderColor;
     padding-top: 50px;
   }

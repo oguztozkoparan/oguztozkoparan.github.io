@@ -34,6 +34,12 @@
   }
 }
 
+.container {
+  width: 60%;
+  max-width: 1200px;
+  margin: 0px auto;
+}
+
 .main {
   background-image: url("../resources/main.jpg");
   background-size: cover;
@@ -41,8 +47,6 @@
 }
 
 .main .header-section {
-  width: 60%;
-  margin: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -302,12 +306,7 @@
   }
 }
 
-.about-section {
-  margin: 60px auto 0 auto;
-  width: 60%;
-}
-
-.about-section .about-section-container {
+.about-section .about-section-grid {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 3fr 2fr;
@@ -316,28 +315,28 @@
       grid-template-rows: 3fr 4fr;
   grid-column-gap: 0;
   grid-row-gap: 30px;
-  margin-top: -300px;
+  margin-top: -260px;
   margin-bottom: 40px;
 }
 
-.about-section .about-section-container .about-us {
+.about-section .about-section-grid .about-us {
   -ms-grid-row: 1;
   -ms-grid-row-span: 2;
   grid-row: 1/3;
   place-self: end;
 }
 
-.about-section .about-section-container .about-us h2 {
+.about-section .about-section-grid .about-us h2 {
   font-size: 48px;
   text-align: center;
   color: #bf9e7b;
   font-family: "Alex Brush", cursive;
 }
 
-.about-section .about-section-container .about-us p {
+.about-section .about-section-grid .about-us p {
   color: #808080;
   margin: 10px;
-  padding: 20px 30px 10px 15px;
+  padding: 25px 25px 30px 25px;
   text-align: center;
   font-size: 14px;
   line-height: 30px;
@@ -345,14 +344,14 @@
   max-width: 900px;
 }
 
-.about-section .about-section-container .contact {
+.about-section .about-section-grid .contact {
   max-width: 500px;
   -ms-grid-column: 2;
   grid-column: 2;
   place-self: end;
 }
 
-.about-section .about-section-container .contact .contact-info {
+.about-section .about-section-grid .contact .contact-info {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -369,24 +368,24 @@
   grid-row: 1;
 }
 
-.about-section .about-section-container .contact .contact-info h2,
-.about-section .about-section-container .contact .contact-info a {
+.about-section .about-section-grid .contact .contact-info h2,
+.about-section .about-section-grid .contact .contact-info a {
   color: #bf9e7b;
 }
 
-.about-section .about-section-container .contact .contact-info h4,
-.about-section .about-section-container .contact .contact-info p {
+.about-section .about-section-grid .contact .contact-info h4,
+.about-section .about-section-grid .contact .contact-info p {
   color: #fff;
 }
 
-.about-section .about-section-container .contact .contact-info h2,
-.about-section .about-section-container .contact .contact-info h4,
-.about-section .about-section-container .contact .contact-info p,
-.about-section .about-section-container .contact .contact-info a {
+.about-section .about-section-grid .contact .contact-info h2,
+.about-section .about-section-grid .contact .contact-info h4,
+.about-section .about-section-grid .contact .contact-info p,
+.about-section .about-section-grid .contact .contact-info a {
   margin: 8px 0px 8px 8px;
 }
 
-.about-section .about-section-container .contact .contact-info button {
+.about-section .about-section-grid .contact .contact-info button {
   margin: auto;
   cursor: pointer;
   margin-top: 10px;
@@ -396,7 +395,7 @@
   border: 1px solid #bf9e7b;
 }
 
-.about-section .about-section-container .about-image {
+.about-section .about-section-grid .about-image {
   background-image: url("../resources/about-image.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -411,34 +410,39 @@
 }
 
 @media only screen and (max-width: 1050px) {
-  .about-section .about-section-container {
+  .about-section .about-section-grid {
     -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
     -ms-grid-rows: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-    margin-top: -340px;
+    margin-top: -300px;
   }
-  .about-section .about-section-container .contact {
+  .about-section .about-section-grid .contact {
     width: auto;
     place-self: center;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-column: 1/3;
   }
-  .about-section .about-section-container .about-us {
+  .about-section .about-section-grid .about-us {
+    place-self: center;
     -ms-grid-row: 2;
     grid-row: 2;
-    -ms-grid-column: 2;
-    grid-column: 2;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-column: 1/3;
   }
-  .about-section .about-section-container .about-us p {
+  .about-section .about-section-grid .about-us p {
     padding: 20px 20px;
   }
-  .about-section .about-section-container .about-image {
+  .about-section .about-section-grid .about-image {
     display: none;
   }
 }
 
 @media only screen and (max-width: 500px) {
-  .about-section .about-section-container {
-    margin-top: -500px;
+  .about-section .about-section-grid {
+    margin-top: -340px;
   }
 }
 
@@ -448,11 +452,6 @@
   background-image: url("../resources/our-specialities.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-}
-
-.our-specialities-section .our-specialities-text {
-  width: 60%;
-  margin: auto;
 }
 
 .our-specialities-section .our-specialities-text h1 {
@@ -472,8 +471,8 @@
 }
 
 .our-specialities-section .options {
-  width: 60%;
-  margin: 60px auto;
+  margin-top: 60px;
+  margin-bottom: 40px;
   background-color: transparent;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -530,6 +529,9 @@
 
 .our-menu-section {
   background-color: #141723;
+}
+
+.our-menu-section .container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -547,9 +549,7 @@
 }
 
 .our-menu-section .our-menu-head {
-  margin: auto;
   padding-top: 30px;
-  width: 60%;
 }
 
 .our-menu-section .our-menu-head h1 {
@@ -566,8 +566,7 @@
 }
 
 .our-menu-section .menu {
-  width: 60%;
-  margin: 5% auto;
+  margin: 50px auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -599,7 +598,8 @@
       grid-template-columns: 1fr 1fr;
   -ms-grid-rows: auto;
       grid-template-rows: auto;
-  grid-gap: 50px;
+  grid-row-gap: 50px;
+  grid-column-gap: 130px;
   margin-top: 20px;
 }
 
@@ -646,7 +646,12 @@
 }
 
 .our-menu-section button {
-  margin: 8% auto 60px auto;
+  margin: 50px auto 60px auto;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
   cursor: pointer;
   padding: 15px 40px;
   background-color: #bf9e7b;
@@ -688,27 +693,12 @@
 }
 
 .reservation-section {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-line-pack: center;
-      align-content: center;
   background-image: url("../resources/reservation-section.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-.reservation-section .reservation {
-  margin: auto;
+.reservation-section .container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -723,7 +713,23 @@
           justify-content: center;
   -ms-flex-line-pack: center;
       align-content: center;
-  width: 60%;
+}
+
+.reservation-section .reservation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
 
 .reservation-section .reservation h1 {
@@ -740,8 +746,6 @@
 }
 
 .reservation-section .date-selection {
-  width: 60%;
-  margin: auto;
   padding-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -757,6 +761,7 @@
           justify-content: space-between;
   -ms-flex-line-pack: center;
       align-content: center;
+  width: 100%;
 }
 
 .reservation-section .date-selection .reservation-drop-menu {
@@ -870,7 +875,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
     margin: 0;
-    padding: 9%;
+    padding: 30px;
   }
   .reservation-section .date-selection div p {
     font-size: 13px;
@@ -913,8 +918,8 @@
   grid-column-gap: 20px;
   -ms-grid-rows: auto;
       grid-template-rows: auto;
-  width: 60%;
-  margin: 20px auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
   padding-top: 20px;
 }
 
@@ -987,8 +992,6 @@
 }
 
 .information-section #copy-right {
-  width: 60%;
-  margin: auto;
   color: #bf9e7b;
   padding-top: 50px;
 }

@@ -1,11 +1,12 @@
 .reservation-section {
-  @include flexing(column, wrap, center, center);
   @include bgImage("../resources/reservation-section.jpg");
 
-  .reservation {
-    margin: auto;
+  .container {
     @include flexing(column, wrap, center, center);
-    width: 60%;
+  }
+
+  .reservation {
+    @include flexing(column, wrap, center, center);
 
     h1 {
       margin: 60px auto 0px auto;
@@ -22,10 +23,9 @@
   }
 
   .date-selection {
-    width: 60%;
-    margin: auto;
     padding-top: 20px;
     @include flexing(row, nowrap, space-between, center);
+    width: 100%;
 
     .reservation-drop-menu {
       @include flexing(column, wrap, center, center);
@@ -118,7 +118,7 @@
     .date-selection {
       flex-direction: column;
       margin: 0;
-      padding: 9%;
+      padding: 30px;
 
       div {
         p {

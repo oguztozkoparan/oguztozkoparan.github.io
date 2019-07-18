@@ -4,9 +4,6 @@
   @include bgImage("../resources/our-specialities.jpg");
 
   .our-specialities-text {
-    width: 60%;
-    margin: auto;
-
     h1 {
       font-family: "Alex Brush", cursive;
       font-size: 48px;
@@ -25,8 +22,8 @@
   }
 
   .options {
-    width: 60%;
-    margin: 60px auto;
+    margin-top: 60px;
+    margin-bottom: 40px;
     background-color: transparent;
     @include flexing(row, wrap, space-between, center);
 

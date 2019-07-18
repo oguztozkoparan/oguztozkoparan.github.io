@@ -2,8 +2,6 @@
   @include bgImage("../resources/main.jpg");
 
   .header-section {
-    width: 60%;
-    margin: auto;
     @include flexing(column, nowrap, center, center);
   }
 }
