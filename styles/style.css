@@ -43,8 +43,6 @@
 @media only screen and (max-width: 1050px) {
   .container {
     width: 97%;
-    max-width: 1200px;
-    margin: 0px auto;
   }
 }
 
