@@ -40,6 +40,14 @@
   margin: 0px auto;
 }
 
+@media only screen and (max-width: 1050px) {
+  .container {
+    width: 97%;
+    max-width: 1200px;
+    margin: 0px auto;
+  }
+}
+
 .main {
   background-image: url("../resources/main.jpg");
   background-size: cover;
@@ -876,6 +884,7 @@
             flex-direction: column;
     margin: 0;
     padding: 30px;
+    width: auto;
   }
   .reservation-section .date-selection div p {
     font-size: 13px;
