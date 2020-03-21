@@ -1,0 +1,16 @@
+{
+  "project_1": {
+    "title": "Fesco Restaurant Page",
+    "property": "Intern Project",
+    "type": "Front End Development",
+    "description": "My first intern and ui development project. In this project, I developed a template website using SASS and Javascript languages.",
+    "url": "/projects/internUiDevelopment/fesco.html"
+  },
+  "project_2": {
+    "title": "Vulnerable Web Application",
+    "property": "Team Project",
+    "type": "Web Security Development",
+    "description": "Vulnerable-Web-Application is a website that is prepared for people who are interested in web penetration and who want to have information about this subject or to be working.",
+    "url": "https://github.com/hummingbirdscyber/Vulnerable-Web-Application"
+  }
+}
