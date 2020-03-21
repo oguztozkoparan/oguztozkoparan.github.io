@@ -61,11 +61,13 @@ document.getElementsByClassName(
     .scrollIntoView({ behavior: "smooth" });
 };
 
+/* SOME ISSUES HERE, DOESNT WORK AT ALL, ILL LOOK LATER
 document.getElementsByClassName(
   "projectssection-container-scroll"
 )[0].onclick = function() {
   document.querySelector(".teamsection").scrollIntoView({ behavior: "smooth" });
 };
+*/
 //scrolling Arrows
 
 //team buttons section
