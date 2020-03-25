@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/image/logo2.png" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <title>CSSupply</title>
+  </head>
+  <body>
+    <!--navbar start-->
+    <div class="navbar">
+      <img src="image/logo.png" alt="cssupply_logo" class="navbarlogo" />
+      <p class="navbarabout">About</p>
+      <p class="navbarfaq">FAQ</p>
+      <p class="navbarcontact">Contact</p>
+      <div class="navbarwallet">
+        <p class="navbarwallet-title">Wallet:</p>
+        <p class="navbarwallet-value">&nbsp;$ 10.00</p>
+      </div>
+      <div class="navbarsignin">
+        <img class="navbarsignin-logo" src="image/steam.png" alt="" />
+        <p class="navbarsignin-text">Sign in through Steam</p>
+      </div>
+      <div class="navbarmenu">
+        <div id="f"></div>
+        <div id="s"></div>
+        <div id="t"></div>
+      </div>
+    </div>
+
+    <div class="responmenu">
+      <p onclick="responScroll(this)" class="responmenu-about">About</p>
+      <p onclick="responScroll(this)" class="responmenu-faq">FAQ</p>
+      <p onclick="responScroll(this)" class="responmenu-contact">Contact</p>
+      <div class="responmenu-wallet">
+        <p class="responmenu-wallet-title">Wallet:</p>
+        <p class="responmenu-wallet-value">&nbsp;$ 10.00</p>
+      </div>
+      <div class="responmenu-signin">
+        <img class="responmenu-signin-logo" src="image/steam.png" alt="" />
+        <p class="responmenu-signin-text">Sign in through Steam</p>
+      </div>
+    </div>
+    <!--navbar end-->
+
+    <!--after navbar start-->
+    <img src="image/after_nav.png" alt="CSSupply" class="afternavbar" />
+    <!--after navbar end-->
+
+    <!--trade section start-->
+    <div class="trade">
+      <!--client offer section-->
+      <div class="trade-offer blocks">
+        <div class="trade-offertitle titles">
+          <p class="trade-offertitle-title">Your Offer</p>
+          <p class="trade-offertitle-counts">0 items - 0 $</p>
+        </div>
+        <!-- item container -->
+        <div class="trade-offer-items item-container">
+          <div class="item">
+            <div class="item-title">
+              <p class="item-title-title">Karambit - Doppler Sapphire</p>
+              <p class="item-title-condition battle-scarred">Battle Scarred</p>
+            </div>
+            <img class="item-image" src="/image/knife.png" alt="item" />
+            <p class="item-value">$2838.07</p>
+            <p class="item-count">x1</p>
+          </div>
+
+          <div class="item">
+            <div class="item-title">
+              <p class="item-title-title">Karambit - Doppler Sapphire</p>
+              <p class="item-title-condition well-worn">Well Worn</p>
+            </div>
+            <img class="item-image" src="/image/knife.png" alt="item" />
+            <p class="item-value">$2838.07</p>
+            <p class="item-count">x1</p>
+          </div>
+
+          <div class="item">
+            <div class="item-title">
+              <p class="item-title-title">Karambit - Doppler Sapphire</p>
+              <p class="item-title-condition field-tested">Field Tested</p>
+            </div>
+            <img class="item-image" src="/image/knife.png" alt="item" />
+            <p class="item-value">$2838.07</p>
+            <p class="item-count">x1</p>
+          </div>
+
+          <div class="item">
+            <div class="item-title">
+              <p class="item-title-title">Karambit - Doppler Sapphire</p>
+              <p class="item-title-condition minimal-wear">Minimal Wear</p>
+            </div>
+            <img class="item-image" src="/image/knife.png" alt="item" />
+            <p class="item-value">$2838.07</p>
+            <p class="item-count">x1</p>
+          </div>
+
+          <div class="item">
+            <div class="item-title">
+              <p class="item-title-title">Karambit - Doppler Sapphire</p>
+              <p class="item-title-condition factory-new">Factory New</p>
+            </div>
+            <img class="item-image" src="/image/knife.png" alt="item" />
+            <p class="item-value">$2838.07</p>
+            <p class="item-count">x1</p>
+          </div>
+        </div>
+      </div>
+
+      <!--trade props section-->
+      <div class="trade-props">
+        <p class="trade-props-offervalue">+ $ 0.00</p>
+        <p class="trade-props-balancevalue">+ $ 0.00 BALANCE</p>
+        <button class="trade-props-acceptbutton">Trade</button>
+        <div class="trade-props-itemrates blocks">
+          <div class="trade-props-itemratestitle titles">
+            <p class="trade-props-itemratestitle-title">Item Rates</p>
+          </div>
+
+          <div class="trade-props-itemrates-row green-rate" id="row1">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+          <div class="trade-props-itemrates-row yellow-rate" id="row2">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+          <div class="trade-props-itemrates-row yellow-rate" id="row3">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+          <div class="trade-props-itemrates-row yellow-rate" id="row4">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+          <div class="trade-props-itemrates-row yellow-rate" id="row5">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+          <div class="trade-props-itemrates-row yellow-rate" id="row6">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+          <div class="trade-props-itemrates-row red-rate" id="row7">
+            <p>%%%</p>
+            <p>%%%</p>
+            <p>%%%</p>
+          </div>
+        </div>
+      </div>
+
+      <!--client receive section-->
+      <div class="trade-receive blocks">
+        <div class="trade-receivetitle titles">
+          <p class="trade-receivetitle-title">Your Receive</p>
+          <p class="trade-receivetitle-counts">0 items - 0 $</p>
+        </div>
+
+        <!-- item container -->
+        <div class="trade-receive-items item-container"></div>
+      </div>
+
+      <!--client inventory section-->
+      <div class="trade-clientinventory blocks">
+        <div class="trade-clientinventorytitle titles">
+          <p class="trade-clientinventorytitle-title">Your Inventory</p>
+          <p class="trade-clientinventorytitle-total">$ 2000.00</p>
+          <div class="trade-clientinventorytitle-filters">
+            <input
+              type="text"
+              name="clientSearch"
+              id="clientSearch"
+              class="trade-clientinventorytitle-filters-search"
+              placeholder="Search..."
+            />
+            <button
+              class="trade-clientinventorytitle-filters-lowestPrice"
+            ></button>
+            <button
+              class="trade-clientinventorytitle-filters-highestPrice"
+            ></button>
+          </div>
+        </div>
+
+        <!-- item container -->
+        <div class="trade-clientinventory-items item-container"></div>
+      </div>
+
+      <!--inventory filter section-->
+      <div class="trade-filter blocks">
+        <div class="trade-filtertitle titles">
+          <p class="trade-filtertitle-title">Filters</p>
+        </div>
+
+        <div class="trade-filter-price filter-container">
+          <input
+            type="text"
+            name="minPriceFilter"
+            id="minPriceFilter"
+            class="trade-filters-minPriceFilter"
+            placeholder="0.00"
+          />
+          <p>$</p>
+          <input
+            type="text"
+            name="maxPriceFilter"
+            id="maxPriceFilter"
+            class="trade-filters-maxPriceFilter"
+            placeholder="99.00"
+          />
+        </div>
+
+        <div class="trade-filter-botlock filter-container">
+          <p>BotLock</p>
+          <div class="trade-filter-botlock checkbox">
+            <input type="checkbox" name="botlock" id="botlock" />
+            <span class="slider round"></span>
+          </div>
+        </div>
+
+        <div class="trade-filter-smartpick filter-container">
+          <p>Smartpick</p>
+          <div class="trade-filter-smartpick checkbox">
+            <input type="checkbox" name="smartpick" id="smartpick" />
+            <span class="slider round"></span>
+          </div>
+        </div>
+
+        <div class="trade-filter-stattrak filter-container">
+          <p>StatTrak™</p>
+          <div class="trade-filter-stattrak checkbox">
+            <input type="checkbox" name="stattrak" id="stattrak" />
+            <span class="slider round"></span>
+          </div>
+        </div>
+
+        <div class="trade-filter-stickers filter-container">
+          <p>Stickers</p>
+          <div class="trade-filter-stickers checkbox">
+            <input type="checkbox" name="stickers" id="stickers" />
+            <span class="slider round"></span>
+          </div>
+        </div>
+
+        <div class="trade-filter-tradelock filter-container">
+          <p>Trade Lock</p>
+          <div class="trade-filter-tradelock checkbox">
+            <input type="checkbox" name="tradelock" id="tradelock" />
+            <span class="slider round"></span>
+          </div>
+        </div>
+
+        <div class="trade-filter-useritems filter-container">
+          <p>User Items</p>
+          <div class="trade-filter-useritems checkbox">
+            <input type="checkbox" name="useritems" id="useritems" />
+            <span class="slider round"></span>
+          </div>
+        </div>
+
+        <select class="trade-filter-itemtypesButton">
+          <option value="" disabled selected hidden>Item Types</option>
+          <option value="1">Battle Scarred</option>
+          <option value="2">Well Worn</option>
+          <option value="3">Field Tested</option>
+          <option value="4">Minimal Wear</option>
+          <option value="5">Factory New</option>
+        </select>
+
+        <!-- <select class="trade-filter-itemtypesMenu" type=></select> -->
+      </div>
+      <!--site inventory section-->
+      <div class="trade-siteinventory blocks">
+        <div class="trade-siteinventorytitle titles">
+          <p class="trade-siteinventorytitle-title">Site Inventory</p>
+          <div class="trade-siteinventorytitle-filters">
+            <input
+              type="text"
+              name="siteSearch"
+              id="siteSearch"
+              class="trade-siteinventorytitle-filters-search"
+              placeholder="Search..."
+            />
+
+            <button
+              class="trade-siteinventorytitle-filters-lowestPrice"
+            ></button>
+            <button
+              class="trade-siteinventorytitle-filters-highestPrice"
+            ></button>
+          </div>
+        </div>
+
+        <!-- item container -->
+        <div class="trade-siteinventory-items item-container"></div>
+      </div>
+    </div>
+    <!--trade section end-->
+
+    <!--information section start-->
+    <div class="information">
+      <div class="information-about">
+        <h1 class="information-about-title">About</h1>
+        <p class="information-about-text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem
+          quidem id quibusdam, maiores consectetur sapiente optio hic eveniet
+          dignissimos soluta perferendis? Expedita, nobis quidem velit
+          consequatur ut maxime aspernatur alias.
+        </p>
+      </div>
+      <div class="information-faq">
+        <h1 class="information-faq-title">FAQ</h1>
+        <p class="information-faq-text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem
+          quidem id quibusdam, maiores consectetur sapiente optio hic eveniet
+          dignissimos soluta perferendis? Expedita, nobis quidem velit
+          consequatur ut maxime aspernatur alias.
+        </p>
+      </div>
+      <div class="information-contact">
+        <h1 class="information-contact-title">Contact</h1>
+        <p class="information-contact-text">
+          example@examplemail.com
+        </p>
+      </div>
+    </div>
+    <!--information section end-->
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>

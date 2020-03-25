@@ -1,0 +1,838 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+}
+
+body {
+  background: -webkit-gradient(linear, left top, left bottom, from(#603c71), to(#3a3a5f));
+  background: linear-gradient(#603c71, #3a3a5f);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+input[type="text"] {
+  outline: none;
+  border-radius: 10px;
+  border: none;
+  color: #b2b2b2;
+  padding: 5px 10px;
+  background-color: #38465c;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  color: #fff;
+  background-color: #2f2f47;
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 70px;
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navbar .navbarlogo {
+  width: 200px;
+  height: 60px;
+}
+
+.navbar .navbarabout {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.navbar .navbarfaq {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.navbar .navbarcontact {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.navbar .navbarwallet {
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: default;
+}
+
+.navbar .navbarwallet .navbarwallet-value {
+  color: #00ba61;
+}
+
+.navbar .navbarwallet .navbarwallet-plus {
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.navbar .navbarsignin {
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.navbar .navbarsignin .navbarsignin-logo {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.responmenu {
+  display: none;
+}
+
+.afternavbar {
+  width: 100%;
+  height: 80%;
+  max-height: 500px;
+}
+
+.trade {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 3fr 1fr 3fr;
+      grid-template-columns: 3fr 1fr 3fr;
+  grid-gap: 50px;
+  padding: 70px 50px;
+  width: 100%;
+  color: #fff;
+}
+
+.trade .blocks {
+  background-color: #2f2f47;
+  height: 450px;
+  border-radius: 20px;
+  -webkit-box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.trade .titles {
+  height: 50px;
+  padding: 10px;
+  border-radius: 20px 20px 0px 0px;
+  background-color: #27273b;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.trade .item-container {
+  padding: 10px;
+  margin: 5px;
+  height: 80%;
+  max-height: 400px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(100px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 10px;
+  overflow-y: auto;
+}
+
+.trade .item-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.trade .item-container::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.trade .item-container::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #27273b;
+}
+
+.trade .item-container .item {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: 5px;
+  padding: 5px;
+  height: auto;
+  max-height: 150px;
+  width: auto;
+  max-width: 150px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #307fbc;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.trade .item-container .item:hover .item-title {
+  opacity: 1;
+  visibility: visible;
+}
+
+.trade .item-container .item .item-title {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: rgba(56, 70, 92, 0.85);
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.trade .item-container .item .item-title p {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.trade .item-container .item .item-title .battle-scarred {
+  color: #828282;
+}
+
+.trade .item-container .item .item-title .well-worn {
+  color: #219653;
+}
+
+.trade .item-container .item .item-title .field-tested {
+  color: #2f80ed;
+}
+
+.trade .item-container .item .item-title .minimal-wear {
+  color: #9b51e0;
+}
+
+.trade .item-container .item .item-title .factory-new {
+  color: #f2c94c;
+}
+
+.trade .item-container .item .item-title .item-title-condition {
+  font-weight: bold;
+}
+
+.trade .item-container .item .item-image {
+  width: 80px;
+  height: 80px;
+  -ms-grid-row: 1;
+  grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-column: 1/4;
+}
+
+.trade .item-container .item .item-value {
+  color: #fff;
+  background-color: #00ba61;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.trade .item-container .item .item-count {
+  color: #000;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 2px;
+  width: 100%;
+}
+
+.trade .trade-props {
+  background-color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.trade .trade-props .trade-props-acceptbutton {
+  margin: 20px 0;
+  width: 100%;
+  height: 65px;
+  border-radius: 20px;
+  font-size: 30px;
+  -webkit-box-shadow: 0px 0px 40px rgba(0, 186, 97, 0.25);
+          box-shadow: 0px 0px 40px rgba(0, 186, 97, 0.25);
+  background-color: #00ba61;
+  color: #fff;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.trade .trade-props .trade-props-acceptbutton:hover {
+  background-color: #2e2e45;
+  -webkit-box-shadow: 0px 0px 20px rgba(220, 220, 220, 0.1);
+          box-shadow: 0px 0px 20px rgba(220, 220, 220, 0.1);
+}
+
+.trade .trade-props .trade-props-itemrates {
+  height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+}
+
+.trade .trade-props .trade-props-itemrates .green-rate {
+  color: #00ba61;
+}
+
+.trade .trade-props .trade-props-itemrates .yellow-rate {
+  color: #ffd641;
+}
+
+.trade .trade-props .trade-props-itemrates .red-rate {
+  color: #db0000;
+}
+
+.trade .trade-props .trade-props-itemrates .trade-props-itemratestitle .trade-props-itemratestitle-title {
+  margin: auto;
+  font-size: 22px;
+}
+
+.trade .trade-props .trade-props-itemrates .trade-props-itemrates-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.trade .trade-props .trade-props-itemrates .trade-props-itemrates-row p {
+  padding: 10px;
+}
+
+.trade .trade-clientinventory .trade-clientinventorytitle .trade-clientinventorytitle-total {
+  color: #00ba61;
+}
+
+.trade .trade-clientinventory .trade-clientinventorytitle .trade-clientinventorytitle-filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.trade .trade-clientinventory .trade-clientinventorytitle .trade-clientinventorytitle-filters .trade-clientinventorytitle-filters-search {
+  width: 70%;
+  max-width: 150px;
+}
+
+.trade .trade-clientinventory .trade-clientinventorytitle .trade-clientinventorytitle-filters .trade-clientinventorytitle-filters-lowestPrice {
+  background: url("../image/lowest.png");
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.trade .trade-clientinventory .trade-clientinventorytitle .trade-clientinventorytitle-filters .trade-clientinventorytitle-filters-highestPrice {
+  background: url("../image/highest.png");
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.trade .trade-filter {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-bottom: 30px;
+}
+
+.trade .trade-filter .filter-container {
+  padding: 5px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.trade .trade-filter div.checkbox {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.trade .trade-filter div.checkbox input {
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: red;
+  opacity: 0;
+  width: 40px;
+  height: 20px;
+}
+
+.trade .trade-filter div.checkbox input:checked + .slider::before {
+  background-color: #00ba61;
+  content: " ";
+  padding-left: 6px;
+}
+
+.trade .trade-filter div.checkbox input:checked + .slider:after {
+  left: 21px;
+}
+
+.trade .trade-filter div.checkbox .slider {
+  position: relative;
+  padding-left: 46px;
+}
+
+.trade .trade-filter div.checkbox .slider:before, .trade .trade-filter div.checkbox .slider:after {
+  position: absolute;
+  border-radius: 10px;
+  -webkit-transition: background-color 0.3s, left 0.3s;
+  transition: background-color 0.3s, left 0.3s;
+}
+
+.trade .trade-filter div.checkbox .slider:before {
+  content: " ";
+  color: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "FontAwesome", sans-serif;
+  padding-left: 23px;
+  font-size: 12px;
+  line-height: 20px;
+  background-color: #db0000;
+  left: 0px;
+  top: 0px;
+  height: 20px;
+  width: 40px;
+  border-radius: 10px;
+}
+
+.trade .trade-filter div.checkbox .slider:after {
+  content: "";
+  letter-spacing: 20px;
+  background: #fff;
+  left: 1px;
+  top: 1px;
+  height: 18px;
+  width: 18px;
+}
+
+.trade .trade-filter .trade-filtertitle .trade-filtertitle-title {
+  margin: auto;
+  font-size: 22px;
+}
+
+.trade .trade-filter .trade-filter-price {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.trade .trade-filter .trade-filter-price input[type="text"] {
+  width: 40%;
+}
+
+.trade .trade-filter .trade-filter-price p {
+  color: #00ba61;
+  font-size: 24px;
+  cursor: default;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 18px;
+  width: 80%;
+  margin: 15px 0 0 0;
+  place-self: center;
+  padding: 10px;
+  background-color: #00ba61;
+  -webkit-box-shadow: 0px 0px 40px rgba(0, 186, 97, 0.25);
+          box-shadow: 0px 0px 40px rgba(0, 186, 97, 0.25);
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton:hover {
+  background-color: #2e2e45;
+  -webkit-box-shadow: 0px 0px 20px rgba(220, 220, 220, 0.1);
+          box-shadow: 0px 0px 20px rgba(220, 220, 220, 0.1);
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton option {
+  background-color: #2e2e45;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton option[value="1"] {
+  color: #828282;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton option[value="2"] {
+  color: #219653;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton option[value="3"] {
+  color: #2f80ed;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton option[value="4"] {
+  color: #9b51e0;
+}
+
+.trade .trade-filter .trade-filter-itemtypesButton option[value="5"] {
+  color: #f2c94c;
+}
+
+.trade .trade-siteinventory .trade-siteinventorytitle .trade-siteinventorytitle-filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.trade .trade-siteinventory .trade-siteinventorytitle .trade-siteinventorytitle-filters .trade-siteinventorytitle-filters-search {
+  width: 70%;
+  max-width: 150px;
+}
+
+.trade .trade-siteinventory .trade-siteinventorytitle .trade-siteinventorytitle-filters .trade-siteinventorytitle-filters-lowestPrice {
+  background: url("../image/lowest.png");
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.trade .trade-siteinventory .trade-siteinventorytitle .trade-siteinventorytitle-filters .trade-siteinventorytitle-filters-highestPrice {
+  background: url("../image/highest.png");
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.information {
+  padding: 60px 0px 0px 0px;
+  width: 100%;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+}
+
+.information div {
+  padding: 50px;
+}
+
+.information h1 {
+  font-size: 32px;
+  padding: 20px 0px;
+  font-weight: 200;
+}
+
+.information p {
+  padding: 20px 0px;
+  font-weight: 500;
+}
+
+.information .information-about {
+  background-color: #2f2f47;
+}
+
+.information .information-faq {
+  background-color: #27273b;
+}
+
+.information .information-contact {
+  background-color: #212132;
+}
+
+@media only screen and (max-width: 900px) {
+  .navbar .navbarlogo {
+    width: 120px;
+    height: 40px;
+  }
+  .navbar .navbarabout {
+    display: none;
+  }
+  .navbar .navbarfaq {
+    display: none;
+  }
+  .navbar .navbarcontact {
+    display: none;
+  }
+  .navbar .navbarwallet {
+    display: none;
+  }
+  .navbar .navbarsignin {
+    display: none;
+  }
+  .navbar .navbarmenu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    cursor: pointer;
+  }
+  .navbar .navbarmenu div {
+    border-radius: 10px;
+    margin: 2px;
+    width: 40px;
+    height: 5px;
+    background-color: #fff;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  .navbar .navbarmenu-open #f {
+    -webkit-transform: translateY(10px) rotate(45deg);
+            transform: translateY(10px) rotate(45deg);
+  }
+  .navbar .navbarmenu-open #s {
+    opacity: 0;
+  }
+  .navbar .navbarmenu-open #t {
+    -webkit-transform: translateY(-10px) rotate(-45deg);
+            transform: translateY(-10px) rotate(-45deg);
+  }
+  .responmenu {
+    width: 100%;
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    top: 60px;
+    left: 100%;
+    background-color: #2f2f47;
+    color: #fff;
+    z-index: 99;
+    padding: 20px;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+  }
+  .responmenu p {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  .responmenu div {
+    margin: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .responmenu .responmenu-wallet p {
+    cursor: default;
+  }
+  .responmenu .responmenu-wallet .responmenu-wallet-value {
+    color: #00ba61;
+  }
+  .responmenu .responmenu-signin {
+    cursor: pointer;
+  }
+  .responmenu .responmenu-signin .responmenu-signin-logo {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+  }
+  .responmenu-open {
+    left: 0%;
+    visibility: visible;
+    opacity: 1;
+  }
+  .afternavbar {
+    margin-top: 60px;
+  }
+  .trade {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+  .trade .trade-props {
+    -ms-grid-row: 3;
+    grid-row: 3;
+  }
+}
+/*# sourceMappingURL=style.css.map */

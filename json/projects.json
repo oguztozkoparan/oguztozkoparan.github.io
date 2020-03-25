@@ -12,5 +12,12 @@
     "type": "Web Security Development",
     "description": "Vulnerable-Web-Application is a website that is prepared for people who are interested in web penetration and who want to have information about this subject or to be working.",
     "url": "https://github.com/hummingbirdscyber/Vulnerable-Web-Application"
+  },
+  "project_3": {
+    "title": "CSSupply",
+    "property": "Freelance Project",
+    "type": "Front End Development",
+    "description": "User interface for a Counter Strike which is a steam game, trade website.",
+    "url": "/projects/cssupply/index.html"
   }
 }
