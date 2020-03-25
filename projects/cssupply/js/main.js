@@ -4,7 +4,7 @@ var item = `<div class="item">
   <p class="item-title-title">Karambit - Doppler Sapphire</p>
   <p class="item-title-condition factory-new">Factory New</p>
 </div>
-<img class="item-image" src="/image/knife.png" alt="item" />
+<img class="item-image" src="./image/knife.png" alt="item" />
 <p class="item-value">$2838.07</p>
 <p class="item-count">x1</p>
 </div>
@@ -20,10 +20,10 @@ for (let i = 0; i < 25; i++) {
 //shows logged in style
 document.querySelector(".navbarsignin").addEventListener("click", function(e) {
   if (this.children[1].innerText == "Sign in through Steam") {
-    this.children[0].src = "../image/profile.png";
+    this.children[0].src = "./../image/profile.png";
     this.children[1].innerText = "Dustbreaker";
   } else {
-    this.children[0].src = "../image/steam.png";
+    this.children[0].src = "./../image/steam.png";
     this.children[1].innerText = "Sign in through Steam";
   }
 });
@@ -57,6 +57,7 @@ function responScroll(e) {
   else selector = ".information-contact";
   document.querySelector(selector).scrollIntoView({ behavior: "smooth" });
   document.querySelector(".responmenu").classList.remove("responmenu-open");
+  document.querySelector(".navbarmenu").classList.remove("navbarmenu-open");
 }
 
 //navbar responsive menu opening
