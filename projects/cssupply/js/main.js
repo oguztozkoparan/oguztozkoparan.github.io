@@ -4,7 +4,7 @@ var item = `<div class="item">
   <p class="item-title-title">Karambit - Doppler Sapphire</p>
   <p class="item-title-condition factory-new">Factory New</p>
 </div>
-<img class="item-image" src="/image/knife.png" alt="item" />
+<img class="item-image" src="/projects/cssupply/image/knife.png" alt="item" />
 <p class="item-value">$2838.07</p>
 <p class="item-count">x1</p>
 </div>
