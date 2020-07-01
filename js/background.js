@@ -29,7 +29,7 @@ function setup() {
   canvas.style("top", "0");
   canvas.style("z-index", "-1");
 
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < 600; i++) {
     rains.push(new Rain());
   }
 }
@@ -37,7 +37,7 @@ function setup() {
 function draw() {
   noStroke();
   background(0);
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < 600; i++) {
     rains[i].display();
     rains[i].update();
   }
