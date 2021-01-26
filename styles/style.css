@@ -685,8 +685,7 @@
   -ms-grid-column-span: 1;
   grid-column: 4/5;
   background-size: cover;
-  width: 50px;
-  height: 50px;
+  width: 60px;
   background-repeat: no-repeat;
   background-position: center;
   -webkit-box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6),
