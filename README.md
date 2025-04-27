@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Website - Beta
 
-## Getting Started
+Welcome to my personal website! 🚀 This project is currently in **beta** as it leverages some experimental features and packages.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js](https://nextjs.org/)
+- **UI Components**: [Heroicons](https://heroicons.com/) & [Material-UI (MUI)](https://mui.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Status**: Beta (due to the use of beta packages)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Modern Design**: Built with Tailwind CSS for responsive and sleek styling.
+- **Dynamic Components**: Powered by Heroicons and MUI for reusable UI elements.
+- **Fast Performance**: Optimized with Next.js for server-side rendering and static site generation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+1. Clone the repository:
+  ```bash
+  git clone https://github.com/oguztozkoparan/oguztozkoparan.github.io.git
+  ```
+2. Navigate to the project directory:
+  ```bash
+  cd oguztozkoparan.github.io
+  ```
+3. Install dependencies:
+  ```bash
+  npm install
+  ```
+4. Run the development server:
+  ```bash
+  npm run dev
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Feel free to open issues or submit pull requests to help improve the project. Contributions are always welcome!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+This project is licensed under the [MIT License](LICENSE).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
