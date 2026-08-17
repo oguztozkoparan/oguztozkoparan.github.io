@@ -3,13 +3,20 @@
 import { useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Zap, Keyboard } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Brain,
+  Keyboard,
+  Puzzle,
+  Worm,
+  Zap,
+} from "lucide-react";
 import SnakeGame from "./games/snake-game";
 import MemoryGame from "./games/memory-game";
 import ReactionGame from "./games/reaction-game";
 import PuzzleGame from "./games/puzzle-game";
 import TypingGame from "./games/typing-game";
-import { SnakeIcon, BrainIcon, PuzzleIcon } from "./icons/custom-icons";
 
 interface Game {
   id: string;
@@ -30,7 +37,7 @@ const games: Game[] = [
     title: "Snake Classic",
     description:
       "Navigate the snake to eat food and grow longer without hitting walls or yourself",
-    icon: SnakeIcon,
+    icon: Worm,
     difficulty: "Medium",
     category: "Arcade",
     estimatedTime: "2-5 min",
@@ -41,7 +48,7 @@ const games: Game[] = [
     index: "02",
     title: "Memory Match",
     description: "Flip cards to find matching pairs and test your memory skills",
-    icon: BrainIcon,
+    icon: Brain,
     difficulty: "Easy",
     category: "Memory",
     estimatedTime: "1-3 min",
@@ -64,7 +71,7 @@ const games: Game[] = [
     title: "Slide Puzzle",
     description:
       "Arrange numbered tiles in order by sliding them into the empty space",
-    icon: PuzzleIcon,
+    icon: Puzzle,
     difficulty: "Hard",
     category: "Puzzle",
     estimatedTime: "3-10 min",
@@ -244,12 +251,10 @@ export default function GameHub() {
                     {game.estimatedTime}
                   </span>
                 </div>
-                <span
+                <ArrowRight
                   aria-hidden="true"
-                  className="display text-2xl text-acid transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  →
-                </span>
+                  className="h-6 w-6 shrink-0 text-acid transition-transform duration-300 group-hover:translate-x-1"
+                />
               </div>
             </motion.button>
           ))}

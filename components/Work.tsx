@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
+import { ArrowUpRight } from "lucide-react";
 import { projects, type Project } from "@/lib/data";
 import ProjectVisual from "@/components/ProjectVisual";
 
@@ -47,12 +48,10 @@ function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
           {project.href && (
-            <span
+            <ArrowUpRight
               aria-hidden="true"
-              className="display text-2xl text-acid transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-            >
-              ↗
-            </span>
+              className="h-6 w-6 shrink-0 text-acid transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
           )}
         </div>
       </div>

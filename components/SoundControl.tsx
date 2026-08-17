@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Play } from "lucide-react";
 import { audio, tracks } from "@/lib/audio";
 
 export default function SoundControl() {
@@ -132,7 +133,7 @@ export default function SoundControl() {
                   ))}
                 </span>
               ) : (
-                <span className="label text-dim">▸</span>
+                <Play aria-hidden="true" className="h-3 w-3 text-dim" />
               )}
             </button>
           );

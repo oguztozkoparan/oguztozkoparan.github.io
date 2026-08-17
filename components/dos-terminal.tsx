@@ -5,7 +5,7 @@ import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Terminal } from "lucide-react";
-import { FolderIcon, DocumentIcon } from "./icons/custom-icons";
+import { Folder as FolderIcon, FileText as DocumentIcon } from "lucide-react";
 import { ArrowLeft, Minimize2, Maximize2, X } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";

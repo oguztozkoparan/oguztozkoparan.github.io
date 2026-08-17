@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import { useLenis } from "lenis/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
@@ -110,12 +111,10 @@ export default function Contact() {
               <p className="label text-dim">{social.label}</p>
               <p className="mt-2 font-medium text-ink">{social.handle}</p>
             </div>
-            <span
+            <ArrowUpRight
               aria-hidden="true"
-              className="text-xl text-dim transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-acid"
-            >
-              ↗
-            </span>
+              className="h-5 w-5 shrink-0 text-dim transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-acid"
+            />
           </a>
         ))}
       </div>
@@ -146,9 +145,10 @@ export default function Contact() {
         <button
           type="button"
           onClick={() => lenis?.scrollTo(0) ?? window.scrollTo({ top: 0 })}
-          className="link-sweep label text-ink"
+          className="link-sweep label inline-flex items-center gap-1.5 text-ink"
         >
-          Back to top ↑
+          Back to top
+          <ArrowUp aria-hidden="true" className="h-3.5 w-3.5" />
         </button>
       </div>
     </footer>

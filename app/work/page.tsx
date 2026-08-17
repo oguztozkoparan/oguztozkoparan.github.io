@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
 import Contact from "@/components/Contact";
 import ProjectVisual from "@/components/ProjectVisual";
 import { projects } from "@/lib/data";
@@ -65,12 +66,10 @@ export default function WorkPage() {
                       ))}
                     </div>
                     {project.href && (
-                      <span
+                      <ArrowUpRight
                         aria-hidden="true"
-                        className="display text-2xl text-acid transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                      >
-                        ↗
-                      </span>
+                        className="h-6 w-6 shrink-0 text-acid transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+                      />
                     )}
                   </div>
                 </div>

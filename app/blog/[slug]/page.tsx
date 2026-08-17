@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import Contact from "@/components/Contact";
 import { getAllPosts, getPost } from "@/lib/blog";
@@ -59,8 +60,12 @@ export default async function BlogPost({
       />
       <main className="px-6 pt-32 md:px-10 md:pt-40">
         <div className="mx-auto max-w-3xl">
-          <Link href="/blog" className="link-sweep label text-dim">
-            ← All posts
+          <Link
+            href="/blog"
+            className="link-sweep label inline-flex items-center gap-1.5 text-dim"
+          >
+            <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
+            All posts
           </Link>
           <p className="label mt-10 text-dim">
             {post.meta.date} · {post.meta.readingMinutes} min ·{" "}

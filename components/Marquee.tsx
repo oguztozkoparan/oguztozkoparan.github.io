@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { Sparkle } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import { marqueeItems } from "@/lib/data";
@@ -45,9 +46,10 @@ export default function Marquee() {
           <span className="display whitespace-nowrap text-4xl md:text-6xl">
             {item}
           </span>
-          <span aria-hidden="true" className="text-xl md:text-2xl">
-            ✦
-          </span>
+          <Sparkle
+            aria-hidden="true"
+            className="h-5 w-5 shrink-0 fill-current md:h-7 md:w-7"
+          />
         </span>
       ))}
     </>

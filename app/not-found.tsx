@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "404 — Sector not found",
@@ -63,9 +64,10 @@ export default function NotFound() {
           </Link>
           <Link
             href="/dos"
-            className="label rounded-full border border-line px-6 py-3.5 text-ink transition-colors duration-200 hover:border-acid/50"
+            className="label inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-ink transition-colors duration-200 hover:border-acid/50"
           >
-            Debug in terminal ↗
+            Debug in terminal
+            <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
+import { ArrowDown } from "lucide-react";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { heroNarrative, site } from "@/lib/data";
@@ -456,9 +457,10 @@ export default function Hero() {
             </h2>
             <a
               href={heroNarrative.card.href}
-              className="label mt-2 w-fit rounded-full bg-acid px-5 py-3 font-bold text-[#0e0f11] transition-transform duration-200 hover:scale-105"
+              className="label mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-acid px-5 py-3 font-bold text-[#0e0f11] transition-transform duration-200 hover:scale-105"
             >
-              {heroNarrative.card.cta} ↓
+              {heroNarrative.card.cta}
+              <ArrowDown aria-hidden="true" className="h-3.5 w-3.5" />
             </a>
           </div>
         </div>

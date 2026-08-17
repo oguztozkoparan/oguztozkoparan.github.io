@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { useGSAP } from "@gsap/react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { site, socials } from "@/lib/data";
@@ -146,12 +147,10 @@ export default function Header() {
                 <span className="display text-[13vw] leading-[0.95] text-ink transition-colors duration-300 group-hover:text-acid sm:text-[9vw] lg:text-[6.5vw]">
                   {link.label}
                 </span>
-                <span
+                <ArrowRight
                   aria-hidden="true"
-                  className="display hidden text-3xl text-acid opacity-0 transition-all duration-300 group-hover:translate-x-2 group-hover:opacity-100 md:block"
-                >
-                  →
-                </span>
+                  className="hidden h-8 w-8 shrink-0 self-center text-acid opacity-0 transition-all duration-300 group-hover:translate-x-2 group-hover:opacity-100 md:block"
+                />
               </Link>
             </div>
           ))}
@@ -164,9 +163,10 @@ export default function Header() {
                 key={extra.href}
                 href={extra.href}
                 onClick={() => setOpen(false)}
-                className="link-sweep label text-dim"
+                className="link-sweep label inline-flex items-center gap-1.5 text-dim"
               >
-                {extra.label} ↗
+                {extra.label}
+                <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
               </Link>
             ))}
           </div>
