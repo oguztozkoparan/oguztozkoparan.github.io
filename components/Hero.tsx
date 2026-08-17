@@ -25,7 +25,6 @@ export default function Hero() {
   const webRef = useRef<HTMLDivElement>(null);
   const forgeRef = useRef<HTMLDivElement>(null);
   const wipeRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -144,7 +143,8 @@ export default function Hero() {
       const web = webRef.current;
       const forge = forgeRef.current;
       const wipe = wipeRef.current;
-      const card = cardRef.current;
+      const finaleLines = gsap.utils.toArray<HTMLElement>("[data-finale-line]");
+      const finaleMeta = gsap.utils.toArray<HTMLElement>("[data-finale-meta]");
 
       if (reduced) {
         gsap.set([wipe], { autoAlpha: 0 });
@@ -178,7 +178,8 @@ export default function Hero() {
       gsap.set(web, { xPercent: -130, autoAlpha: 0 });
       gsap.set(forge, { xPercent: 130, autoAlpha: 0 });
       gsap.set(wipe, { clipPath: "inset(100% 0% 0% 0%)" });
-      gsap.set(card, { y: 50, autoAlpha: 0 });
+      gsap.set(finaleLines, { yPercent: 115 });
+      gsap.set(finaleMeta, { autoAlpha: 0, y: 24 });
       if (brand) gsap.set(brand, { autoAlpha: 0 });
 
       const tl = gsap.timeline({
@@ -241,13 +242,22 @@ export default function Hero() {
         )
         .to([web, forge], { autoAlpha: 0, y: -40, duration: 0.08 }, 0.8)
 
-        // final — smooth canvas wipe into the featured project
+        // final — canvas wipe into the full-bleed typographic closer
         .to(
           wipe,
-          { clipPath: "inset(0% 0% 0% 0%)", duration: 0.14, ease: "power2.inOut" },
-          0.84
+          { clipPath: "inset(0% 0% 0% 0%)", duration: 0.13, ease: "power2.inOut" },
+          0.83
         )
-        .to(card, { y: 0, autoAlpha: 1, duration: 0.09, ease: "power2.out" }, 0.9);
+        .to(
+          finaleLines,
+          { yPercent: 0, duration: 0.1, stagger: 0.035, ease: "power4.out" },
+          0.88
+        )
+        .to(
+          finaleMeta,
+          { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.03, ease: "power3.out" },
+          0.94
+        );
 
       gsap.set("[data-web-item], [data-forge-item]", { autoAlpha: 0, y: 22 });
       if (brand) tl.to(brand, { autoAlpha: 1, duration: 0.06 }, 0.9);
@@ -433,33 +443,58 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* final: smooth canvas wipe into the featured project */}
+      {/* final: canvas wipe into a full-bleed typographic closer */}
       <div
         ref={wipeRef}
-        className="absolute inset-0 z-10 flex items-center justify-center bg-[#101114]/95 backdrop-blur-sm [clip-path:inset(100%_0%_0%_0%)]"
+        className="absolute inset-0 z-10 flex flex-col justify-between bg-void [clip-path:inset(100%_0%_0%_0%)]"
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={heroNarrative.finale.image}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-60"
+        />
         <div
-          ref={cardRef}
-          className="w-[86vw] max-w-md overflow-hidden rounded-2xl border border-line bg-card shadow-2xl shadow-acid/10"
-        >
-          <div className="aspect-[3/2]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/portfolio.webp"
-              alt="Featured project artwork"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="flex flex-col gap-4 border-t border-line p-6">
-            <p className="label text-dim">{heroNarrative.card.label}</p>
-            <h2 className="display text-3xl text-ink">
-              {heroNarrative.card.title}
-            </h2>
-            <a
-              href={heroNarrative.card.href}
-              className="label mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-acid px-5 py-3 font-bold text-[#0e0f11] transition-transform duration-200 hover:scale-105"
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-void/70"
+        />
+
+        <div className="relative flex items-start justify-between px-6 pt-28 md:px-10 md:pt-32">
+          <p data-finale-meta className="label flex items-center gap-3 text-dim">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-acid" />
+            {heroNarrative.finale.label}
+          </p>
+        </div>
+
+        <div className="relative px-6 pb-10 md:px-10 md:pb-14">
+          <div className="overflow-hidden">
+            <h2
+              data-finale-line
+              className="display text-[13vw] leading-[0.95] text-ink md:text-[10vw]"
             >
-              {heroNarrative.card.cta}
+              {heroNarrative.finale.lineSolid}
+            </h2>
+          </div>
+          <div className="overflow-hidden">
+            <h2
+              data-finale-line
+              className="display text-[13vw] leading-[0.95] text-transparent [-webkit-text-stroke:2px_#a78bfa] md:text-[10vw]"
+            >
+              {heroNarrative.finale.lineOutline}
+            </h2>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p data-finale-meta className="label text-dim">
+              {heroNarrative.finale.meta}
+            </p>
+            <a
+              data-finale-meta
+              href={heroNarrative.finale.href}
+              className="label inline-flex w-fit items-center gap-2 rounded-full bg-acid px-5 py-3 font-bold text-void transition-transform duration-200 hover:scale-105"
+            >
+              {heroNarrative.finale.cta}
               <ArrowDown aria-hidden="true" className="h-3.5 w-3.5" />
             </a>
           </div>

@@ -6,7 +6,7 @@ import { useLenis } from "lenis/react";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { gsap } from "@/lib/gsapConfig";
+import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { site, socials } from "@/lib/data";
 import SoundControl from "@/components/SoundControl";
@@ -49,6 +49,9 @@ export default function Header() {
   const time = useLiveClock();
   const lenis = useLenis();
   const pathname = usePathname();
+  const progressRef = useRef<HTMLDivElement>(null);
+  const openRef = useRef(open);
+  openRef.current = open;
 
   useGSAP(() => {
     const header = headerRef.current;
@@ -64,6 +67,38 @@ export default function Header() {
         delay: 0.4,
         ease: "power3.out",
       });
+    });
+
+    // smart capsule: dives away scrolling down, resurfaces scrolling up,
+    // condenses after the fold, and traces reading progress on its edge
+    let shown = true;
+    ScrollTrigger.create({
+      start: 0,
+      end: "max",
+      onUpdate: (self) => {
+        if (progressRef.current) {
+          progressRef.current.style.transform = `scaleX(${self.progress})`;
+        }
+        header.classList.toggle("nav-condensed", self.scroll() > 140);
+        if (openRef.current) return;
+        if (self.direction === 1 && shown && self.scroll() > 360) {
+          shown = false;
+          gsap.to(header, {
+            yPercent: -120,
+            duration: 0.55,
+            ease: "power3.inOut",
+            overwrite: "auto",
+          });
+        } else if (self.direction === -1 && !shown) {
+          shown = true;
+          gsap.to(header, {
+            yPercent: 0,
+            duration: 0.55,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+        }
+      },
     });
 
     // fullscreen menu: top-down wipe, staggered giant links, meta fade
@@ -193,15 +228,22 @@ export default function Header() {
         ref={headerRef}
         className="fixed left-1/2 top-0 z-50 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2"
       >
-        <div className="relative flex items-center gap-5 rounded-b-2xl border-x border-b border-line bg-panel py-3 pl-5 pr-3 shadow-2xl shadow-black/50 md:gap-7 md:pl-6">
-          {/* gooey fillets connecting the capsule to the top edge */}
-          <span
+        {/* gooey fillets connecting the capsule to the top edge */}
+        <span
+          aria-hidden="true"
+          className="absolute -left-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_left,transparent_17.5px,#141619_18px)]"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute -right-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_right,transparent_17.5px,#141619_18px)]"
+        />
+
+        <div className="relative flex items-center gap-5 overflow-hidden rounded-b-2xl border-x border-b border-line bg-panel py-3 pl-5 pr-3 shadow-2xl shadow-black/50 transition-[padding] duration-300 md:gap-7 md:pl-6 [.nav-condensed_&]:py-2">
+          {/* reading progress traced along the capsule's bottom edge */}
+          <div
+            ref={progressRef}
             aria-hidden="true"
-            className="absolute -left-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_left,transparent_17.5px,#141619_18px)]"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute -right-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_right,transparent_17.5px,#141619_18px)]"
+            className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-acid"
           />
 
           <Link

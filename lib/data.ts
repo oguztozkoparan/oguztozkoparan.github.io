@@ -143,11 +143,14 @@ export const heroNarrative = {
       "Game services",
     ],
   },
-  card: {
-    label: "Featured work",
-    title: "oguztozkoparan.com",
-    cta: "View selected work",
+  finale: {
+    label: "The grid is live",
+    lineSolid: "From thought",
+    lineOutline: "to reality",
+    meta: "Featured — oguztozkoparan.com · v3",
+    cta: "Explore selected work",
     href: "#work",
+    image: "/images/portfolio.webp",
   },
 };
 
