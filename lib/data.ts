@@ -59,10 +59,10 @@ export const projects: Project[] = [
     index: "02",
     title: "DOS Terminal",
     description:
-      "A retro DOS-style terminal in the browser — virtual file system, tab completion and command history, built for v2 of this site.",
-    status: "v2 experiment",
+      "A retro DOS-style terminal in the browser — virtual file system, tab completion and command history. Try it live.",
+    status: "Live",
     tags: ["React", "TypeScript", "CLI UX"],
-    href: "https://github.com/oguztozkoparan/oguztozkoparan.github.io",
+    href: "/dos",
   },
   {
     id: "mini-games",
@@ -70,10 +70,10 @@ export const projects: Project[] = [
     index: "03",
     title: "Mini Games Hub",
     description:
-      "Five self-contained browser games — snake, memory, reaction, sliding puzzle and typing speed — with difficulty filters.",
-    status: "v2 experiment",
+      "Five self-contained browser games — snake, memory, reaction, sliding puzzle and typing speed. Play them live.",
+    status: "Live",
     tags: ["React", "Canvas", "Games"],
-    href: "https://github.com/oguztozkoparan/oguztozkoparan.github.io",
+    href: "/games",
   },
   {
     id: "sprite-gen",

@@ -71,7 +71,14 @@ Project covers and the about visual. Keep the aesthetic consistent (dark, isomet
 
 Convert to WebP before committing: `cwebp -resize 1200 0 -q 78 in.png -o out.webp`
 
-## 5. Theme
+## 5. Retro apps — `/dos` and `/games`
+
+The v2 DOS terminal and mini-games hub live on as full-screen pages (the site header hides itself there — they ship their own chrome).
+
+- **Terminal content**: the virtual file system (RESUME.TXT, CONTACT.TXT, folders…) is defined inside `components/dos-terminal.tsx` — search for `RESUME.TXT` to edit file contents or add new virtual files.
+- **Games**: each game is a self-contained component in `components/games/`. To add one, create the component, register it in `components/game-hub.tsx` (games array + switch).
+
+## 6. Theme
 
 Colors and fonts are Tailwind tokens in `app/globals.css` under `@theme`. The single accent color is `--color-acid` (currently violet `#a78bfa`) — change it once and the marquee, buttons, glows and SVG art (`components/ProjectVisual.tsx` `ACID` const) follow.
 

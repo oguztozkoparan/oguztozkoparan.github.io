@@ -130,6 +130,8 @@ export default function Contact() {
           { label: "About", href: "/about" },
           { label: "Blog", href: "/blog" },
           { label: "Contact", href: "/contact" },
+          { label: "DOS Terminal", href: "/dos" },
+          { label: "Mini Games", href: "/games" },
         ].map((link) => (
           <a key={link.href} href={link.href} className="link-sweep label text-dim">
             {link.label}

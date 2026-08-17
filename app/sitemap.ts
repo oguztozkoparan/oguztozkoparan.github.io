@@ -11,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${site.url}/about`, priority: 0.8 },
     { url: `${site.url}/blog`, priority: 0.8 },
     { url: `${site.url}/contact`, priority: 0.7 },
+    { url: `${site.url}/dos`, priority: 0.5 },
+    { url: `${site.url}/games`, priority: 0.5 },
   ];
 
   const posts: MetadataRoute.Sitemap = getAllPosts().map((post) => ({

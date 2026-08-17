@@ -80,12 +80,14 @@ export default function WorkPage() {
             const className =
               "group flex flex-col overflow-hidden rounded-2xl border border-line bg-card transition-colors duration-300 hover:border-acid/50";
 
+            const external = project.href?.startsWith("http");
+
             return project.href ? (
               <a
                 key={project.id}
                 href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={external ? "_blank" : undefined}
+                rel={external ? "noopener noreferrer" : undefined}
                 className={className}
               >
                 {inner}

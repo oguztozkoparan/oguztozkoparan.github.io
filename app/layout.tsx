@@ -65,7 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${grotesk.variable} ${jbmono.variable}`}
+      className={`${anton.variable} ${grotesk.variable} ${jbmono.variable} dark`}
     >
       <body className="grain">
         <SmoothScroll>

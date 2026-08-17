@@ -62,11 +62,13 @@ function ProjectCard({ project }: { project: Project }) {
   const className =
     "group flex h-full w-[85vw] shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-card transition-colors duration-300 hover:border-acid/50 sm:w-[70vw] lg:w-[42vw] lg:max-w-[640px]";
 
+  const external = project.href?.startsWith("http");
+
   return project.href ? (
     <a
       href={project.href}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       className={className}
       data-work-card
     >

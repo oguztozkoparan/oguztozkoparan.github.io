@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* the recovered v2 apps (DOS terminal, games) use `dark:` variants —
+   force them on via the .dark class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-void: #0e0f11;
   --color-panel: #141619;
@@ -9,6 +13,23 @@
   --color-dim: #9aa1a9;
   --color-acid: #a78bfa;
   --color-line: rgba(247, 247, 248, 0.08);
+
+  /* shadcn-compat tokens for the recovered v2 components */
+  --color-background: #0e0f11;
+  --color-foreground: #f7f7f8;
+  --color-primary: #a78bfa;
+  --color-primary-foreground: #0e0f11;
+  --color-secondary: #141619;
+  --color-secondary-foreground: #f7f7f8;
+  --color-muted: #141619;
+  --color-muted-foreground: #9aa1a9;
+  --color-accent: #17191d;
+  --color-accent-foreground: #f7f7f8;
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: #f7f7f8;
+  --color-card-foreground: #f7f7f8;
+  --color-input: rgba(247, 247, 248, 0.14);
+  --color-ring: #a78bfa;
 
   --font-display: var(--font-anton), "Arial Narrow", sans-serif;
   --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
