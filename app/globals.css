@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-base: #0e0f11;
+  --color-void: #0e0f11;
   --color-panel: #141619;
   --color-card: #17191d;
   --color-ink: #f7f7f8;
@@ -16,10 +16,10 @@
 }
 
 html {
-  background: var(--color-base);
+  background: var(--color-void);
   overflow-x: clip;
   scrollbar-width: thin;
-  scrollbar-color: rgba(247, 247, 248, 0.25) var(--color-base);
+  scrollbar-color: rgba(247, 247, 248, 0.25) var(--color-void);
 }
 
 html.lenis,
@@ -36,7 +36,7 @@ html.lenis body {
 }
 
 body {
-  background: var(--color-base);
+  background: var(--color-void);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -45,7 +45,7 @@ body {
 
 ::selection {
   background: var(--color-acid);
-  color: var(--color-base);
+  color: var(--color-void);
 }
 
 /* hide the native cursor while the custom crosshair cursor is active */
@@ -159,7 +159,7 @@ body {
 
   .cap-row:hover,
   .cap-row:hover * {
-    color: var(--color-base);
+    color: var(--color-void);
   }
 }
 

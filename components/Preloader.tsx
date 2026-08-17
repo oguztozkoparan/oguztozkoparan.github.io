@@ -66,7 +66,7 @@ export default function Preloader() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex flex-col justify-between bg-base px-6 py-6 md:px-10 md:py-8"
+      className="fixed inset-0 z-[100] flex flex-col justify-between bg-void px-6 py-6 md:px-10 md:py-8"
       aria-hidden="true"
     >
       <div className="label text-dim">Oguz Tozkoparan — Portfolio v3</div>

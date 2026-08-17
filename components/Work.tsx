@@ -21,7 +21,7 @@ function ProjectCard({ project }: { project: Project }) {
         ) : (
           <ProjectVisual id={project.id} />
         )}
-        <span className="label absolute left-4 top-4 rounded-full border border-line bg-base/60 px-3 py-1.5 text-ink backdrop-blur-sm">
+        <span className="label absolute left-4 top-4 rounded-full border border-line bg-void/60 px-3 py-1.5 text-ink backdrop-blur-sm">
           {project.status}
         </span>
       </div>
