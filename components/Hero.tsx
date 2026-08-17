@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
+import { gsap, ScrollTrigger, SplitText } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { heroNarrative, site } from "@/lib/data";
 import ProjectVisual from "@/components/ProjectVisual";
@@ -11,18 +11,28 @@ const FRAME_COUNT = 96;
 const frameSrc = (i: number) =>
   `/hero-seq/frame-${String(i + 1).padStart(3, "0")}.webp`;
 
+const CYAN = "#67e8f9";
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const clipRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const bigWordRef = useRef<HTMLHeadingElement>(null);
+  const centerRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const codeRef = useRef<HTMLDivElement>(null);
+  const webRef = useRef<HTMLDivElement>(null);
+  const forgeRef = useRef<HTMLDivElement>(null);
+  const wipeRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const section = sectionRef.current;
       const canvas = canvasRef.current;
-      const bigWord = bigWordRef.current;
-      if (!section || !canvas || !bigWord) return;
+      const clip = clipRef.current;
+      const name = nameRef.current;
+      if (!section || !canvas || !clip || !name) return;
 
       const reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
@@ -68,19 +78,20 @@ export default function Hero() {
       window.addEventListener("resize", onResize);
 
       const brand = document.getElementById("site-brand");
-      const words = gsap.utils.toArray<HTMLElement>("[data-hero-word]");
       const metaEls = section.querySelectorAll("[data-hero-meta]");
+      const codeLines = gsap.utils.toArray<HTMLElement>("[data-hero-code]");
+      const web = webRef.current;
+      const forge = forgeRef.current;
+      const wipe = wipeRef.current;
       const card = cardRef.current;
 
       if (reduced) {
-        // static: brand + card visible, no pin, no morph
-        gsap.set(bigWord, { autoAlpha: 0.1 });
-        gsap.set(card, { autoAlpha: 1 });
+        gsap.set([wipe], { autoAlpha: 0 });
         if (brand) gsap.set(brand, { autoAlpha: 1 });
         return () => window.removeEventListener("resize", onResize);
       }
 
-      // idle loop of the "raw data" opening while the user hasn't scrolled yet
+      // idle loop of the foggy opening while the user hasn't scrolled yet
       const idle = gsap.fromTo(
         seq,
         { frame: 0 },
@@ -95,29 +106,27 @@ export default function Hero() {
         }
       );
 
-      gsap.set(card, { autoAlpha: 0 });
-      gsap.set(words, { autoAlpha: 0, y: 60 });
+      // initial states
+      gsap.set(clip, {
+        clipPath: "inset(12% 18% 12% 18% round 20px)",
+        willChange: "clip-path",
+      });
+      gsap.set(codeLines, { x: -70, autoAlpha: 0 });
+      gsap.set(web, { xPercent: -130, autoAlpha: 0 });
+      gsap.set(forge, { xPercent: 130, autoAlpha: 0 });
+      gsap.set(wipe, { clipPath: "inset(100% 0% 0% 0%)" });
+      gsap.set(card, { y: 50, autoAlpha: 0 });
       if (brand) gsap.set(brand, { autoAlpha: 0 });
-
-      // morph target: big word's top-left lands on the header brand,
-      // then crossfades into the real brand element
-      let r0 = bigWord.getBoundingClientRect();
-      let rb = brand?.getBoundingClientRect() ?? r0;
-      gsap.set(bigWord, { transformOrigin: "left top" });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=280%",
+          end: "+=320%",
           pin: true,
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onRefresh: () => {
-            r0 = bigWord.getBoundingClientRect();
-            rb = brand?.getBoundingClientRect() ?? r0;
-          },
           onUpdate: (self) => {
             if (self.progress < 0.003) idle.play();
             else idle.pause();
@@ -125,70 +134,95 @@ export default function Hero() {
         },
       });
 
-      // 0 → 1: video scrub over the whole pin
       tl.to(
         seq,
         { frame: FRAME_COUNT - 1, ease: "none", duration: 1, onUpdate: draw },
         0
       )
-        // bottom meta fades away immediately
-        .to(metaEls, { autoAlpha: 0, y: 20, duration: 0.08 }, 0)
-        // 1. THOUGHT. shrinks, sharpens and flies onto the header brand…
+        .to(metaEls, { autoAlpha: 0, y: 20, duration: 0.05 }, 0)
+
+        // phase 1 — the unfolding grid
         .to(
-          bigWord,
+          clip,
           {
-            x: () => rb.left - r0.left,
-            y: () => rb.top - r0.top,
-            scale: () => rb.height / Math.max(r0.height, 1),
-            opacity: 1,
+            clipPath: "inset(0% 0% 0% 0% round 0px)",
+            duration: 0.26,
             ease: "power1.inOut",
-            duration: 0.3,
           },
           0.02
         )
-        // …and becomes the name
-        .to(bigWord, { autoAlpha: 0, duration: 0.04 }, 0.3);
-      if (brand) tl.to(brand, { autoAlpha: 1, duration: 0.05 }, 0.31);
+        .to(
+          centerRef.current,
+          { scale: 0.9, autoAlpha: 0, y: -50, duration: 0.16, ease: "power1.in" },
+          0.14
+        )
+        .to(
+          codeLines,
+          { x: 0, autoAlpha: 1, stagger: 0.018, duration: 0.09, ease: "power2.out" },
+          0.26
+        )
+        .to(codeRef.current, { autoAlpha: 0, x: 50, duration: 0.08 }, 0.46)
 
-      // 2. ANALYSIS. / STRUCTURE. / REALITY. stagger in and out with the video
-      const slots = [0.38, 0.52, 0.66];
-      words.forEach((word, i) => {
-        tl.to(word, { autoAlpha: 1, y: 0, duration: 0.07, ease: "power2.out" }, slots[i])
-          .to(word, { autoAlpha: 0, y: -50, duration: 0.07, ease: "power2.in" }, slots[i] + 0.1);
-      });
+        // phase 2 — web & game mechanics split
+        .to(web, { xPercent: 0, autoAlpha: 1, duration: 0.13, ease: "power2.out" }, 0.52)
+        .to(forge, { xPercent: 0, autoAlpha: 1, duration: 0.13, ease: "power2.out" }, 0.56)
+        .to(
+          "[data-web-item]",
+          { autoAlpha: 1, y: 0, stagger: 0.012, duration: 0.05 },
+          0.62
+        )
+        .to(
+          "[data-forge-item]",
+          { autoAlpha: 1, y: 0, stagger: 0.012, duration: 0.05 },
+          0.66
+        )
+        .to([web, forge], { autoAlpha: 0, y: -40, duration: 0.08 }, 0.8)
 
-      // 3. finale: the project card assembles out of the interface eruption
-      tl.fromTo(
-        card,
-        { autoAlpha: 0, y: 80, scale: 0.85, rotateX: 14 },
-        { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: 0.18, ease: "power2.out" },
-        0.8
-      );
+        // final — smooth canvas wipe into the featured project
+        .to(
+          wipe,
+          { clipPath: "inset(0% 0% 0% 0%)", duration: 0.14, ease: "power2.inOut" },
+          0.84
+        )
+        .to(card, { y: 0, autoAlpha: 1, duration: 0.09, ease: "power2.out" }, 0.9);
 
-      // intro after the preloader: the big word emerges at opacity .1
-      gsap.set(bigWord, { autoAlpha: 0 });
+      gsap.set("[data-web-item], [data-forge-item]", { autoAlpha: 0, y: 22 });
+      if (brand) tl.to(brand, { autoAlpha: 1, duration: 0.06 }, 0.9);
+
+      // intro after the preloader
+      gsap.set([name, subRef.current], { autoAlpha: 0 });
+      gsap.set(metaEls, { autoAlpha: 0, y: 16 });
       Promise.all([document.fonts.ready, onPreloaderDone()]).then(() => {
+        const split = SplitText.create(name, { type: "chars", mask: "chars" });
+        gsap.set(name, { autoAlpha: 1 });
         gsap
           .timeline()
-          .fromTo(
-            bigWord,
-            { autoAlpha: 0, y: 60, letterSpacing: "0.08em" },
+          .from(split.chars, {
+            yPercent: 110,
+            duration: 1.0,
+            stagger: 0.03,
+            ease: "power4.out",
+          })
+          .set(subRef.current, { autoAlpha: 1 }, 0.55)
+          .to(
+            subRef.current,
             {
-              autoAlpha: 0.1,
-              y: 0,
-              letterSpacing: "-0.01em",
-              duration: 1.4,
-              ease: "power3.out",
-            }
+              duration: 1.2,
+              scrambleText: {
+                text: heroNarrative.sub,
+                chars: "▮▯01<>/*",
+                speed: 0.6,
+              },
+            },
+            0.55
           )
           .to(
             metaEls,
             { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.1, ease: "power3.out" },
-            0.6
+            0.7
           );
         ScrollTrigger.refresh();
       });
-      gsap.set(metaEls, { autoAlpha: 0, y: 16 });
 
       return () => window.removeEventListener("resize", onResize);
     },
@@ -200,46 +234,141 @@ export default function Hero() {
       ref={sectionRef}
       className="relative flex min-h-svh flex-col overflow-hidden"
     >
-      {/* scroll-scrubbed frame sequence */}
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full"
-      />
-      {/* legibility vignette */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,15,17,0.25)_0%,rgba(14,15,17,0.78)_100%)]"
-      />
-
-      {/* 1. the thought */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <h1
-          ref={bigWordRef}
-          className="display text-[16vw] text-ink opacity-10 will-change-transform"
-        >
-          {heroNarrative.bigWord}
-        </h1>
+      {/* clipped video window — expands on scroll */}
+      <div ref={clipRef} className="absolute inset-0">
+        <canvas
+          ref={canvasRef}
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full"
+        />
+        <div aria-hidden="true" className="crt absolute inset-0 opacity-40" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,15,17,0.12)_0%,rgba(14,15,17,0.72)_100%)]"
+        />
       </div>
 
-      {/* 2. the layers */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[22%] flex flex-col items-center">
-        {heroNarrative.words.map((word) => (
-          <span
-            key={word}
-            data-hero-word
-            className="display absolute text-5xl text-ink md:text-7xl"
+      {/* static state: name + sub */}
+      <div
+        ref={centerRef}
+        className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-6 px-6 text-center"
+      >
+        <h1
+          ref={nameRef}
+          className="display text-[15vw] text-ink lg:text-[11.5vw]"
+        >
+          Oguz
+          <br />
+          Tozkoparan
+        </h1>
+        <p ref={subRef} className="label min-h-4 text-dim md:text-sm">
+          {heroNarrative.sub}
+        </p>
+      </div>
+
+      {/* phase 1: code & shader pass */}
+      <div
+        ref={codeRef}
+        className="pointer-events-none absolute left-6 top-1/2 -translate-y-1/2 md:left-10"
+      >
+        {heroNarrative.codeLines.map((line) => (
+          <p
+            key={line}
+            data-hero-code
+            className="whitespace-pre font-mono text-xs leading-6 text-[#67e8f9]/85 md:text-sm md:leading-7"
           >
-            {word}
-          </span>
+            {line}
+          </p>
         ))}
       </div>
 
-      {/* 3. the finale card */}
-      <div className="absolute inset-0 flex items-center justify-center [perspective:1200px]">
+      {/* phase 2: web engine (left) */}
+      <div className="absolute left-1/2 top-[30%] w-[84vw] max-w-sm -translate-x-1/2 -translate-y-1/2 md:left-10 md:top-1/2 md:translate-x-0 lg:w-[30vw]">
+        <div
+          ref={webRef}
+          className="rounded-2xl border border-acid/40 bg-panel/70 p-6 shadow-[0_0_50px_rgba(167,139,250,0.16)] backdrop-blur-md"
+        >
+          <p className="label text-dim">
+            <span className="text-acid">01</span> / {heroNarrative.webEngine.title}
+          </p>
+          <ul className="mt-4 space-y-2">
+            {heroNarrative.webEngine.items.map((item) => (
+              <li
+                key={item}
+                data-web-item
+                className="border-l border-acid/50 pl-3 text-sm text-ink/85"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* phase 2: game forge (right) */}
+      <div className="absolute left-1/2 top-[70%] w-[84vw] max-w-sm -translate-x-1/2 -translate-y-1/2 md:left-auto md:right-10 md:top-1/2 md:translate-x-0 lg:w-[30vw]">
+        <div
+          ref={forgeRef}
+          className="rounded-2xl border border-[#67e8f9]/40 bg-panel/70 p-6 shadow-[0_0_50px_rgba(103,232,249,0.14)] backdrop-blur-md"
+        >
+          <p className="label text-dim">
+            <span style={{ color: CYAN }}>02</span> / {heroNarrative.gameForge.title}
+          </p>
+          <ul className="mt-4 space-y-2">
+            {heroNarrative.gameForge.items.map((item) => (
+              <li
+                key={item}
+                data-forge-item
+                className="border-l border-[#67e8f9]/50 pl-3 text-sm text-ink/85"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+          <svg
+            viewBox="0 0 120 60"
+            aria-hidden="true"
+            className="mt-5 h-12 w-24"
+          >
+            {[
+              [30, 28],
+              [60, 14],
+              [60, 42],
+              [90, 28],
+            ].map(([cx, cy], i) => (
+              <g key={i} transform={`translate(${cx} ${cy})`}>
+                <path
+                  d="M 0 -10 L 14 -2 L 0 6 L -14 -2 Z"
+                  fill={i === 1 ? CYAN : "none"}
+                  stroke={i === 1 ? CYAN : "rgba(247,247,248,0.35)"}
+                  strokeWidth="1"
+                />
+                <path
+                  d="M -14 -2 L -14 8 L 0 16 L 0 6 Z"
+                  fill="none"
+                  stroke="rgba(247,247,248,0.25)"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 14 -2 L 14 8 L 0 16 L 0 6 Z"
+                  fill="none"
+                  stroke="rgba(247,247,248,0.25)"
+                  strokeWidth="1"
+                />
+              </g>
+            ))}
+          </svg>
+        </div>
+      </div>
+
+      {/* final: smooth canvas wipe into the featured project */}
+      <div
+        ref={wipeRef}
+        className="absolute inset-0 z-10 flex items-center justify-center bg-[#101114]/95 backdrop-blur-sm [clip-path:inset(100%_0%_0%_0%)]"
+      >
         <div
           ref={cardRef}
-          className="w-[86vw] max-w-md overflow-hidden rounded-2xl border border-line bg-card/80 opacity-0 shadow-2xl shadow-acid/10 backdrop-blur-md"
+          className="w-[86vw] max-w-md overflow-hidden rounded-2xl border border-line bg-card shadow-2xl shadow-acid/10"
         >
           <div className="aspect-[3/2]">
             <ProjectVisual id="portfolio" />

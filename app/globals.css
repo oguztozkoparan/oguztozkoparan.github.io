@@ -72,6 +72,23 @@ body {
   100% { background-position: 0 0; }
 }
 
+/* CRT scanlines over the hero video */
+.crt {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.24) 2px,
+    rgba(0, 0, 0, 0.24) 3px
+  );
+  animation: crt-drift 9s linear infinite;
+}
+
+@keyframes crt-drift {
+  from { background-position: 0 0; }
+  to { background-position: 0 24px; }
+}
+
 /* big display type helper */
 .display {
   font-family: var(--font-display);

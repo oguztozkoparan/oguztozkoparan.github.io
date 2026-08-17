@@ -105,15 +105,42 @@ export const capabilities = [
   },
 ];
 
-// Hero scroll narrative: the big word morphs into the name, the stagger
-// words appear in sync with the video, the card is the finale CTA.
+// Hero scroll narrative — "The Unfolding Grid": code pass, web/game split
+// panels, then a canvas wipe into the featured project.
 export const heroNarrative = {
-  bigWord: "THOUGHT.",
-  words: ["ANALYSIS.", "STRUCTURE.", "REALITY."],
+  sub: "Full-stack engineering & game development",
+  codeLines: [
+    "float4 frag(v2f i) : SV_Target {",
+    "  float rim = pow(1.0 - ndv, 3.0);",
+    "  float glow = rim * pow(ndl, 2.0);",
+    "  return lerp(base, neon, glow);",
+    "}",
+    'const forge = createEngine({ mode: "isometric" });',
+    "forge.compose(scene, bloomPass, scanlines);",
+    "export const world = forge.run();",
+  ],
+  webEngine: {
+    title: "Web Engine",
+    items: [
+      "Next.js architecture",
+      "TypeScript systems",
+      "Realtime APIs",
+      "Core Web Vitals",
+    ],
+  },
+  gameForge: {
+    title: "Game Forge",
+    items: [
+      "2D isometric mechanics",
+      "Shader effects",
+      "Pixel pipelines",
+      "Game services",
+    ],
+  },
   card: {
     label: "Featured work",
     title: "oguztozkoparan.com",
-    cta: "Explore the layers of the mind",
+    cta: "View selected work",
     href: "#work",
   },
 };
