@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { site, socials } from "@/lib/data";
+import SoundControl from "@/components/SoundControl";
 
 const LINKS = [
   { index: "01", label: "Home", href: "/" },
@@ -195,7 +196,7 @@ export default function Header() {
       {/* top bar */}
       <header
         ref={headerRef}
-        className="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 [&.header-scrolled]:border-line [&.header-scrolled]:bg-void/70 [&.header-scrolled]:backdrop-blur-md"
+        className="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 [&.header-scrolled]:border-line [&.header-scrolled]:bg-void/90"
       >
         <div className="flex items-center justify-between px-6 py-4 md:px-10">
           <Link
@@ -211,6 +212,7 @@ export default function Header() {
             <span className="label hidden tabular-nums text-dim sm:block">
               {time}
             </span>
+            <SoundControl />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}

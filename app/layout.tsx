@@ -3,7 +3,7 @@ import { Anton, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
 import Header from "@/components/Header";
-import MusicPlayer from "@/components/MusicPlayer";
+import ScrollTop from "@/components/ScrollTop";
 import "./globals.css";
 
 const anton = Anton({
@@ -70,9 +70,9 @@ export default function RootLayout({
     >
       <body className="grain">
         <SmoothScroll>
+          <ScrollTop />
           <Cursor />
           <Header />
-          <MusicPlayer />
           {children}
         </SmoothScroll>
       </body>

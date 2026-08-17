@@ -16,6 +16,7 @@ export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const clipRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<HTMLCanvasElement>(null);
   const centerRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
@@ -70,9 +71,69 @@ export default function Hero() {
         images.push(img);
       }
 
+      // ---- soft drifting particles ----
+      const pCanvas = particlesRef.current;
+      const pCtx = pCanvas?.getContext("2d");
+      type Particle = {
+        x: number;
+        y: number;
+        r: number;
+        speed: number;
+        sway: number;
+        phase: number;
+        alpha: number;
+        violet: boolean;
+      };
+      let particles: Particle[] = [];
+
+      const sizeParticles = () => {
+        if (!pCanvas) return;
+        pCanvas.width = section.clientWidth;
+        pCanvas.height = section.clientHeight;
+        particles = Array.from({ length: 64 }, () => ({
+          x: Math.random() * pCanvas.width,
+          y: Math.random() * pCanvas.height,
+          r: 0.6 + Math.random() * 1.7,
+          speed: 8 + Math.random() * 22,
+          sway: 0.2 + Math.random() * 0.5,
+          phase: Math.random() * Math.PI * 2,
+          alpha: 0.12 + Math.random() * 0.35,
+          violet: Math.random() < 0.6,
+        }));
+      };
+
+      const drawParticles = (time: number, delta: number) => {
+        if (!pCanvas || !pCtx) return;
+        const w = pCanvas.width;
+        const h = pCanvas.height;
+        pCtx.clearRect(0, 0, w, h);
+        pCtx.globalCompositeOperation = "lighter";
+        for (const p of particles) {
+          p.y -= (p.speed * delta) / 1000;
+          if (p.y < -4) {
+            p.y = h + 4;
+            p.x = Math.random() * w;
+          }
+          const x = p.x + Math.sin(time * p.sway + p.phase) * 18;
+          const pulse = 0.75 + 0.25 * Math.sin(time * 0.8 + p.phase);
+          pCtx.beginPath();
+          pCtx.arc(x, p.y, p.r, 0, Math.PI * 2);
+          pCtx.fillStyle = p.violet
+            ? `rgba(167, 139, 250, ${p.alpha * pulse})`
+            : `rgba(247, 247, 248, ${p.alpha * 0.7 * pulse})`;
+          pCtx.fill();
+        }
+      };
+
+      if (!reduced) {
+        sizeParticles();
+        gsap.ticker.add(drawParticles);
+      }
+
       const onResize = () => {
         sizeCanvas();
         draw();
+        if (!reduced) sizeParticles();
       };
       window.addEventListener("resize", onResize);
 
@@ -87,7 +148,9 @@ export default function Hero() {
       if (reduced) {
         gsap.set([wipe], { autoAlpha: 0 });
         if (brand) gsap.set(brand, { autoAlpha: 1 });
-        return () => window.removeEventListener("resize", onResize);
+        return () => {
+          window.removeEventListener("resize", onResize);
+        };
       }
 
       // idle loop of the foggy opening while the user hasn't scrolled yet
@@ -223,7 +286,10 @@ export default function Hero() {
         ScrollTrigger.refresh();
       });
 
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        window.removeEventListener("resize", onResize);
+        gsap.ticker.remove(drawParticles);
+      };
     },
     { scope: sectionRef }
   );
@@ -244,6 +310,12 @@ export default function Hero() {
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,15,17,0.12)_0%,rgba(14,15,17,0.72)_100%)]"
+        />
+        {/* soft drifting particles */}
+        <canvas
+          ref={particlesRef}
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full"
         />
       </div>
 
