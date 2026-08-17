@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Magnetic from "@/components/Magnetic";
 
 export default function Error({
   error,
@@ -56,19 +57,23 @@ export default function Error({
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <button
-            type="button"
-            onClick={() => reset()}
-            className="label rounded-full bg-acid px-6 py-3.5 font-bold text-void transition-transform duration-200 hover:scale-105"
-          >
-            Reboot reality
-          </button>
-          <Link
-            href="/"
-            className="label rounded-full border border-line px-6 py-3.5 text-ink transition-colors duration-200 hover:border-acid/50"
-          >
-            Evacuate home
-          </Link>
+          <Magnetic>
+            <button
+              type="button"
+              onClick={() => reset()}
+              className="pill-acid label block rounded-full bg-acid px-6 py-3.5 font-bold text-void"
+            >
+              Reboot reality
+            </button>
+          </Magnetic>
+          <Magnetic>
+            <Link
+              href="/"
+              className="pill-ghost label block rounded-full border border-line px-6 py-3.5 text-ink"
+            >
+              Evacuate home
+            </Link>
+          </Magnetic>
         </div>
       </div>
     </main>

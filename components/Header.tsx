@@ -10,6 +10,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { site, socials } from "@/lib/data";
 import SoundControl from "@/components/SoundControl";
+import Magnetic from "@/components/Magnetic";
 
 const LINKS = [
   { index: "01", label: "Home", href: "/" },
@@ -296,12 +297,14 @@ export default function Header() {
 
           <SoundControl />
 
-          <a
-            href={`mailto:${site.email}`}
-            className="label hidden whitespace-nowrap rounded-full bg-acid px-4 py-2 font-bold text-void transition-transform duration-200 hover:scale-105 sm:block"
-          >
-            Let&apos;s talk
-          </a>
+          <Magnetic className="max-sm:hidden">
+            <a
+              href={`mailto:${site.email}`}
+              className="pill-acid label block whitespace-nowrap rounded-full bg-acid px-4 py-2 font-bold text-void"
+            >
+              Let&apos;s talk
+            </a>
+          </Magnetic>
 
           {/* fullscreen menu toggle (mobile) */}
           <button

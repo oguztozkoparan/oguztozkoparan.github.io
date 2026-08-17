@@ -288,6 +288,29 @@ body {
   transform-origin: left;
 }
 
+/* unified pill hovers — the Magnetic wrapper supplies the motion,
+   these supply the glow. .pill-acid = solid accent CTA,
+   .pill-ghost = bordered secondary pill */
+.pill-acid {
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pill-ghost {
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+@media (hover: hover) {
+  .pill-acid:hover {
+    background-color: color-mix(in srgb, var(--color-acid) 85%, white);
+    box-shadow: 0 0 24px rgba(167, 139, 250, 0.35);
+  }
+
+  .pill-ghost:hover {
+    border-color: rgba(167, 139, 250, 0.6);
+    color: var(--color-ink);
+  }
+}
+
 /* capability row invert on hover */
 .cap-row {
   position: relative;

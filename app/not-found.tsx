@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import Magnetic from "@/components/Magnetic";
 
 export const metadata: Metadata = {
   title: "404 — Sector not found",
@@ -56,19 +57,23 @@ export default function NotFound() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/"
-            className="label rounded-full bg-acid px-6 py-3.5 font-bold text-void transition-transform duration-200 hover:scale-105"
-          >
-            Return to reality
-          </Link>
-          <Link
-            href="/dos"
-            className="label inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-ink transition-colors duration-200 hover:border-acid/50"
-          >
-            Debug in terminal
-            <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-          </Link>
+          <Magnetic>
+            <Link
+              href="/"
+              className="pill-acid label block rounded-full bg-acid px-6 py-3.5 font-bold text-void"
+            >
+              Return to reality
+            </Link>
+          </Magnetic>
+          <Magnetic>
+            <Link
+              href="/dos"
+              className="pill-ghost label inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-ink"
+            >
+              Debug in terminal
+              <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+            </Link>
+          </Magnetic>
         </div>
       </div>
     </main>

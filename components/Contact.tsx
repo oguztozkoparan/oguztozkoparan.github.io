@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { useLenis } from "lenis/react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
 import { site, socials } from "@/lib/data";
+import Magnetic from "@/components/Magnetic";
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -142,14 +143,16 @@ export default function Contact() {
         <p className="label text-dim">
           © {year} {site.name} — {site.location}
         </p>
-        <button
-          type="button"
-          onClick={() => lenis?.scrollTo(0) ?? window.scrollTo({ top: 0 })}
-          className="link-sweep label inline-flex items-center gap-1.5 text-ink"
-        >
-          Back to top
-          <ArrowUp aria-hidden="true" className="h-3.5 w-3.5" />
-        </button>
+        <Magnetic>
+          <button
+            type="button"
+            onClick={() => lenis?.scrollTo(0) ?? window.scrollTo({ top: 0 })}
+            className="link-sweep label inline-flex items-center gap-1.5 text-ink"
+          >
+            Back to top
+            <ArrowUp aria-hidden="true" className="h-3.5 w-3.5" />
+          </button>
+        </Magnetic>
       </div>
     </footer>
   );

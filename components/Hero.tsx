@@ -6,6 +6,7 @@ import { ArrowDown } from "lucide-react";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { heroNarrative, site } from "@/lib/data";
+import Magnetic from "@/components/Magnetic";
 
 const FRAME_COUNT = 96;
 const frameSrc = (i: number) =>
@@ -500,14 +501,18 @@ export default function Hero() {
             <p data-finale-meta className="label text-dim">
               {heroNarrative.finale.meta}
             </p>
-            <a
-              data-finale-meta
-              href={heroNarrative.finale.href}
-              className="label inline-flex w-fit items-center gap-2 rounded-full bg-acid px-5 py-3 font-bold text-void transition-transform duration-200 hover:scale-105"
-            >
-              {heroNarrative.finale.cta}
-              <ArrowDown aria-hidden="true" className="h-3.5 w-3.5" />
-            </a>
+            {/* timeline animates the outer span; the magnet owns the inner one */}
+            <span data-finale-meta className="inline-block w-fit">
+              <Magnetic>
+                <a
+                  href={heroNarrative.finale.href}
+                  className="pill-acid label inline-flex w-fit items-center gap-2 rounded-full bg-acid px-5 py-3 font-bold text-void"
+                >
+                  {heroNarrative.finale.cta}
+                  <ArrowDown aria-hidden="true" className="h-3.5 w-3.5" />
+                </a>
+              </Magnetic>
+            </span>
           </div>
         </div>
       </div>
