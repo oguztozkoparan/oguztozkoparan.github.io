@@ -151,6 +151,7 @@ export default function Work() {
     >
       <div
         ref={trackRef}
+        data-cursor-move
         className="flex w-full flex-col gap-6 px-6 lg:w-max lg:flex-row lg:items-stretch lg:gap-8 lg:px-[6vw] lg:[&>*]:h-[72vh] lg:[&>*]:max-h-[720px]"
       >
         <div className="flex shrink-0 flex-col justify-between pb-10 lg:w-[36vw] lg:pb-0">

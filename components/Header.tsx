@@ -253,7 +253,7 @@ export default function Header() {
           className="absolute -right-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_right,transparent_17.5px,#141619_18px)]"
         />
 
-        <div className="relative flex items-center gap-5 overflow-hidden rounded-b-2xl border-x border-b border-line bg-panel py-3 pl-5 pr-3 shadow-2xl shadow-black/50 transition-[padding] duration-300 md:gap-7 md:pl-6 [.nav-condensed_&]:py-2">
+        <div className="relative flex items-center gap-5 overflow-hidden rounded-b-2xl bg-panel py-3 pl-5 pr-3 shadow-2xl shadow-black/50 transition-[padding] duration-300 md:gap-7 md:pl-6 [.nav-condensed_&]:py-2">
           {/* reading progress traced along the capsule's bottom edge */}
           <div
             ref={progressRef}

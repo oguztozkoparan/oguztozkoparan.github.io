@@ -311,7 +311,7 @@ export default function Hero() {
       className="relative flex min-h-svh flex-col overflow-hidden"
     >
       {/* clipped video window — expands on scroll */}
-      <div ref={clipRef} className="absolute inset-0">
+      <div ref={clipRef} data-cursor-aseprite className="absolute inset-0">
         <canvas
           ref={canvasRef}
           aria-hidden="true"

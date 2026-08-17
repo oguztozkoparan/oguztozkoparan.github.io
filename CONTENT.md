@@ -94,7 +94,11 @@ export const tracks: Track[] = [
 
 `type: "file"` entries loop automatically and get the same fade-in/out as procedural ones. Titles show up in the player; the ⏭ button cycles through whatever is in the array.
 
-## 7. Theme
+## 7. Cursors
+
+The cursor set is **Jeelh's Retro Cursors** (https://jeelh.itch.io/retro-cursor, pay-what-you-want), embedded as 32px PNG data URIs in `app/globals.css`. Role map: arrow = default, hand = links/buttons, handwriting pen = mailto links, I-beam = inputs (thin variant on blog prose), help = `[title]` elements, unavailable = disabled controls, busy = preloader, move = the horizontal work gallery, Aseprite picker = hero artwork layer, alternate = sound-track rows, plus `.cursor-ew/ns/nwse/nesw` resize utilities.
+
+## 8. Theme
 
 Colors and fonts are Tailwind tokens in `app/globals.css` under `@theme`. The single accent color is `--color-acid` (currently violet `#a78bfa`) — change it once and the marquee, buttons, glows and SVG art (`components/ProjectVisual.tsx` `ACID` const) follow.
 

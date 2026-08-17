@@ -28,6 +28,7 @@ export default function Preloader() {
     sessionStorage.setItem("ot-preloaded", "1");
 
     document.documentElement.style.overflow = "hidden";
+    document.documentElement.classList.add("is-loading");
 
     const counter = { v: 0 };
     const tl = gsap.timeline({
@@ -58,6 +59,7 @@ export default function Preloader() {
         ease: "power4.inOut",
         onStart: () => {
           document.documentElement.style.overflow = "";
+          document.documentElement.classList.remove("is-loading");
           markPreloaderDone();
         },
       }, 1.7);
