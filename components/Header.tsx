@@ -113,10 +113,6 @@ export default function Header() {
     };
     window.addEventListener("pointermove", onPointerNear, { passive: true });
 
-    return () => {
-      window.removeEventListener("pointermove", onPointerNear);
-    };
-
     // fullscreen menu: top-down wipe, staggered giant links, meta fade
     tlRef.current = gsap
       .timeline({ paused: true })
@@ -141,6 +137,10 @@ export default function Header() {
         { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.06, ease: "power3.out" },
         0.5
       );
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerNear);
+    };
   }, []);
 
   // play / reverse + scroll lock
