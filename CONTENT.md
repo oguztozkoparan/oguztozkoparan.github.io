@@ -78,7 +78,23 @@ The v2 DOS terminal and mini-games hub live on as full-screen pages (the site he
 - **Terminal content**: the virtual file system (RESUME.TXT, CONTACT.TXT, folders…) is defined inside `components/dos-terminal.tsx` — search for `RESUME.TXT` to edit file contents or add new virtual files.
 - **Games**: each game is a self-contained component in `components/games/`. To add one, create the component, register it in `components/game-hub.tsx` (games array + switch).
 
-## 6. Theme
+## 6. Music & sounds — `lib/audio.ts`
+
+The floating player (bottom-right) plays generative tracks written in code. UI click/hover sounds are also procedural (Web Audio) — the SFX toggle in the player turns them off.
+
+**To use real music**: drop files into `public/music/` and replace (or extend) the `tracks` array in `lib/audio.ts`:
+
+```ts
+export const tracks: Track[] = [
+  { id: "my-song", title: "My Song", type: "file", src: "/music/my-song.mp3" },
+  // keep or delete the procedural ones:
+  { id: "void-drift", title: "Void Drift", type: "procedural", start: startVoidDrift },
+];
+```
+
+`type: "file"` entries loop automatically and get the same fade-in/out as procedural ones. Titles show up in the player; the ⏭ button cycles through whatever is in the array.
+
+## 7. Theme
 
 Colors and fonts are Tailwind tokens in `app/globals.css` under `@theme`. The single accent color is `--color-acid` (currently violet `#a78bfa`) — change it once and the marquee, buttons, glows and SVG art (`components/ProjectVisual.tsx` `ACID` const) follow.
 

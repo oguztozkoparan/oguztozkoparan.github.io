@@ -21,17 +21,18 @@ const EXTRAS = [
   { label: "Mini Games", href: "/games" },
 ];
 
-function useAnkaraTime() {
-  const [time, setTime] = useState("--:--");
+function useLiveClock() {
+  const [time, setTime] = useState("--:--:--");
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
+      second: "2-digit",
       timeZone: "Europe/Istanbul",
     });
     const tick = () => setTime(fmt.format(new Date()));
     tick();
-    const id = setInterval(tick, 10_000);
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
   return time;
@@ -42,7 +43,7 @@ export default function Header() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const [open, setOpen] = useState(false);
-  const time = useAnkaraTime();
+  const time = useLiveClock();
   const lenis = useLenis();
 
   useGSAP(() => {
@@ -207,8 +208,8 @@ export default function Header() {
           </Link>
 
           <div className="flex items-center gap-6 md:gap-8">
-            <span className="label hidden text-dim sm:block">
-              Ankara, TR — {time}
+            <span className="label hidden tabular-nums text-dim sm:block">
+              {time}
             </span>
             <button
               type="button"
