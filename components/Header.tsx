@@ -69,9 +69,25 @@ export default function Header() {
       });
     });
 
-    // smart capsule: dives away scrolling down, resurfaces scrolling up,
-    // condenses after the fold, and traces reading progress on its edge
-    let shown = true;
+    // smart capsule: dives away scrolling down, resurfaces scrolling up or
+    // when the pointer approaches the top edge, condenses after the fold,
+    // and traces reading progress on its edge
+    let shownByScroll = true;
+    let nearTop = false;
+    let visible = true;
+
+    const applyVisibility = () => {
+      const want = shownByScroll || nearTop || openRef.current;
+      if (want === visible) return;
+      visible = want;
+      gsap.to(header, {
+        yPercent: want ? 0 : -120,
+        duration: 0.55,
+        ease: want ? "power3.out" : "power3.inOut",
+        overwrite: "auto",
+      });
+    };
+
     ScrollTrigger.create({
       start: 0,
       end: "max",
@@ -80,26 +96,25 @@ export default function Header() {
           progressRef.current.style.transform = `scaleX(${self.progress})`;
         }
         header.classList.toggle("nav-condensed", self.scroll() > 140);
-        if (openRef.current) return;
-        if (self.direction === 1 && shown && self.scroll() > 360) {
-          shown = false;
-          gsap.to(header, {
-            yPercent: -120,
-            duration: 0.55,
-            ease: "power3.inOut",
-            overwrite: "auto",
-          });
-        } else if (self.direction === -1 && !shown) {
-          shown = true;
-          gsap.to(header, {
-            yPercent: 0,
-            duration: 0.55,
-            ease: "power3.out",
-            overwrite: "auto",
-          });
-        }
+        if (self.direction === 1 && self.scroll() > 360) shownByScroll = false;
+        else if (self.direction === -1) shownByScroll = true;
+        applyVisibility();
       },
     });
+
+    // hover-to-reveal near the top edge (with hysteresis so it never flickers)
+    const onPointerNear = (e: PointerEvent) => {
+      const near = nearTop ? e.clientY < 150 : e.clientY < 100;
+      if (near !== nearTop) {
+        nearTop = near;
+        applyVisibility();
+      }
+    };
+    window.addEventListener("pointermove", onPointerNear, { passive: true });
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerNear);
+    };
 
     // fullscreen menu: top-down wipe, staggered giant links, meta fade
     tlRef.current = gsap
