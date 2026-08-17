@@ -61,7 +61,11 @@ export default function Header() {
       className="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 [&.header-scrolled]:border-line [&.header-scrolled]:bg-base/70 [&.header-scrolled]:backdrop-blur-md"
     >
       <div className="flex items-center justify-between px-6 py-4 md:px-10">
-        <a href="#top" className="display text-lg tracking-wide text-ink">
+        <a
+          id="site-brand"
+          href="#top"
+          className="display text-lg tracking-wide text-ink"
+        >
           Oguz Tozkoparan<span className="text-acid">.</span>
         </a>
 

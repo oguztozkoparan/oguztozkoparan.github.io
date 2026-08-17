@@ -1,4 +1,4 @@
-const ACID = "#d1fe17";
+const ACID = "#a78bfa";
 const INK = "#f7f7f8";
 const DIM = "rgba(247,247,248,0.25)";
 

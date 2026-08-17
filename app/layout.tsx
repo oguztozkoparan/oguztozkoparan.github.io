@@ -4,19 +4,19 @@ import "./globals.css";
 
 const anton = Anton({
   weight: "400",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-anton",
   display: "swap",
 });
 
 const grotesk = Space_Grotesk({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-grotesk",
   display: "swap",
 });
 
 const jbmono = JetBrains_Mono({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-jbmono",
   display: "swap",
 });

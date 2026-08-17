@@ -105,6 +105,19 @@ export const capabilities = [
   },
 ];
 
+// Hero scroll narrative: the big word morphs into the name, the stagger
+// words appear in sync with the video, the card is the finale CTA.
+export const heroNarrative = {
+  bigWord: "DÜŞÜNCE.",
+  words: ["ANALİZ.", "YAPI.", "GERÇEKLİK."],
+  card: {
+    label: "En iyi iş",
+    title: "oguztozkoparan.com",
+    cta: "ZİHNİN KATMANLARINI KEŞFET",
+    href: "#work",
+  },
+};
+
 export const marqueeItems = [
   "Software Engineer",
   "React & Next.js",
