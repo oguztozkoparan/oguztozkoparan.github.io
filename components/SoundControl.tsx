@@ -77,7 +77,7 @@ export default function SoundControl() {
     const isInteractive = (t: EventTarget | null) =>
       t instanceof Element && t.closest("a, button, [data-cursor]");
 
-    const onFirstPointer = () => audio.warmUp();
+    audio.attachUnlock();
     const onClick = (e: MouseEvent) => {
       if (sfxOnRef.current && isInteractive(e.target)) audio.click();
     };
@@ -89,11 +89,9 @@ export default function SoundControl() {
       audio.hover();
     };
 
-    window.addEventListener("pointerdown", onFirstPointer, { once: true });
     window.addEventListener("click", onClick);
     window.addEventListener("pointerover", onOver);
     return () => {
-      window.removeEventListener("pointerdown", onFirstPointer);
       window.removeEventListener("click", onClick);
       window.removeEventListener("pointerover", onOver);
     };

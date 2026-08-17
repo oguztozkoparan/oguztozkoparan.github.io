@@ -179,6 +179,30 @@ class AudioEngine {
     return this.ctx;
   }
 
+  // browsers keep the context suspended until a real user gesture
+  // (click / key / touch — hover doesn't count). Attach one-shot unlock
+  // listeners so the very first gesture of any kind wakes the engine.
+  attachUnlock() {
+    const unlock = () => this.ensure();
+    for (const ev of ["pointerdown", "keydown", "touchstart"] as const) {
+      window.addEventListener(ev, unlock, { once: true, passive: true });
+    }
+  }
+
+  // run a sound now if the context is awake, or right after resume
+  // finishes — this makes the first click audible instead of swallowed
+  private whenRunning(fn: (ctx: AudioContext) => void) {
+    const ctx = this.ensure();
+    if (ctx.state === "running") {
+      fn(ctx);
+    } else {
+      void ctx
+        .resume()
+        .then(() => fn(ctx))
+        .catch(() => {});
+    }
+  }
+
   setMusicVolume(v: number) {
     this.baseVolume = Math.min(1, Math.max(0, v));
     if (this.ctx && this.musicGain) {
@@ -191,7 +215,10 @@ class AudioEngine {
   }
 
   playTrack(index: number) {
-    const ctx = this.ensure();
+    this.whenRunning((ctx) => this.startTrack(ctx, index));
+  }
+
+  private startTrack(ctx: AudioContext, index: number) {
     this.stopMusic(0.4);
     const track = tracks[index % tracks.length];
     const out = ctx.createGain();
@@ -239,22 +266,26 @@ class AudioEngine {
 
   // --- procedural UI sounds ---
   click() {
-    const ctx = this.ensure();
-    const t = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "square";
-    osc.frequency.setValueAtTime(680, t);
-    osc.frequency.exponentialRampToValueAtTime(240, t + 0.08);
-    gain.gain.setValueAtTime(0.1, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
-    osc.connect(gain).connect(this.sfxGain!);
-    osc.start(t);
-    osc.stop(t + 0.1);
+    this.whenRunning((ctx) => {
+      const t = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(680, t);
+      osc.frequency.exponentialRampToValueAtTime(240, t + 0.08);
+      gain.gain.setValueAtTime(0.1, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+      osc.connect(gain).connect(this.sfxGain!);
+      osc.start(t);
+      osc.stop(t + 0.1);
+    });
   }
 
   hover() {
     const ctx = this.ensure();
+    // a hover is not a user gesture — if the context is still locked,
+    // skip quietly instead of queueing stale blips
+    if (ctx.state !== "running") return;
     const t = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -265,10 +296,6 @@ class AudioEngine {
     osc.connect(gain).connect(this.sfxGain!);
     osc.start(t);
     osc.stop(t + 0.06);
-  }
-
-  warmUp() {
-    this.ensure();
   }
 }
 
