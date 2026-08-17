@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://oguztozkoparan.com"),
   title: "Oguz Tozkoparan — Software Engineer",
   description:
-    "Software engineer in Ankara building games and web experiences at Orion's Gate Studio. React, Next.js, GSAP, Web3.",
+    "Software engineer in Ankara crafting motion-driven web experiences. React, Next.js, GSAP.",
   openGraph: {
     title: "Oguz Tozkoparan — Software Engineer",
     description:
-      "Software engineer in Ankara building games and web experiences at Orion's Gate Studio.",
+      "Software engineer in Ankara crafting motion-driven web experiences.",
     url: "https://oguztozkoparan.com",
     siteName: "Oguz Tozkoparan",
     images: ["/og.png"],
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Oguz Tozkoparan — Software Engineer",
     description:
-      "Software engineer in Ankara building games and web experiences at Orion's Gate Studio.",
+      "Software engineer in Ankara crafting motion-driven web experiences.",
     images: ["/og.png"],
   },
   icons: { icon: "/favicon.ico" },

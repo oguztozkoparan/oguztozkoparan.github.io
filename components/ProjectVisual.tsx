@@ -18,70 +18,80 @@ function Grid({ id }: { id: string }) {
 export default function ProjectVisual({ id }: { id: string }) {
   const common = "h-full w-full transition-transform duration-700 ease-out group-hover:scale-105";
 
-  if (id === "galactic-life") {
+  if (id === "dos-terminal") {
     return (
-      <svg viewBox="0 0 600 400" className={common} role="img" aria-label="Orbital illustration">
+      <svg viewBox="0 0 600 400" className={common} role="img" aria-label="Terminal window illustration">
         <rect width="600" height="400" fill="#17191d" />
         <Grid id={id} />
-        <ellipse cx="300" cy="200" rx="230" ry="90" fill="none" stroke={DIM} strokeWidth="1" />
-        <ellipse cx="300" cy="200" rx="160" ry="60" fill="none" stroke={DIM} strokeWidth="1" />
-        <circle cx="300" cy="200" r="52" fill={ACID} />
-        <circle cx="284" cy="188" r="9" fill="#17191d" opacity="0.25" />
-        <circle cx="316" cy="212" r="6" fill="#17191d" opacity="0.2" />
-        <circle cx="470" cy="152" r="7" fill={INK} />
-        <circle cx="140" cy="248" r="5" fill={ACID} />
-        <circle cx="95" cy="110" r="2" fill={INK} opacity="0.6" />
-        <circle cx="520" cy="300" r="2" fill={INK} opacity="0.6" />
-        <circle cx="430" cy="70" r="1.5" fill={INK} opacity="0.5" />
+        <rect x="120" y="80" width="360" height="240" rx="8" fill="#0e0f11" stroke={DIM} strokeWidth="1" />
+        <rect x="120" y="80" width="360" height="28" rx="8" fill="none" stroke={DIM} strokeWidth="1" />
+        <circle cx="140" cy="94" r="4" fill={DIM} />
+        <circle cx="156" cy="94" r="4" fill={DIM} />
+        <circle cx="172" cy="94" r="4" fill={ACID} />
+        <text x="140" y="150" fill={ACID} style={{ font: "600 18px var(--font-jbmono), monospace" }}>
+          C:\&gt; dir
+        </text>
+        <rect x="140" y="170" width="180" height="8" fill={DIM} />
+        <rect x="140" y="190" width="220" height="8" fill={DIM} />
+        <rect x="140" y="210" width="140" height="8" fill={DIM} />
+        <text x="140" y="256" fill={INK} style={{ font: "600 18px var(--font-jbmono), monospace" }}>
+          C:\&gt;
+        </text>
+        <rect x="196" y="240" width="12" height="20" fill={ACID}>
+          <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite" />
+        </rect>
       </svg>
     );
   }
 
-  if (id === "studio") {
+  if (id === "mini-games") {
     return (
-      <svg viewBox="0 0 600 400" className={common} role="img" aria-label="Gate arcs illustration">
-        <rect width="600" height="400" fill="#17191d" />
-        <Grid id={id} />
-        {[200, 160, 120, 80].map((r, i) => (
-          <path
-            key={r}
-            d={`M ${300 - r} 400 A ${r} ${r} 0 0 1 ${300 + r} 400`}
-            fill="none"
-            stroke={i === 2 ? ACID : DIM}
-            strokeWidth={i === 2 ? 2 : 1}
-          />
-        ))}
-        <circle cx="300" cy="400" r="36" fill={ACID} />
-        <path d="M 292 120 l 8 -22 l 8 22 l 22 8 l -22 8 l -8 22 l -8 -22 l -22 -8 z" fill={INK} />
-      </svg>
-    );
-  }
-
-  if (id === "marketplace") {
-    return (
-      <svg viewBox="0 0 600 400" className={common} role="img" aria-label="Market bars illustration">
+      <svg viewBox="0 0 600 400" className={common} role="img" aria-label="Snake game illustration">
         <rect width="600" height="400" fill="#17191d" />
         <Grid id={id} />
         {[
-          { x: 120, h: 110 },
-          { x: 210, h: 170 },
-          { x: 300, h: 140 },
-          { x: 390, h: 230 },
-        ].map((bar, i) => (
-          <rect
-            key={bar.x}
-            x={bar.x}
-            y={340 - bar.h}
-            width="60"
-            height={bar.h}
-            fill={i === 3 ? ACID : "none"}
-            stroke={i === 3 ? ACID : DIM}
-            strokeWidth="1"
-          />
+          [220, 200], [260, 200], [300, 200], [300, 240], [340, 240],
+        ].map(([x, y], i) => (
+          <rect key={i} x={x} y={y} width="36" height="36" rx="6" fill={ACID} opacity={1 - i * 0.13} />
         ))}
-        <line x1="80" y1="340" x2="520" y2="340" stroke={INK} strokeWidth="1" opacity="0.4" />
-        <circle cx="420" cy="82" r="6" fill={ACID} />
-        <path d="M 420 82 L 480 60" stroke={DIM} strokeWidth="1" />
+        <rect x="420" y="160" width="36" height="36" rx="18" fill={INK} />
+        <rect x="140" y="120" width="36" height="36" rx="6" fill="none" stroke={DIM} strokeWidth="1" />
+        <rect x="460" y="280" width="36" height="36" rx="6" fill="none" stroke={DIM} strokeWidth="1" />
+        <path d="M 100 340 h 400" stroke={DIM} strokeWidth="1" />
+        <path d="M 100 60 h 400" stroke={DIM} strokeWidth="1" />
+      </svg>
+    );
+  }
+
+  if (id === "sprite-gen") {
+    return (
+      <svg viewBox="0 0 600 400" className={common} role="img" aria-label="Sprite sheet illustration">
+        <rect width="600" height="400" fill="#17191d" />
+        <Grid id={id} />
+        <circle cx="130" cy="120" r="22" fill="none" stroke={DIM} strokeWidth="2" />
+        <rect x="108" y="180" width="44" height="44" rx="6" fill="none" stroke={DIM} strokeWidth="2" />
+        <path d="M 130 250 l 22 40 h -44 z" fill="none" stroke={DIM} strokeWidth="2" />
+        <path d="M 210 200 h 90" stroke={ACID} strokeWidth="2" markerEnd="none" />
+        <path d="M 292 192 l 12 8 l -12 8" fill="none" stroke={ACID} strokeWidth="2" />
+        <rect x="340" y="100" width="200" height="200" rx="10" fill="none" stroke={ACID} strokeWidth="2" />
+        {[0, 1, 2].map((r) =>
+          [0, 1, 2].map((c) => (
+            <rect
+              key={`${r}-${c}`}
+              x={356 + c * 60}
+              y={116 + r * 60}
+              width="48"
+              height="48"
+              rx="6"
+              fill={r === 1 && c === 1 ? ACID : "none"}
+              stroke={DIM}
+              strokeWidth="1"
+            />
+          ))
+        )}
+        <text x="340" y="330" fill={DIM} style={{ font: "600 14px var(--font-jbmono), monospace" }}>
+          metadata.json
+        </text>
       </svg>
     );
   }
