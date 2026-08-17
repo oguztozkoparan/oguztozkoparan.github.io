@@ -163,12 +163,13 @@ class AudioEngine {
   private sfxGain: GainNode | null = null;
   private stopCurrent: StopFn | null = null;
   private fileEl: HTMLAudioElement | null = null;
+  private baseVolume = 0.6;
 
   private ensure(): AudioContext {
     if (!this.ctx) {
       this.ctx = new AudioContext();
       this.musicGain = this.ctx.createGain();
-      this.musicGain.gain.value = 0.6;
+      this.musicGain.gain.value = this.baseVolume;
       this.musicGain.connect(this.ctx.destination);
       this.sfxGain = this.ctx.createGain();
       this.sfxGain.gain.value = 0.5;
@@ -176,6 +177,17 @@ class AudioEngine {
     }
     if (this.ctx.state === "suspended") void this.ctx.resume();
     return this.ctx;
+  }
+
+  setMusicVolume(v: number) {
+    this.baseVolume = Math.min(1, Math.max(0, v));
+    if (this.ctx && this.musicGain) {
+      this.musicGain.gain.setTargetAtTime(
+        this.baseVolume,
+        this.ctx.currentTime,
+        0.05
+      );
+    }
   }
 
   playTrack(index: number) {
@@ -220,7 +232,7 @@ class AudioEngine {
     setTimeout(() => {
       stop();
       if (this.ctx && this.musicGain) {
-        this.musicGain.gain.setValueAtTime(0.6, this.ctx.currentTime);
+        this.musicGain.gain.setValueAtTime(this.baseVolume, this.ctx.currentTime);
       }
     }, fade * 1000 + 60);
   }

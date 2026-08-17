@@ -80,7 +80,7 @@ The v2 DOS terminal and mini-games hub live on as full-screen pages (the site he
 
 ## 6. Music & sounds — `lib/audio.ts`
 
-The floating player (bottom-right) plays generative tracks written in code. UI click/hover sounds are also procedural (Web Audio) — the SFX toggle in the player turns them off.
+Sound lives in the navbar (SOUND). All audio is **off by default** — user choices persist in localStorage (`ot-sfx`, `ot-volume`, `ot-track`). The quick dropdown lists tracks and toggles interface sounds; "Full player" opens the detailed modal with search, track list, transport (prev/play/next) and a volume slider. UI click/hover sounds are procedural (Web Audio).
 
 **To use real music**: drop files into `public/music/` and replace (or extend) the `tracks` array in `lib/audio.ts`:
 
