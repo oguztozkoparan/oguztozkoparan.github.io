@@ -5,7 +5,6 @@ import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { heroNarrative, site } from "@/lib/data";
-import ProjectVisual from "@/components/ProjectVisual";
 
 const FRAME_COUNT = 96;
 const frameSrc = (i: number) =>
@@ -371,7 +370,12 @@ export default function Hero() {
           className="w-[86vw] max-w-md overflow-hidden rounded-2xl border border-line bg-card shadow-2xl shadow-acid/10"
         >
           <div className="aspect-[3/2]">
-            <ProjectVisual id="portfolio" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/portfolio.webp"
+              alt="Featured project artwork"
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="flex flex-col gap-4 border-t border-line p-6">
             <p className="label text-dim">{heroNarrative.card.label}</p>

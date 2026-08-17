@@ -3,22 +3,29 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
-import { markPreloaderDone } from "@/lib/preloader";
+import { markPreloaderDone, markPreloaderPresent } from "@/lib/preloader";
 
 export default function Preloader() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
+  if (typeof window !== "undefined") markPreloaderPresent();
+
   useGSAP(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // play once per session — client-side navigation back home skips it
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      sessionStorage.getItem("ot-preloaded")
+    ) {
       overlay.style.display = "none";
       markPreloaderDone();
       return;
     }
+    sessionStorage.setItem("ot-preloaded", "1");
 
     document.documentElement.style.overflow = "hidden";
 

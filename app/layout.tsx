@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll";
+import Cursor from "@/components/Cursor";
+import Header from "@/components/Header";
 import "./globals.css";
 
 const anton = Anton({
@@ -23,7 +26,11 @@ const jbmono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oguztozkoparan.com"),
-  title: "Oguz Tozkoparan — Software Engineer",
+  title: {
+    default: "Oguz Tozkoparan — Software Engineer",
+    template: "%s — Oguz Tozkoparan",
+  },
+  alternates: { canonical: "/" },
   description:
     "Software engineer in Ankara crafting motion-driven web experiences. React, Next.js, GSAP.",
   openGraph: {
@@ -60,7 +67,13 @@ export default function RootLayout({
       lang="en"
       className={`${anton.variable} ${grotesk.variable} ${jbmono.variable}`}
     >
-      <body className="grain">{children}</body>
+      <body className="grain">
+        <SmoothScroll>
+          <Cursor />
+          <Header />
+          {children}
+        </SmoothScroll>
+      </body>
     </html>
   );
 }

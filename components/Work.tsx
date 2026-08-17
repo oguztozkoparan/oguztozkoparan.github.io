@@ -10,7 +10,17 @@ function ProjectCard({ project }: { project: Project }) {
   const inner = (
     <>
       <div className="relative aspect-[3/2] overflow-hidden">
-        <ProjectVisual id={project.id} />
+        {project.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={project.image}
+            alt={`${project.title} artwork`}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        ) : (
+          <ProjectVisual id={project.id} />
+        )}
         <span className="label absolute left-4 top-4 rounded-full border border-line bg-base/60 px-3 py-1.5 text-ink backdrop-blur-sm">
           {project.status}
         </span>

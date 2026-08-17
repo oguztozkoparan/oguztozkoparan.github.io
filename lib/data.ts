@@ -18,6 +18,7 @@ export const socials = [
 ];
 
 export const about = {
+  image: "/images/about.webp",
   intro:
     "I'm Oguz — a software engineer based in Ankara. For 5+ years I've been shipping React and Next.js products with an obsession for motion, performance and detail.",
   outro:
@@ -37,11 +38,13 @@ export type Project = {
   status: string; // small badge on the card ("Live", "Open source", ...)
   tags: string[];
   href: string | null; // null = card renders without a link
+  image?: string; // optional /public path; falls back to the SVG artwork
 };
 
 export const projects: Project[] = [
   {
     id: "portfolio",
+    image: "/images/portfolio.webp",
     index: "01",
     title: "oguztozkoparan.com",
     description:
@@ -52,6 +55,7 @@ export const projects: Project[] = [
   },
   {
     id: "dos-terminal",
+    image: "/images/dos-terminal.webp",
     index: "02",
     title: "DOS Terminal",
     description:
@@ -62,6 +66,7 @@ export const projects: Project[] = [
   },
   {
     id: "mini-games",
+    image: "/images/mini-games.webp",
     index: "03",
     title: "Mini Games Hub",
     description:
@@ -72,6 +77,7 @@ export const projects: Project[] = [
   },
   {
     id: "sprite-gen",
+    image: "/images/sprite-gen.webp",
     index: "04",
     title: "Sprite Sheet Generator",
     description:

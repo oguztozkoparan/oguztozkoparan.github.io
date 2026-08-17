@@ -120,7 +120,24 @@ export default function Contact() {
         ))}
       </div>
 
-      <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-line pt-6 sm:flex-row sm:items-center">
+      <nav
+        aria-label="Site"
+        className="mt-16 flex flex-wrap gap-x-6 gap-y-3 border-t border-line pt-6"
+      >
+        {[
+          { label: "Home", href: "/" },
+          { label: "Work", href: "/work" },
+          { label: "About", href: "/about" },
+          { label: "Blog", href: "/blog" },
+          { label: "Contact", href: "/contact" },
+        ].map((link) => (
+          <a key={link.href} href={link.href} className="link-sweep label text-dim">
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div className="mt-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <p className="label text-dim">
           © {year} {site.name} — {site.location}
         </p>

@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { site } from "@/lib/data";
 
 const NAV = [
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Work", href: "#work", hash: true },
+  { label: "About", href: "#about", hash: true },
+  { label: "Blog", href: "/blog", hash: false },
+  { label: "Contact", href: "#contact", hash: true },
 ];
 
 function useAnkaraTime() {
@@ -31,6 +33,8 @@ function useAnkaraTime() {
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const time = useAnkaraTime();
+  const pathname = usePathname();
+  const prefix = pathname === "/" ? "" : "/";
 
   useGSAP(() => {
     const header = headerRef.current;
@@ -77,7 +81,7 @@ export default function Header() {
           {NAV.map((item) => (
             <a
               key={item.href}
-              href={item.href}
+              href={item.hash ? `${prefix}${item.href}` : item.href}
               className="link-sweep label hidden text-ink sm:inline-block"
             >
               {item.label}

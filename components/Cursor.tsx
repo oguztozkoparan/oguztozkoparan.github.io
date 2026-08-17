@@ -18,6 +18,7 @@ export default function Cursor() {
 
     const cross = crossRef.current!;
     const brackets = bracketsRef.current!;
+    document.documentElement.classList.add("no-cursor");
     gsap.set([cross, brackets], { xPercent: -50, yPercent: -50, autoAlpha: 0 });
     gsap.set(brackets, { scale: 0.5 });
 
@@ -60,6 +61,7 @@ export default function Cursor() {
     window.addEventListener("pointerout", onOut);
 
     return () => {
+      document.documentElement.classList.remove("no-cursor");
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerover", onOver);
       window.removeEventListener("pointerout", onOut);
