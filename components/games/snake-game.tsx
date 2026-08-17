@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { Play, Pause, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import MeshGradient from "../mesh-gradient"
 
 interface Position {
   x: number
@@ -13,7 +12,7 @@ interface Position {
 }
 
 interface SnakeGameProps {
-  onBack: () => void
+  onBack?: () => void
 }
 
 const GRID_SIZE = 20
@@ -142,10 +141,10 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
     <div className="max-w-4xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-black mb-4 text-black dark:text-white">
-            SNAKE <span className="text-green-600 dark:text-green-400">CLASSIC</span>
+          <h1 className="text-4xl md:text-6xl font-black mb-4 text-ink">
+            SNAKE <span className="text-acid">CLASSIC</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-dim">
             Use arrow keys to control the snake. Eat food to grow and avoid hitting walls or yourself!
           </p>
         </div>
@@ -153,9 +152,8 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Game Board */}
           <div className="lg:col-span-2">
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-8 rounded-3xl">
+            <Card className="border border-line bg-card p-8 rounded-2xl">
               <div className="relative">
-                <MeshGradient variant="card" opacity={0.1} />
                 <div className="relative z-10">
                   <div
                     className="grid gap-1 bg-black/5 dark:bg-white/5 p-4 rounded-2xl mx-auto"
@@ -180,8 +178,8 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
                             ${
                               isSnake
                                 ? isHead
-                                  ? "bg-green-600 dark:bg-green-400 shadow-lg"
-                                  : "bg-green-500 dark:bg-green-500"
+                                  ? "bg-acid dark:bg-acid/80 shadow-lg"
+                                  : "bg-acid dark:bg-acid"
                                 : isFood
                                   ? "bg-red-500 dark:bg-red-400 shadow-lg animate-pulse"
                                   : "bg-gray-200 dark:bg-gray-800"
@@ -197,14 +195,14 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="absolute inset-0 bg-black/50 dark:bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center"
+                      className="absolute inset-0 bg-void/70 backdrop-blur-sm rounded-2xl flex items-center justify-center"
                     >
                       <div className="text-center text-white dark:text-white">
                         <h3 className="text-3xl font-black mb-4">GAME OVER</h3>
                         <p className="text-xl mb-6">Score: {score}</p>
                         <Button
                           onClick={startGame}
-                          className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-2xl"
+                          className="bg-acid hover:bg-acid/90 text-void font-bold px-6 py-3 rounded-2xl"
                         >
                           <Play className="h-4 w-4 mr-2" />
                           Play Again
@@ -220,27 +218,27 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
           {/* Game Controls */}
           <div className="space-y-6">
             {/* Score */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">SCORE</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">SCORE</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Current</span>
-                  <span className="text-2xl font-black text-green-600 dark:text-green-400">{score}</span>
+                  <span className="text-dim">Current</span>
+                  <span className="text-2xl font-black text-acid">{score}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Best</span>
-                  <span className="text-xl font-black text-black dark:text-white">{highScore}</span>
+                  <span className="text-dim">Best</span>
+                  <span className="text-xl font-black text-ink">{highScore}</span>
                 </div>
               </div>
             </Card>
 
             {/* Controls */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">CONTROLS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">CONTROLS</h3>
               <div className="space-y-3">
                 <Button
                   onClick={gameRunning ? pauseGame : startGame}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-2xl"
+                  className="w-full bg-acid hover:bg-acid/90 text-void font-bold py-3 rounded-2xl"
                   disabled={gameOver}
                 >
                   {gameRunning ? (
@@ -259,7 +257,7 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
                 <Button
                   onClick={resetGame}
                   variant="ghost"
-                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white rounded-2xl py-3"
+                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-line hover:bg-black/10 dark:hover:bg-white/10 text-ink rounded-2xl py-3"
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
                   RESET
@@ -268,9 +266,9 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
             </Card>
 
             {/* Instructions */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">HOW TO PLAY</h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">HOW TO PLAY</h3>
+              <div className="space-y-2 text-sm text-dim">
                 <p>• Use arrow keys to move</p>
                 <p>• Eat red food to grow</p>
                 <p>• Avoid walls and yourself</p>

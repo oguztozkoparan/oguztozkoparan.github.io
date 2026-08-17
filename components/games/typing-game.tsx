@@ -7,10 +7,9 @@ import { motion } from "framer-motion"
 import { Play, RotateCcw, Keyboard, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import MeshGradient from "../mesh-gradient"
 
 interface TypingGameProps {
-  onBack: () => void
+  onBack?: () => void
 }
 
 const WORD_LIST = [
@@ -226,10 +225,10 @@ export default function TypingGame({ onBack }: TypingGameProps) {
     <div className="max-w-4xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-black mb-4 text-black dark:text-white">
-            TYPING <span className="text-cyan-600 dark:text-cyan-400">SPEED</span>
+          <h1 className="text-4xl md:text-6xl font-black mb-4 text-ink">
+            TYPING <span className="text-acid">SPEED</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-dim">
             Test your typing speed and accuracy. Type the words as fast and accurately as possible!
           </p>
         </div>
@@ -237,9 +236,8 @@ export default function TypingGame({ onBack }: TypingGameProps) {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Game Area */}
           <div className="lg:col-span-2">
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-8 rounded-3xl">
+            <Card className="border border-line bg-card p-8 rounded-2xl">
               <div className="relative">
-                <MeshGradient variant="card" opacity={0.1} />
                 <div className="relative z-10">
                   {/* Words Display */}
                   <div className="bg-black/5 dark:bg-white/5 p-6 rounded-2xl mb-6 min-h-[200px]">
@@ -247,18 +245,18 @@ export default function TypingGame({ onBack }: TypingGameProps) {
                       {words.slice(0, currentWordIndex + 10).map((word, index) => {
                         if (index < currentWordIndex) {
                           return (
-                            <span key={index} className="text-green-600 dark:text-green-400 font-medium">
+                            <span key={index} className="text-acid font-medium">
                               {word}
                             </span>
                           )
                         } else if (index === currentWordIndex) {
                           return (
                             <span key={index} className="relative">
-                              <span className="text-green-600 dark:text-green-400 font-medium">{correct}</span>
+                              <span className="text-acid font-medium">{correct}</span>
                               <span className="text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30 font-medium">
                                 {incorrect}
                               </span>
-                              <span className="text-black dark:text-white font-medium">{remaining}</span>
+                              <span className="text-ink font-medium">{remaining}</span>
                               {gameStarted && (
                                 <motion.span
                                   animate={{ opacity: [1, 0, 1] }}
@@ -270,7 +268,7 @@ export default function TypingGame({ onBack }: TypingGameProps) {
                           )
                         } else {
                           return (
-                            <span key={index} className="text-gray-400 dark:text-gray-600 font-medium">
+                            <span key={index} className="text-dim font-medium">
                               {word}
                             </span>
                           )
@@ -287,7 +285,7 @@ export default function TypingGame({ onBack }: TypingGameProps) {
                     onChange={handleInputChange}
                     disabled={!gameStarted || gameEnded}
                     placeholder={gameStarted ? "Start typing..." : "Click START to begin"}
-                    className="w-full px-6 py-4 backdrop-blur-xl bg-white/40 dark:bg-black/40 border border-black/20 dark:border-white/20 rounded-2xl text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-400 text-lg disabled:opacity-50"
+                    className="w-full px-6 py-4 backdrop-blur-xl bg-white/40 dark:bg-black/40 border border-black/20 dark:border-white/20 rounded-2xl text-ink placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-400 text-lg disabled:opacity-50"
                   />
 
                   {/* Game Over Overlay */}
@@ -295,7 +293,7 @@ export default function TypingGame({ onBack }: TypingGameProps) {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="absolute inset-0 bg-black/50 dark:bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center"
+                      className="absolute inset-0 bg-void/70 backdrop-blur-sm rounded-2xl flex items-center justify-center"
                     >
                       <div className="text-center text-white dark:text-white">
                         <Keyboard className="h-16 w-16 mx-auto mb-4 text-cyan-400" />
@@ -313,7 +311,7 @@ export default function TypingGame({ onBack }: TypingGameProps) {
                         </div>
                         <Button
                           onClick={initializeGame}
-                          className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold px-6 py-3 rounded-2xl"
+                          className="bg-acid hover:bg-acid/90 text-void font-bold px-6 py-3 rounded-2xl"
                         >
                           <Play className="h-4 w-4 mr-2" />
                           Try Again
@@ -329,50 +327,50 @@ export default function TypingGame({ onBack }: TypingGameProps) {
           {/* Stats & Controls */}
           <div className="space-y-6">
             {/* Live Stats */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">LIVE STATS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">LIVE STATS</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400 flex items-center">
+                  <span className="text-dim flex items-center">
                     <Clock className="h-4 w-4 mr-2" />
                     Time
                   </span>
-                  <span className="text-2xl font-black text-cyan-600 dark:text-cyan-400">{formatTime(timeLeft)}</span>
+                  <span className="text-2xl font-black text-acid">{formatTime(timeLeft)}</span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">WPM</span>
-                  <span className="text-xl font-black text-black dark:text-white">{calculateWPM()}</span>
+                  <span className="text-dim">WPM</span>
+                  <span className="text-xl font-black text-ink">{calculateWPM()}</span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Accuracy</span>
-                  <span className="text-lg font-black text-green-600 dark:text-green-400">{calculateAccuracy()}%</span>
+                  <span className="text-dim">Accuracy</span>
+                  <span className="text-lg font-black text-acid">{calculateAccuracy()}%</span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Words</span>
-                  <span className="text-lg font-black text-blue-600 dark:text-blue-400">{correctWords}</span>
+                  <span className="text-dim">Words</span>
+                  <span className="text-lg font-black text-acid">{correctWords}</span>
                 </div>
               </div>
             </Card>
 
             {/* Best Scores */}
             {(bestWPM || bestAccuracy) && (
-              <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-                <h3 className="text-xl font-black mb-4 text-black dark:text-white">BEST SCORES</h3>
+              <Card className="border border-line bg-card p-6 rounded-2xl">
+                <h3 className="text-xl font-black mb-4 text-ink">BEST SCORES</h3>
                 <div className="space-y-3">
                   {bestWPM && (
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600 dark:text-gray-400">Best WPM</span>
-                      <span className="text-xl font-black text-yellow-600 dark:text-yellow-400">{bestWPM}</span>
+                      <span className="text-dim">Best WPM</span>
+                      <span className="text-xl font-black text-acid">{bestWPM}</span>
                     </div>
                   )}
 
                   {bestAccuracy && (
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600 dark:text-gray-400">Best Accuracy</span>
-                      <span className="text-lg font-black text-green-600 dark:text-green-400">{bestAccuracy}%</span>
+                      <span className="text-dim">Best Accuracy</span>
+                      <span className="text-lg font-black text-acid">{bestAccuracy}%</span>
                     </div>
                   )}
                 </div>
@@ -380,13 +378,13 @@ export default function TypingGame({ onBack }: TypingGameProps) {
             )}
 
             {/* Controls */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">CONTROLS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">CONTROLS</h3>
               <div className="space-y-3">
                 {!gameStarted && !gameEnded && (
                   <Button
                     onClick={startGame}
-                    className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 rounded-2xl"
+                    className="w-full bg-acid hover:bg-acid/90 text-void font-bold py-3 rounded-2xl"
                   >
                     <Play className="h-4 w-4 mr-2" />
                     START TEST
@@ -396,7 +394,7 @@ export default function TypingGame({ onBack }: TypingGameProps) {
                 <Button
                   onClick={initializeGame}
                   variant="ghost"
-                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white rounded-2xl py-3"
+                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-line hover:bg-black/10 dark:hover:bg-white/10 text-ink rounded-2xl py-3"
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
                   NEW TEST
@@ -405,36 +403,36 @@ export default function TypingGame({ onBack }: TypingGameProps) {
             </Card>
 
             {/* WPM Guide */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">WPM GUIDE</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">WPM GUIDE</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Beginner</span>
+                  <span className="text-dim">Beginner</span>
                   <span className="text-red-600 dark:text-red-400 font-bold">&lt; 30 WPM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Average</span>
-                  <span className="text-orange-600 dark:text-orange-400 font-bold">30-50 WPM</span>
+                  <span className="text-dim">Average</span>
+                  <span className="text-acid font-bold">30-50 WPM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Good</span>
-                  <span className="text-yellow-600 dark:text-yellow-400 font-bold">50-70 WPM</span>
+                  <span className="text-dim">Good</span>
+                  <span className="text-acid font-bold">50-70 WPM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Excellent</span>
-                  <span className="text-green-600 dark:text-green-400 font-bold">70-90 WPM</span>
+                  <span className="text-dim">Excellent</span>
+                  <span className="text-acid font-bold">70-90 WPM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Expert</span>
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">&gt; 90 WPM</span>
+                  <span className="text-dim">Expert</span>
+                  <span className="text-acid font-bold">&gt; 90 WPM</span>
                 </div>
               </div>
             </Card>
 
             {/* Instructions */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">HOW TO PLAY</h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">HOW TO PLAY</h3>
+              <div className="space-y-2 text-sm text-dim">
                 <p>• Type the highlighted word</p>
                 <p>• Press space after each word</p>
                 <p>• Focus on accuracy first</p>

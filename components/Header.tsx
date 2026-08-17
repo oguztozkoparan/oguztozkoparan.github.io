@@ -35,8 +35,6 @@ export default function Header() {
   const time = useAnkaraTime();
   const pathname = usePathname();
   const prefix = pathname === "/" ? "" : "/";
-  // immersive full-screen apps ship their own chrome
-  const immersive = pathname.startsWith("/dos") || pathname.startsWith("/games");
 
   useGSAP(() => {
     const header = headerRef.current;
@@ -60,8 +58,6 @@ export default function Header() {
       },
     });
   }, []);
-
-  if (immersive) return null;
 
   return (
     <header
