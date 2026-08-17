@@ -22,7 +22,7 @@ function ProjectCard({ project }: { project: Project }) {
           </h3>
           <span className="label text-acid">{project.index}</span>
         </div>
-        <p className="text-sm leading-relaxed text-dim md:text-base">
+        <p className="text-sm leading-relaxed text-ink/75 md:text-base">
           {project.description}
         </p>
         <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2">
