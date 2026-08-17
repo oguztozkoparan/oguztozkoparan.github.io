@@ -154,6 +154,83 @@ export const heroNarrative = {
   },
 };
 
+// Hobbies — "After Dark", the off-duty reliquary. Three relic cards
+// (one per obsession) + a closing quote. Images live in /public/images/hobbies/.
+export type HobbyRelic = {
+  id: string; // picks the card icon in components/Hobbies.tsx
+  numeral: string; // roman numeral in the card corner
+  tag: string; // small verb tag ("Play", "Read", ...)
+  title: string;
+  description: string;
+  image: string; // /public path, ~3:4 portrait
+  alt: string;
+  stats: { k: string; v: string }[]; // two short flavor stats
+  whisper: string; // soulslike "player message" at the card foot
+};
+
+export const hobbies = {
+  label: "Side quests",
+  headingSolid: "After",
+  headingOutline: "Dark",
+  intro:
+    "When the last commit lands, I head where the fog is thicker — punishing soulslike worlds, grim manga sagas, mythologies deep enough to ship their own appendices.",
+  outro:
+    "Three obsessions, one common thread: worlds built with the same care I want in a codebase.",
+  relics: [
+    {
+      id: "souls",
+      numeral: "I",
+      tag: "Play",
+      title: "Soulslike Worlds",
+      description:
+        "Boss doors, bonfire checkpoints and the beautiful cruelty of learning by dying. Patience as a core mechanic — I speak it fluently.",
+      image: "/images/hobbies/souls.webp",
+      alt: "A lone knight resting at a bonfire before a colossal fog-shrouded gate",
+      stats: [
+        { k: "Deaths", v: "Countless" },
+        { k: "Regrets", v: "None" },
+      ],
+      whisper: "bonfire ahead, therefore hope",
+    },
+    {
+      id: "manga",
+      numeral: "II",
+      tag: "Read",
+      title: "Grim Manga Sagas",
+      description:
+        "Ink-black epics where the struggle is the story — colossal swords, doomed causes and panels heavy enough to bend the shelf.",
+      image: "/images/hobbies/manga.webp",
+      alt: "A swordsman carrying a colossal greatsword beneath a crimson eclipse",
+      stats: [
+        { k: "Volumes", v: "Shelves full" },
+        { k: "Heart", v: "Broken, often" },
+      ],
+      whisper: "don't get attached",
+    },
+    {
+      id: "myth",
+      numeral: "III",
+      tag: "Dwell",
+      title: "Layered Mythologies",
+      description:
+        "Invented languages, bloodlines, maps with burnt corners. If a story ships its own encyclopedia, I'm already living in it.",
+      image: "/images/hobbies/myth.webp",
+      alt: "A ruined citadel on a mountainside above mist-filled valleys",
+      stats: [
+        { k: "Lore depth", v: "Appendix N" },
+        { k: "Maps owned", v: "Too many" },
+      ],
+      whisper: "the road goes ever on",
+    },
+  ] as HobbyRelic[],
+  quote: {
+    solid: "Die. Learn.",
+    outline: "Ship again.",
+    meta: "The loop — in games and in code",
+    image: "/images/hobbies/eclipse-field.webp", // faint backdrop behind the quote
+  },
+};
+
 export const marqueeItems = [
   "Software Engineer",
   "React & Next.js",
