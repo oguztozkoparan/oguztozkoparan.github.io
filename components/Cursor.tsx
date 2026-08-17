@@ -5,8 +5,8 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
 
 export default function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const crossRef = useRef<HTMLDivElement>(null);
+  const bracketsRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     if (
@@ -16,21 +16,26 @@ export default function Cursor() {
       return;
     }
 
-    const dot = dotRef.current!;
-    const ring = ringRef.current!;
-    gsap.set([dot, ring], { xPercent: -50, yPercent: -50, autoAlpha: 0 });
+    const cross = crossRef.current!;
+    const brackets = bracketsRef.current!;
+    gsap.set([cross, brackets], { xPercent: -50, yPercent: -50, autoAlpha: 0 });
+    gsap.set(brackets, { scale: 0.5 });
 
-    const dotX = gsap.quickTo(dot, "x", { duration: 0.08, ease: "power2.out" });
-    const dotY = gsap.quickTo(dot, "y", { duration: 0.08, ease: "power2.out" });
-    const ringX = gsap.quickTo(ring, "x", { duration: 0.35, ease: "power2.out" });
-    const ringY = gsap.quickTo(ring, "y", { duration: 0.35, ease: "power2.out" });
+    const crossX = gsap.quickTo(cross, "x", { duration: 0.05, ease: "none" });
+    const crossY = gsap.quickTo(cross, "y", { duration: 0.05, ease: "none" });
+    const brX = gsap.quickTo(brackets, "x", { duration: 0.3, ease: "power2.out" });
+    const brY = gsap.quickTo(brackets, "y", { duration: 0.3, ease: "power2.out" });
 
+    let shown = false;
     const onMove = (e: PointerEvent) => {
-      gsap.to([dot, ring], { autoAlpha: 1, duration: 0.2, overwrite: "auto" });
-      dotX(e.clientX);
-      dotY(e.clientY);
-      ringX(e.clientX);
-      ringY(e.clientY);
+      if (!shown) {
+        shown = true;
+        gsap.to(cross, { autoAlpha: 1, duration: 0.2 });
+      }
+      crossX(e.clientX);
+      crossY(e.clientY);
+      brX(e.clientX);
+      brY(e.clientY);
     };
 
     const isInteractive = (t: EventTarget | null) =>
@@ -38,15 +43,15 @@ export default function Cursor() {
 
     const onOver = (e: PointerEvent) => {
       if (isInteractive(e.target)) {
-        gsap.to(ring, { scale: 2.4, duration: 0.3, ease: "power3.out" });
-        gsap.to(dot, { scale: 0.4, duration: 0.3 });
+        gsap.to(cross, { rotate: 45, scale: 1.25, duration: 0.35, ease: "power3.out" });
+        gsap.to(brackets, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "back.out(2)" });
       }
     };
 
     const onOut = (e: PointerEvent) => {
       if (isInteractive(e.target)) {
-        gsap.to(ring, { scale: 1, duration: 0.3, ease: "power3.out" });
-        gsap.to(dot, { scale: 1, duration: 0.3 });
+        gsap.to(cross, { rotate: 0, scale: 1, duration: 0.35, ease: "power3.out" });
+        gsap.to(brackets, { autoAlpha: 0, scale: 0.5, duration: 0.3, ease: "power3.out" });
       }
     };
 
@@ -62,15 +67,22 @@ export default function Cursor() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[110] hidden [@media(pointer:fine)]:block">
+    <div className="pointer-events-none fixed inset-0 z-[110] hidden mix-blend-difference [@media(pointer:fine)]:block">
+      {/* crosshair — instant */}
+      <div ref={crossRef} className="absolute left-0 top-0 opacity-0">
+        <span className="absolute left-0 top-0 h-px w-4 -translate-x-1/2 -translate-y-1/2 bg-white" />
+        <span className="absolute left-0 top-0 h-4 w-px -translate-x-1/2 -translate-y-1/2 bg-white" />
+      </div>
+      {/* corner brackets — lag behind, frame interactive targets */}
       <div
-        ref={dotRef}
-        className="absolute left-0 top-0 h-1.5 w-1.5 rounded-full bg-acid opacity-0"
-      />
-      <div
-        ref={ringRef}
-        className="absolute left-0 top-0 h-8 w-8 rounded-full border border-acid/60 opacity-0"
-      />
+        ref={bracketsRef}
+        className="absolute left-0 top-0 h-10 w-10 opacity-0"
+      >
+        <span className="absolute left-0 top-0 h-2.5 w-2.5 border-l border-t border-white" />
+        <span className="absolute right-0 top-0 h-2.5 w-2.5 border-r border-t border-white" />
+        <span className="absolute bottom-0 left-0 h-2.5 w-2.5 border-b border-l border-white" />
+        <span className="absolute bottom-0 right-0 h-2.5 w-2.5 border-b border-r border-white" />
+      </div>
     </div>
   );
 }

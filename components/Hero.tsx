@@ -133,7 +133,7 @@ export default function Hero() {
       )
         // bottom meta fades away immediately
         .to(metaEls, { autoAlpha: 0, y: 20, duration: 0.08 }, 0)
-        // 1. DÜŞÜNCE. shrinks, sharpens and flies onto the header brand…
+        // 1. THOUGHT. shrinks, sharpens and flies onto the header brand…
         .to(
           bigWord,
           {
@@ -150,7 +150,7 @@ export default function Hero() {
         .to(bigWord, { autoAlpha: 0, duration: 0.04 }, 0.3);
       if (brand) tl.to(brand, { autoAlpha: 1, duration: 0.05 }, 0.31);
 
-      // 2. Analiz. / Yapı. / Gerçeklik. stagger in and out with the video
+      // 2. ANALYSIS. / STRUCTURE. / REALITY. stagger in and out with the video
       const slots = [0.38, 0.52, 0.66];
       words.forEach((word, i) => {
         tl.to(word, { autoAlpha: 1, y: 0, duration: 0.07, ease: "power2.out" }, slots[i])
@@ -166,7 +166,6 @@ export default function Hero() {
       );
 
       // intro after the preloader: the big word emerges at opacity .1
-      // (no SplitText mask here — it would clip Turkish diacritics like Ü/Ş)
       gsap.set(bigWord, { autoAlpha: 0 });
       Promise.all([document.fonts.ready, onPreloaderDone()]).then(() => {
         gsap

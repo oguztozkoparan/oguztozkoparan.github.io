@@ -6,7 +6,7 @@
 export const site = {
   name: "Oguz Tozkoparan",
   role: "Software Engineer",
-  location: "Ankara, Türkiye",
+  location: "Ankara, Turkey",
   email: "oguztozkoparan@gmail.com",
   url: "https://oguztozkoparan.com",
 };
@@ -108,12 +108,12 @@ export const capabilities = [
 // Hero scroll narrative: the big word morphs into the name, the stagger
 // words appear in sync with the video, the card is the finale CTA.
 export const heroNarrative = {
-  bigWord: "DÜŞÜNCE.",
-  words: ["ANALİZ.", "YAPI.", "GERÇEKLİK."],
+  bigWord: "THOUGHT.",
+  words: ["ANALYSIS.", "STRUCTURE.", "REALITY."],
   card: {
-    label: "En iyi iş",
+    label: "Featured work",
     title: "oguztozkoparan.com",
-    cta: "ZİHNİN KATMANLARINI KEŞFET",
+    cta: "Explore the layers of the mind",
     href: "#work",
   },
 };
