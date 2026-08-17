@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
+import { usePathname } from "next/navigation";
+import { gsap } from "@/lib/gsapConfig";
 import { onPreloaderDone } from "@/lib/preloader";
 import { site, socials } from "@/lib/data";
 import SoundControl from "@/components/SoundControl";
@@ -47,13 +48,14 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const time = useLiveClock();
   const lenis = useLenis();
+  const pathname = usePathname();
 
   useGSAP(() => {
     const header = headerRef.current;
     const overlay = overlayRef.current;
     if (!header || !overlay) return;
 
-    gsap.set(header, { yPercent: -100, autoAlpha: 0 });
+    gsap.set(header, { yPercent: -120, autoAlpha: 0 });
     onPreloaderDone().then(() => {
       gsap.to(header, {
         yPercent: 0,
@@ -62,13 +64,6 @@ export default function Header() {
         delay: 0.4,
         ease: "power3.out",
       });
-    });
-
-    ScrollTrigger.create({
-      start: "top -80",
-      onToggle: (self) => {
-        header.classList.toggle("header-scrolled", self.isActive);
-      },
     });
 
     // fullscreen menu: top-down wipe, staggered giant links, meta fade
@@ -193,48 +188,80 @@ export default function Header() {
         </div>
       </div>
 
-      {/* top bar */}
+      {/* top bar — floating capsule notch hanging from the top edge */}
       <header
         ref={headerRef}
-        className="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 [&.header-scrolled]:border-line [&.header-scrolled]:bg-void/90"
+        className="fixed left-1/2 top-0 z-50 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2"
       >
-        <div className="flex items-center justify-between px-6 py-4 md:px-10">
+        <div className="relative flex items-center gap-5 rounded-b-2xl border-x border-b border-line bg-panel py-3 pl-5 pr-3 shadow-2xl shadow-black/50 md:gap-7 md:pl-6">
+          {/* gooey fillets connecting the capsule to the top edge */}
+          <span
+            aria-hidden="true"
+            className="absolute -left-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_left,transparent_17.5px,#141619_18px)]"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute -right-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_right,transparent_17.5px,#141619_18px)]"
+          />
+
           <Link
             id="site-brand"
             href="/"
             onClick={() => setOpen(false)}
-            className="display text-lg tracking-wide text-ink"
+            className="display whitespace-nowrap text-base tracking-wide text-ink md:text-lg"
           >
             Oguz Tozkoparan<span className="text-acid">.</span>
           </Link>
 
-          <div className="flex items-center gap-6 md:gap-8">
-            <span className="label hidden tabular-nums text-dim sm:block">
-              {time}
+          {/* inline links (desktop) */}
+          <nav aria-label="Primary" className="hidden items-center gap-5 md:flex">
+            {LINKS.filter((l) => l.href !== "/").map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`label transition-colors duration-200 hover:text-ink ${
+                  pathname.startsWith(link.href) ? "text-acid" : "text-dim"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <span className="label hidden tabular-nums text-dim lg:block">
+            {time}
+          </span>
+
+          <SoundControl />
+
+          <a
+            href={`mailto:${site.email}`}
+            className="label hidden whitespace-nowrap rounded-full bg-acid px-4 py-2 font-bold text-void transition-transform duration-200 hover:scale-105 sm:block"
+          >
+            Let&apos;s talk
+          </a>
+
+          {/* fullscreen menu toggle (mobile) */}
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="group flex items-center gap-3 pr-2 md:hidden"
+          >
+            <span className="relative block h-3 w-6">
+              <span
+                className={`absolute left-0 top-0 h-px w-full bg-acid transition-transform duration-300 ${
+                  open ? "translate-y-[5.5px] rotate-45" : "group-hover:w-4/5"
+                }`}
+              />
+              <span
+                className={`absolute bottom-0 left-0 h-px w-full bg-acid transition-transform duration-300 ${
+                  open ? "-translate-y-[5.5px] -rotate-45" : ""
+                }`}
+              />
             </span>
-            <SoundControl />
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-label={open ? "Close menu" : "Open menu"}
-              className="group flex items-center gap-3"
-            >
-              <span className="label text-ink">{open ? "Close" : "Menu"}</span>
-              <span className="relative block h-3 w-6">
-                <span
-                  className={`absolute left-0 top-0 h-px w-full bg-acid transition-transform duration-300 ${
-                    open ? "translate-y-[5.5px] rotate-45" : "group-hover:w-4/5"
-                  }`}
-                />
-                <span
-                  className={`absolute bottom-0 left-0 h-px w-full bg-acid transition-transform duration-300 ${
-                    open ? "-translate-y-[5.5px] -rotate-45" : ""
-                  }`}
-                />
-              </span>
-            </button>
-          </div>
+          </button>
         </div>
       </header>
     </>
