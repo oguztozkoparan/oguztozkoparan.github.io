@@ -13,8 +13,32 @@ One file holds all text and structure:
 | `about` | About intro/outro paragraphs, 3 fact tiles, about image |
 | `projects` | Work cards — see below |
 | `capabilities` | The 4 capability rows and their tag lists |
+| `hobbies` | The "After Dark" hobbies section — see below |
 | `heroNarrative` | Hero: sub-header, code lines, Web Engine / Game Forge panel items, finale card |
 | `marqueeItems` | The purple marquee band items |
+
+### Editing the hobbies section ("04 / Side quests")
+
+`hobbies` in `lib/data.ts` drives the whole section:
+
+- `label`, `headingSolid` + `headingOutline` (the outline word renders with a crimson stroke), `intro`, `outro`.
+- `relics` — the three artifact cards. Each has a `title`, `description`, portrait
+  `image` (~3:4, in `public/images/hobbies/`), `alt` text, a small `tag` verb,
+  a roman `numeral`, two flavor `stats` and a `whisper` (the soulslike
+  "player message" at the card foot). The card icon is picked by `id` in
+  `components/Hobbies.tsx` (`RELIC_ICONS` map — lucide icons).
+- `quote` — the closing display quote (`solid` + `outline` lines), its `meta`
+  caption and the panorama backdrop `image`.
+
+Card artwork prompts followed the site's generation style block but leaned
+painterly instead of isometric pixel art (same obsidian/crimson/violet palette):
+
+> Cinematic dark fantasy painting, epic vertical composition: [SUBJECT].
+> Deep obsidian background with volumetric fog, cold crimson ember light,
+> eerie purple and faint neon cyan rim lighting, micro particles,
+> ultra-precise painterly detail, no readable text.
+
+The crimson accent used here is the `--color-ember` token in `app/globals.css`.
 
 ### Adding / editing a project
 

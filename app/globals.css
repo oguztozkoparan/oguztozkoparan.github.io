@@ -12,6 +12,7 @@
   --color-ink: #f7f7f8;
   --color-dim: #9aa1a9;
   --color-acid: #a78bfa;
+  --color-ember: #f0655e;
   --color-line: rgba(247, 247, 248, 0.08);
 
   /* shadcn-compat tokens for the recovered v2 components */
@@ -286,6 +287,93 @@ body {
 .link-sweep:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+/* --- hobbies / "After Dark" section ------------------------------------- */
+
+/* relic card: artwork sleeps veiled in grayscale until torchlight (hover) */
+.relic {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.relic-img {
+  filter: grayscale(0.35) brightness(0.95);
+  transition:
+    filter 0.7s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* torchlight that follows the pointer inside the card */
+.relic-torch {
+  background: radial-gradient(
+    16rem circle at var(--mx, 50%) var(--my, 50%),
+    rgba(240, 101, 94, 0.32),
+    rgba(167, 139, 250, 0.14) 42%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .relic-img {
+    filter: grayscale(0.85) brightness(0.82);
+  }
+
+  .relic:hover .relic-img {
+    filter: grayscale(0) brightness(1);
+    transform: scale(1.045);
+  }
+
+  .relic:hover .relic-torch {
+    opacity: 1;
+  }
+
+  .relic:hover {
+    border-color: rgba(240, 101, 94, 0.45);
+  }
+}
+
+/* rising embers at the section base */
+.ember {
+  position: absolute;
+  bottom: -8px;
+  border-radius: 9999px;
+  opacity: 0;
+  animation: ember-rise var(--ember-t, 9s) linear infinite;
+  animation-delay: var(--ember-d, 0s);
+  will-change: transform, opacity;
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--ember-a, 0.7);
+  }
+  70% {
+    opacity: calc(var(--ember-a, 0.7) * 0.55);
+  }
+  100% {
+    transform: translate3d(var(--ember-dx, 24px), -52vh, 0) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* eclipse disc behind the heading */
+.eclipse-ring {
+  background: radial-gradient(
+    closest-side,
+    var(--color-void) 55%,
+    rgba(240, 101, 94, 0.5) 60%,
+    rgba(240, 101, 94, 0.16) 66%,
+    rgba(167, 139, 250, 0.1) 72%,
+    transparent 78%
+  );
 }
 
 /* capability row invert on hover */

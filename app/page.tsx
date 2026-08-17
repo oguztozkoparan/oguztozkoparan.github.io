@@ -4,6 +4,7 @@ import Marquee from "@/components/Marquee";
 import About from "@/components/About";
 import Work from "@/components/Work";
 import Capabilities from "@/components/Capabilities";
+import Hobbies from "@/components/Hobbies";
 import Contact from "@/components/Contact";
 import { site, socials } from "@/lib/data";
 
@@ -45,6 +46,7 @@ export default function Home() {
         <About />
         <Work />
         <Capabilities />
+        <Hobbies />
         <Contact />
       </main>
     </>

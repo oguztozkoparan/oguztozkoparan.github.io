@@ -67,7 +67,7 @@ export default function Contact() {
       />
 
       <p className="label text-dim">
-        <span className="text-acid">04</span> / Contact
+        <span className="text-acid">05</span> / Contact
       </p>
 
       <a
