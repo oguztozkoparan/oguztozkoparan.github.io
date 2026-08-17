@@ -180,7 +180,12 @@ export default function Hero() {
       gsap.set(wipe, { clipPath: "inset(100% 0% 0% 0%)" });
       gsap.set(finaleLines, { yPercent: 115 });
       gsap.set(finaleMeta, { autoAlpha: 0, y: 24 });
-      if (brand) gsap.set(brand, { autoAlpha: 0 });
+      // collapse the brand's width too, so the capsule shrinks instead of
+      // showing an empty slot while the hero owns the name
+      const brandWidth = brand?.offsetWidth ?? 0;
+      if (brand) {
+        gsap.set(brand, { autoAlpha: 0, width: 0, overflow: "hidden" });
+      }
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -260,7 +265,13 @@ export default function Hero() {
         );
 
       gsap.set("[data-web-item], [data-forge-item]", { autoAlpha: 0, y: 22 });
-      if (brand) tl.to(brand, { autoAlpha: 1, duration: 0.06 }, 0.9);
+      if (brand) {
+        tl.to(
+          brand,
+          { autoAlpha: 1, width: brandWidth, duration: 0.06, ease: "power2.out" },
+          0.9
+        );
+      }
 
       // intro after the preloader
       gsap.set([name, subRef.current], { autoAlpha: 0 });

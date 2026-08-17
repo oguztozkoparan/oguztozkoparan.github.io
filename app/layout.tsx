@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
 import Header from "@/components/Header";
 import ScrollTop from "@/components/ScrollTop";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const anton = Anton({
@@ -72,6 +73,7 @@ export default function RootLayout({
         <SmoothScroll>
           <ScrollTop />
           <Cursor />
+          <PageTransition />
           <Header />
           {children}
         </SmoothScroll>
