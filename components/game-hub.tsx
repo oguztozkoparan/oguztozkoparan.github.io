@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Zap, Keyboard } from "lucide-react";
 import SnakeGame from "./games/snake-game";
@@ -123,6 +124,13 @@ export default function GameHub() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
+  const lenis = useLenis();
+
+  // opening or leaving a game swaps the whole view — start it from the top
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo(0, 0);
+  }, [selectedGame, lenis]);
 
   const filteredGames = games.filter((game) => {
     const matchesCategory =

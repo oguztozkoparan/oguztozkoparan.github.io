@@ -117,6 +117,53 @@ body {
   to { background-position: 0 24px; }
 }
 
+/* glitching display text for error pages — needs data-text on the element */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glitch::before {
+  color: var(--color-acid);
+  opacity: 0.85;
+  animation: glitch-slice 2.4s steps(2, jump-none) infinite;
+  transform: translate(-2px, 0);
+}
+
+.glitch::after {
+  color: #67e8f9;
+  opacity: 0.85;
+  animation: glitch-slice 3.1s steps(3, jump-none) infinite reverse;
+  transform: translate(2px, 0);
+}
+
+@keyframes glitch-slice {
+  0%   { clip-path: inset(4% 0 93% 0); }
+  15%  { clip-path: inset(38% 0 59% 0); }
+  30%  { clip-path: inset(76% 0 21% 0); }
+  45%  { clip-path: inset(16% 0 81% 0); }
+  60%  { clip-path: inset(55% 0 42% 0); }
+  75%  { clip-path: inset(88% 0 9% 0); }
+  100% { clip-path: inset(45% 0 52% 0); }
+}
+
+/* blinking terminal caret */
+.caret-blink {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
 /* music player equalizer bars */
 .eq-bar {
   height: 100%;
