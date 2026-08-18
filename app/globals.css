@@ -449,3 +449,34 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ---- spectrum ---- */
+.spectrum-strip {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  z-index: 34;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.spectrum-strip-on {
+  opacity: 1;
+}
+
+.spectrum-eq-bar {
+  height: 100%;
+  transform: scaleY(0.3);
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spectrum-strip {
+    display: none;
+  }
+}
