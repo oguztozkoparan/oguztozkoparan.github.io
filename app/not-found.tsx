@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import Magnetic from "@/components/Magnetic";
+import GuardianFight from "@/components/GuardianFight";
 
 export const metadata: Metadata = {
   title: "404 — Sector not found",
@@ -26,56 +24,7 @@ export default function NotFound() {
       />
       <div aria-hidden="true" className="crt absolute inset-0 opacity-30" />
 
-      <div className="relative z-10 flex grow flex-col items-center justify-center px-6 pb-16 pt-28 text-center">
-        <p className="label text-dim">
-          <span className="text-acid">Err 0x0404</span> / Sector not found
-        </p>
-
-        <h1
-          data-text="404"
-          className="glitch display mt-4 text-[38vw] leading-none text-ink md:text-[24vw]"
-        >
-          404
-        </h1>
-
-        {/* terminal readout */}
-        <div className="mt-6 w-full max-w-md rounded-xl border border-line bg-void/80 p-5 text-left font-mono text-xs leading-6 text-dim md:text-sm">
-          <p>
-            <span className="text-acid">C:\&gt;</span> route --find
-            &quot;this-page&quot;
-          </p>
-          <p>SCANNING THE GRID .......... 0 RESULTS</p>
-          <p>
-            REALITY.SYS: sector was unmade — or never
-            <br />
-            existed in this layer of the mind.
-          </p>
-          <p>
-            <span className="text-acid">C:\&gt;</span>
-            <span className="caret-blink ml-1 inline-block h-3.5 w-2 translate-y-0.5 bg-acid" />
-          </p>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Magnetic>
-            <Link
-              href="/"
-              className="pill-acid label block rounded-full bg-acid px-6 py-3.5 font-bold text-void"
-            >
-              Return to reality
-            </Link>
-          </Magnetic>
-          <Magnetic>
-            <Link
-              href="/dos"
-              className="pill-ghost label inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-ink"
-            >
-              Debug in terminal
-              <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-            </Link>
-          </Magnetic>
-        </div>
-      </div>
+      <GuardianFight />
     </main>
   );
 }
