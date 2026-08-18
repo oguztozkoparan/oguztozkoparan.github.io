@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useGSAP } from "@gsap/react";
 import { Flame, Map, Sparkles, Swords, type LucideIcon } from "lucide-react";
 import { gsap, SplitText } from "@/lib/gsapConfig";
@@ -29,7 +29,7 @@ function RelicCard({ relic }: { relic: HobbyRelic }) {
   return (
     <article
       data-relic
-      className="relic group relative aspect-[3/4] overflow-hidden rounded-2xl border border-line bg-card"
+      className="relic group relative aspect-[3/4] w-[78vw] shrink-0 snap-start overflow-hidden rounded-2xl border border-line bg-card sm:w-[360px] md:w-[380px]"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -55,7 +55,10 @@ function RelicCard({ relic }: { relic: HobbyRelic }) {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-        <h3 className="display text-3xl text-ink md:text-4xl">{relic.title}</h3>
+        <p className="label text-ember/90">{relic.kicker}</p>
+        <h3 className="display mt-2 text-3xl text-ink md:text-4xl">
+          {relic.title}
+        </h3>
         <p className="mt-3 text-sm leading-relaxed text-ink/75">
           {relic.description}
         </p>
@@ -83,6 +86,18 @@ export default function Hobbies() {
   const introRef = useRef<HTMLParagraphElement>(null);
   const eclipseRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLParagraphElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [shelfScrolls, setShelfScrolls] = useState(false);
+
+  // the drag/scroll hint only appears when the shelf actually overflows
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const check = () => setShelfScrolls(rail.scrollWidth > rail.clientWidth + 8);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useGSAP(
     () => {
@@ -168,6 +183,32 @@ export default function Hobbies() {
         );
       }
 
+      // desktop: drag-to-scroll on the shelf (touch scrolls natively);
+      // snap is suspended while dragging so it doesn't fight the pointer
+      const rail = railRef.current;
+      if (rail && window.matchMedia("(pointer: fine)").matches) {
+        let dragging = false;
+        let startX = 0;
+        let startScroll = 0;
+        rail.addEventListener("dragstart", (e) => e.preventDefault());
+        rail.addEventListener("pointerdown", (e) => {
+          if (e.pointerType !== "mouse") return;
+          dragging = true;
+          startX = e.clientX;
+          startScroll = rail.scrollLeft;
+          rail.style.scrollSnapType = "none";
+        });
+        window.addEventListener("pointermove", (e) => {
+          if (!dragging) return;
+          rail.scrollLeft = startScroll - (e.clientX - startX);
+        });
+        window.addEventListener("pointerup", () => {
+          if (!dragging) return;
+          dragging = false;
+          rail.style.scrollSnapType = "";
+        });
+      }
+
       // desktop only: pointer tilt + torchlight tracking on the relics
       if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
         gsap.utils.toArray<HTMLElement>("[data-relic]").forEach((card) => {
@@ -246,14 +287,35 @@ export default function Hobbies() {
         </p>
       </div>
 
-      <div
-        data-relic-grid
-        className="relative mt-16 grid gap-6 md:mt-20 md:grid-cols-3"
-      >
-        {hobbies.relics.map((relic) => (
-          <RelicCard key={relic.id} relic={relic} />
-        ))}
+      {/* extensible relic shelf: horizontal snap rail — any number of cards
+          scrolls sideways instead of overflowing the layout */}
+      <div data-relic-grid className="relative -mx-6 mt-16 md:-mx-10 md:mt-20">
+        <div
+          ref={railRef}
+          data-cursor-move
+          className="scrollbar-none flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-4 select-none md:px-10"
+        >
+          {hobbies.relics.map((relic) => (
+            <RelicCard key={relic.id} relic={relic} />
+          ))}
+          <div aria-hidden="true" className="w-1 shrink-0" />
+        </div>
+        {/* edge fades hint at more content */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-void to-transparent"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-void to-transparent"
+        />
       </div>
+      {shelfScrolls && (
+        <p data-hobby-reveal className="label mt-2 flex items-center gap-3 text-dim">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-ember" />
+          Drag or scroll the shelf
+        </p>
+      )}
 
       {/* closing quote over the blade-field panorama */}
       <figure

@@ -159,7 +159,8 @@ export const heroNarrative = {
 export type HobbyRelic = {
   id: string; // picks the card icon in components/Hobbies.tsx
   numeral: string; // roman numeral in the card corner
-  tag: string; // small verb tag ("Play", "Read", ...)
+  tag: string; // explicit hobby tag shown top-left ("Gaming", "Manga", ...)
+  kicker: string; // one-line plain-language hobby name above the title
   title: string;
   description: string;
   image: string; // /public path, ~3:4 portrait
@@ -169,18 +170,19 @@ export type HobbyRelic = {
 };
 
 export const hobbies = {
-  label: "Side quests",
+  label: "Hobbies",
   headingSolid: "After",
   headingOutline: "Dark",
   intro:
-    "When the last commit lands, I head where the fog is thicker — punishing soulslike worlds, grim manga sagas, mythologies deep enough to ship their own appendices.",
+    "This is what I do when I'm not shipping code: I sink long nights into punishing soulslike RPGs, devour grim dark-fantasy manga, and get lost in mythologies deep enough to ship their own appendices.",
   outro:
-    "Three obsessions, one common thread: worlds built with the same care I want in a codebase.",
+    "Scroll the shelf — every card is one obsession, and the shelf grows as new ones join.",
   relics: [
     {
       id: "souls",
       numeral: "I",
-      tag: "Play",
+      tag: "Gaming",
+      kicker: "What I play",
       title: "Soulslike Worlds",
       description:
         "Boss doors, bonfire checkpoints and the beautiful cruelty of learning by dying. Patience as a core mechanic — I speak it fluently.",
@@ -195,7 +197,8 @@ export const hobbies = {
     {
       id: "manga",
       numeral: "II",
-      tag: "Read",
+      tag: "Manga",
+      kicker: "What I read",
       title: "Grim Manga Sagas",
       description:
         "Ink-black epics where the struggle is the story — colossal swords, doomed causes and panels heavy enough to bend the shelf.",
@@ -210,7 +213,8 @@ export const hobbies = {
     {
       id: "myth",
       numeral: "III",
-      tag: "Dwell",
+      tag: "Mythology",
+      kicker: "Where I get lost",
       title: "Layered Mythologies",
       description:
         "Invented languages, bloodlines, maps with burnt corners. If a story ships its own encyclopedia, I'm already living in it.",

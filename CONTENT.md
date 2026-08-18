@@ -118,11 +118,36 @@ export const tracks: Track[] = [
 
 `type: "file"` entries loop automatically and get the same fade-in/out as procedural ones. Titles show up in the player; the ⏭ button cycles through whatever is in the array.
 
-## 7. Cursors
+## 7. Hobbies shelf — "After Dark"
+
+The hobbies section (04) is a horizontal snap-scroll shelf — it never overflows the layout, no matter how many hobbies you add. To add one:
+
+1. Append an object to `hobbies.relics` in `lib/data.ts`:
+
+```ts
+{
+  id: "music",                    // unique; add an icon for it in components/Hobbies.tsx RELIC_ICONS (falls back to a sparkle)
+  numeral: "IV",                  // card corner numeral
+  tag: "Music",                   // explicit hobby tag, top-left of the card
+  kicker: "What I listen to",     // plain-language line above the title
+  title: "Doom Synthwave",        // display title
+  description: "One or two evocative sentences.",
+  image: "/images/hobbies/music.webp",  // 3:4 portrait in public/images/hobbies/
+  alt: "Describe the artwork",
+  stats: [ { k: "Hours", v: "Too many" }, { k: "Mood", v: "Obsidian" } ],
+  whisper: "turn it up",          // the soulslike player-message at the card foot
+}
+```
+
+2. Drop a ~3:4 portrait WebP into `public/images/hobbies/` (generation style: the dark-fantasy prompt block below, `cwebp -resize 900 0 -q 76`). Cards get the torchlight hover automatically.
+
+Prompt style used for the current artwork: *"Cinematic dark fantasy [illustration/pixel art], portrait composition: [SUBJECT — generic archetypes only, no trademarked characters]. Deep obsidian blacks, cold crimson rim light, faint violet mist, epic grim mood, no readable text."*
+
+## 8. Cursors
 
 The cursor set is **Jeelh's Retro Cursors** (https://jeelh.itch.io/retro-cursor, pay-what-you-want), embedded as 32px PNG data URIs in `app/globals.css`. Role map: arrow = default, hand = links/buttons, handwriting pen = mailto links, I-beam = inputs (thin variant on blog prose), help = `[title]` elements, unavailable = disabled controls, busy = preloader, move = the horizontal work gallery, Aseprite picker = hero artwork layer, alternate = sound-track rows, plus `.cursor-ew/ns/nwse/nesw` resize utilities.
 
-## 8. Theme
+## 9. Theme
 
 Colors and fonts are Tailwind tokens in `app/globals.css` under `@theme`. The single accent color is `--color-acid` (currently violet `#a78bfa`) — change it once and the marquee, buttons, glows and SVG art (`components/ProjectVisual.tsx` `ACID` const) follow.
 

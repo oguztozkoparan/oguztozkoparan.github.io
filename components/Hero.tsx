@@ -50,16 +50,36 @@ export default function Hero() {
         canvas.height = section.clientHeight * dpr;
       };
 
+      // contain-fit: the full 16:9 frame stays visible and centered on every
+      // viewport (no off-center cropping on wide or portrait screens)
       const draw = () => {
         const img = images[Math.round(seq.frame)];
         if (!ctx || !img || !img.complete || !img.naturalWidth) return;
         const cw = canvas.width;
         const ch = canvas.height;
-        const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+        const scale = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
         const dw = img.naturalWidth * scale;
         const dh = img.naturalHeight * scale;
         ctx.clearRect(0, 0, cw, ch);
         ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+      };
+
+      // the opening "window" hugs the centered 16:9 video rect so it always
+      // frames the footage symmetrically and holds its aspect ratio
+      const computeClip = () => {
+        const w = section.clientWidth;
+        const h = section.clientHeight;
+        const ar = 16 / 9;
+        let vw = w * 0.86;
+        let vh = vw / ar;
+        const maxH = h * 0.72;
+        if (vh > maxH) {
+          vh = maxH;
+          vw = vh * ar;
+        }
+        const xi = (((w - vw) / 2 / w) * 100).toFixed(2);
+        const yi = (((h - vh) / 2 / h) * 100).toFixed(2);
+        return `inset(${yi}% ${xi}% ${yi}% ${xi}% round 20px)`;
       };
 
       sizeCanvas();
@@ -135,6 +155,10 @@ export default function Hero() {
         sizeCanvas();
         draw();
         if (!reduced) sizeParticles();
+        // re-fit the opening window while the hero hasn't been scrolled yet
+        if (!reduced && window.scrollY < 4 && clip) {
+          gsap.set(clip, { clipPath: computeClip() });
+        }
       };
       window.addEventListener("resize", onResize);
 
@@ -172,7 +196,7 @@ export default function Hero() {
 
       // initial states
       gsap.set(clip, {
-        clipPath: "inset(12% 18% 12% 18% round 20px)",
+        clipPath: computeClip(),
         willChange: "clip-path",
       });
       gsap.set(codeLines, { x: -70, autoAlpha: 0 });

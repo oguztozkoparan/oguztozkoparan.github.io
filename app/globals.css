@@ -399,6 +399,15 @@ body {
   );
 }
 
+/* hidden scrollbar for the hobby shelf (content still scrolls) */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* capability row invert on hover */
 .cap-row {
   position: relative;

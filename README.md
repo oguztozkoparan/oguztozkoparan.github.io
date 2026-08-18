@@ -11,6 +11,10 @@ A single-page, motion-driven site: black canvas, acid-lime accents, oversized di
 - [GSAP](https://gsap.com) — ScrollTrigger, SplitText, ScrambleText
 - [Lenis](https://lenis.darkroom.engineering) — smooth scrolling
 
+## Editing content
+
+All copy, projects, blog posts, hobbies, music and imagery are editable without touching components — see [CONTENT.md](CONTENT.md).
+
 ## Development
 
 ```bash
