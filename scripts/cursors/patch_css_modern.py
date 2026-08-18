@@ -23,6 +23,8 @@ RULES = [
     (".no-cursor [disabled],\n.no-cursor [disabled] *,\n.no-cursor [aria-disabled=\"true\"]", "unavailable", "not-allowed"),
     (".no-cursor a[href^=\"mailto\"],\n.no-cursor a[href^=\"mailto\"] *", "pen", "pointer"),
     (".no-cursor [data-cursor-move],\n.no-cursor [data-cursor-move] *", "move", "move"),
+    # interactive cards inside drag-to-scroll containers read as clickable
+    (".no-cursor [data-cursor-move] a,\n.no-cursor [data-cursor-move] a *,\n.no-cursor [data-cursor-move] button,\n.no-cursor [data-cursor-move] button *,\n.no-cursor [data-cursor-move] [role=\"button\"],\n.no-cursor [data-cursor-move] [role=\"button\"] *,\n.no-cursor [data-cursor-move] [data-cursor],\n.no-cursor [data-cursor-move] [data-cursor] *", "pointer", "pointer"),
     (".no-cursor [data-cursor-precision],\n.no-cursor [data-cursor-precision] *", "precision", "crosshair"),
     (".no-cursor [data-cursor-alt],\n.no-cursor [data-cursor-alt] *", "alt", "pointer"),
     (".no-cursor [data-cursor-aseprite]", "picker", "default"),

@@ -112,13 +112,16 @@ C["ns"] = ((12, 12), svg(_stem(90) + _head(90) + _head(270)))
 C["nwse"] = ((12, 12), svg(_stem(45) + _head(45) + _head(225)))
 C["nesw"] = ((12, 12), svg(_stem(135) + _head(135) + _head(315)))
 
-C["move"] = ((9, 11), svg(
-    # grabbing/drag hand: four curled knuckles, rounded fist, thumb-side wrist
-    '<path d="M4.6 12 V8.6 c0.7 -0.9 1.8 -0.9 2.4 -0.1 c0.5 -0.9 1.7 -0.9 2.3 -0.1 '
-    'c0.5 -0.9 1.7 -0.8 2.3 0 c0.7 -0.6 1.7 -0.3 2.1 0.5 c0.4 0.7 0.6 1.5 0.6 2.4 '
-    'c0 2.9 -1.9 4.9 -4.9 4.9 c-2.1 0 -3.4 -0.9 -4.3 -2.5 L3.7 13.3 '
-    'c-0.5 -0.9 0.4 -1.8 1.2 -1.2 Z" '
-    f'fill="{BODY}" stroke="{INK}" stroke-width="1.3" stroke-linejoin="round"/>'
+FINGERS = "M16.6 8.2 L15.9 12.4 M14.7 6 L14.2 12 M12 5.2 L12 11.8 M9.4 6 L9.8 12 M5.2 13.2 L8.4 15.2"
+PALM = '<ellipse cx="11.6" cy="13.8" rx="4.5" ry="3.9"'
+
+C["move"] = ((11, 11), svg(
+    # open drag hand: spread fingers + thumb + palm, unioned via a white
+    # halo pass under a body pass (internal strokes get painted over)
+    f'<path d="{FINGERS}" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>'
+    f"{PALM} fill=\"{INK}\" stroke=\"{INK}\" stroke-width=\"2.6\"/>"
+    f'<path d="{FINGERS}" fill="none" stroke="{BODY}" stroke-width="2.4" stroke-linecap="round"/>'
+    f"{PALM} fill=\"{BODY}\"/>"
     # mini move-cross badge, bottom-right
     '<g transform="translate(17.8 17.8)">'
     f'<path d="M-3.6 0 H3.6 M0 -3.6 V3.6" stroke="{INK}" stroke-width="2.6" stroke-linecap="round"/>'
@@ -135,9 +138,17 @@ C["precision"] = ((12, 12), svg(
 ))
 
 C["busy"] = ((12, 12), svg(
-    f'<circle cx="12" cy="12" r="7.5" fill="none" stroke="{INK}" stroke-width="4.6"/>'
-    f'<circle cx="12" cy="12" r="7.5" fill="none" stroke="{BODY}" stroke-width="2.6"/>'
-    f'<path d="M12 4.5 a7.5 7.5 0 0 1 7.5 7.5" fill="none" stroke="{ACID}" stroke-width="2.6" stroke-linecap="round"/>'
+    # hourglass: frame bars, waisted glass, violet sand mid-fall
+    f'<path d="M6.5 3.6 H17.5" stroke="{INK}" stroke-width="4.6" stroke-linecap="round"/>'
+    f'<path d="M6.5 3.6 H17.5" stroke="{BODY}" stroke-width="2.4" stroke-linecap="round"/>'
+    f'<path d="M6.5 20.4 H17.5" stroke="{INK}" stroke-width="4.6" stroke-linecap="round"/>'
+    f'<path d="M6.5 20.4 H17.5" stroke="{BODY}" stroke-width="2.4" stroke-linecap="round"/>'
+    '<path d="M8 5.4 H16 C16 8.8 13 10.4 12.9 12 C13 13.6 16 15.2 16 18.6 H8 '
+    'C8 15.2 11 13.6 11.1 12 C11 10.4 8 8.8 8 5.4 Z" '
+    f'fill="{BODY}" stroke="{INK}" stroke-width="1.3" stroke-linejoin="round"/>'
+    f'<path d="M9.5 18 L14.5 18 L12 15.4 Z" fill="{ACID}"/>'
+    f'<path d="M12 12.4 V15" stroke="{ACID}" stroke-width="1" stroke-linecap="round"/>'
+    f'<path d="M10.8 6.8 H13.2 L12 8.4 Z" fill="{ACID}"/>'
 ))
 
 ORDER = ["arrow", "pointer", "text", "thintext", "help", "unavailable", "pen",
