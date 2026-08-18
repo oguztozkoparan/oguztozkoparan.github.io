@@ -159,7 +159,7 @@ export default function SoundControl() {
 
       {/* quick dropdown */}
       <div
-        className={`absolute right-0 top-full mt-4 w-64 origin-top-right rounded-xl border border-line bg-void/95 p-2 shadow-2xl shadow-black/40 transition-all duration-200 ${
+        className={`glass-panel absolute right-0 top-full mt-4 w-64 origin-top-right rounded-xl border border-line p-2 shadow-2xl shadow-black/40 transition-all duration-200 ${
           open
             ? "pointer-events-auto scale-100 opacity-100"
             : "pointer-events-none scale-95 opacity-0"
@@ -233,7 +233,7 @@ export default function SoundControl() {
             onClick={() => setExpanded(false)}
             className="absolute inset-0 bg-void/80 backdrop-blur-sm"
           />
-          <div className="relative w-full max-w-lg rounded-2xl border border-line bg-panel p-6 shadow-2xl shadow-black/60">
+          <div className="glass-panel relative w-full max-w-lg rounded-2xl border border-line p-6 shadow-2xl shadow-black/60">
             <div className="flex items-center justify-between">
               <p className="label text-dim">
                 <span className="text-acid">Sound</span> / System
