@@ -161,6 +161,7 @@ class AudioEngine {
   private ctx: AudioContext | null = null;
   private musicGain: GainNode | null = null;
   private sfxGain: GainNode | null = null;
+  private analyser: AnalyserNode | null = null;
   private stopCurrent: StopFn | null = null;
   private fileEl: HTMLAudioElement | null = null;
   private baseVolume = 0.6;
@@ -170,13 +171,29 @@ class AudioEngine {
       this.ctx = new AudioContext();
       this.musicGain = this.ctx.createGain();
       this.musicGain.gain.value = this.baseVolume;
-      this.musicGain.connect(this.ctx.destination);
+      // all music (procedural + file tracks) flows musicGain -> analyser ->
+      // destination so visualizers can tap the real signal. SFX bypasses.
+      this.analyser = this.ctx.createAnalyser();
+      this.analyser.fftSize = 2048;
+      this.analyser.smoothingTimeConstant = 0.82;
+      this.analyser.minDecibels = -90;
+      this.analyser.maxDecibels = -22;
+      this.musicGain.connect(this.analyser);
+      this.analyser.connect(this.ctx.destination);
       this.sfxGain = this.ctx.createGain();
       this.sfxGain.gain.value = 0.5;
       this.sfxGain.connect(this.ctx.destination);
     }
     if (this.ctx.state === "suspended") void this.ctx.resume();
     return this.ctx;
+  }
+
+  getAnalyser(): AnalyserNode | null {
+    return this.analyser;
+  }
+
+  isMusicPlaying(): boolean {
+    return this.stopCurrent !== null;
   }
 
   // browsers keep the context suspended until a real user gesture

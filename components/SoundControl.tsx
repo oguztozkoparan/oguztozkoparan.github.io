@@ -12,27 +12,11 @@ import {
   X,
 } from "lucide-react";
 import { audio, tracks } from "@/lib/audio";
+import SpectrumStrip, { LiveEq } from "@/components/SpectrumStrip";
 
 const LS_SFX = "ot-sfx";
 const LS_VOLUME = "ot-volume";
 const LS_TRACK = "ot-track";
-
-function Eq({ small = false }: { small?: boolean }) {
-  return (
-    <span
-      className={`flex items-end ${small ? "h-3 gap-[2.5px]" : "h-4 gap-[3px]"}`}
-      aria-hidden="true"
-    >
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className={`eq-bar rounded-sm bg-acid ${small ? "w-[2.5px]" : "w-[3px]"}`}
-          style={{ animationDelay: `${i * 0.18}s` }}
-        />
-      ))}
-    </span>
-  );
-}
 
 export default function SoundControl() {
   const [open, setOpen] = useState(false);
@@ -162,7 +146,7 @@ export default function SoundControl() {
         className="flex items-center gap-2.5"
       >
         {playing ? (
-          <Eq small />
+          <LiveEq small />
         ) : (
           <span className="flex h-3 items-end gap-[2.5px]" aria-hidden="true">
             {[0, 1, 2].map((i) => (
@@ -203,7 +187,7 @@ export default function SoundControl() {
                 </span>
               </span>
               {active ? (
-                <Eq small />
+                <LiveEq small />
               ) : (
                 <Play aria-hidden="true" className="h-3 w-3 text-dim" />
               )}
@@ -306,7 +290,7 @@ export default function SoundControl() {
                         {track.type === "procedural" ? "Generative" : "File"}
                       </span>
                       {active ? (
-                        <Eq small />
+                        <LiveEq small />
                       ) : (
                         <Play aria-hidden="true" className="h-3.5 w-3.5 text-dim" />
                       )}
@@ -396,6 +380,9 @@ export default function SoundControl() {
         </div>,
         document.body
       )}
+
+      {/* bottom-edge spectrum strip (portals itself to body) */}
+      <SpectrumStrip playing={playing} />
     </div>
   );
 }
