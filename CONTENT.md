@@ -146,7 +146,7 @@ Prompt style used for the current artwork: *"Cinematic dark fantasy [illustratio
 
 ## 8. Cursors
 
-The cursor set is **Jeelh's Retro Cursors** (https://jeelh.itch.io/retro-cursor, pay-what-you-want), embedded as 32px PNG data URIs in `app/globals.css`. Role map: arrow = default, hand = links/buttons, handwriting pen = mailto links, I-beam = inputs (thin variant on blog prose), help = `[title]` elements, unavailable = disabled controls, busy = preloader, move = the horizontal work gallery, Aseprite picker = hero artwork layer, alternate = sound-track rows, plus `.cursor-ew/ns/nwse/nesw` resize utilities.
+The cursor set is **original pixel art drawn for this site** (16 cursors, 32px, black body + white outline + violet accents — no third-party assets, so no licensing concerns), embedded as PNG data URIs in `app/globals.css`. Role map: arrow = default, hand = links/buttons, pen = mailto links, I-beam = inputs (thin variant on blog prose), help = `[title]` elements, ring-slash = disabled controls, hourglass = preloader, move = the horizontal shelves, eyedropper = hero artwork layer, violet arrow = sound-track rows, plus `.cursor-ew/ns/nwse/nesw` resize utilities. To tweak a design, edit its ASCII grid in the generator (each `#` = black pixel, `v` = violet, `w` = white; a white outline is added automatically) and re-emit the data URIs.
 
 ## 9. Theme
 
