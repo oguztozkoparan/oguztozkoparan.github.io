@@ -13,9 +13,15 @@ S = 24              # canvas / declared size
 OUT = os.path.dirname(os.path.abspath(__file__))
 
 def svg(inner, size=S):
+    # soft modern drop shadow applied to every cursor; filter region padded
+    # so the blur never clips at the 24px canvas edge
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" '
-        f'viewBox="0 0 {size} {size}">{inner}</svg>'
+        f'viewBox="0 0 {size} {size}">'
+        '<defs><filter id="ds" x="-40%" y="-40%" width="180%" height="180%">'
+        '<feDropShadow dx="0.4" dy="1.1" stdDeviation="0.9" flood-color="#000" flood-opacity="0.55"/>'
+        "</filter></defs>"
+        f'<g filter="url(#ds)">{inner}</g></svg>'
     )
 
 # double-stroke helper: white halo under a dark line
@@ -39,11 +45,15 @@ C["alt"] = ((3, 2), svg(
     f'<path d="{ARROW_D}" fill="{ACID}" stroke="{INK}" stroke-width="1.5" stroke-linejoin="round"/>'
 ))
 
-C["pointer"] = ((9, 2), svg(
-    '<path d="M8 3.2 a1.6 1.6 0 0 1 3.2 0 V9.4 l0.4 0.1 V5.6 a1.5 1.5 0 0 1 3 0 V10 l0.4 0.1 V7 '
-    'a1.4 1.4 0 0 1 2.8 0 V11 l0.3 0.1 V9 a1.3 1.3 0 0 1 2.6 0 V14.6 c0 3.9 -2.6 6.6 -6.6 6.6 '
-    'c-2.9 0 -4.7 -1.3 -5.9 -3.4 L5.2 13.6 c-0.7 -1.2 0.7 -2.5 1.9 -1.7 L8 12.8 Z" '
+C["pointer"] = ((10, 2), svg(
+    # extended index finger, three folded knuckles, thumb-side wrist
+    '<path d="M8.2 3.6 a1.7 1.7 0 0 1 3.4 0 V10.4 c0.9 -0.6 2 -0.5 2.7 0.2 '
+    'c0.8 -0.6 1.9 -0.4 2.6 0.4 c0.8 -0.4 1.8 -0.2 2.3 0.7 c0.6 0.9 0.9 1.9 0.9 3 '
+    'c0 3.9 -2.6 6.5 -6.5 6.5 c-2.9 0 -4.6 -1.3 -5.8 -3.4 L5.4 13.9 '
+    'c-0.7 -1.2 0.7 -2.5 1.9 -1.7 l0.9 1 Z" '
     f'fill="{BODY}" stroke="{INK}" stroke-width="1.4" stroke-linejoin="round"/>'
+    # knuckle creases hinting the folded fingers
+    f'<path d="M14.2 11 v2.2 M16.9 11.6 v1.8" stroke="{INK}" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>'
 ))
 
 C["text"] = ((12, 12), svg(
