@@ -449,3 +449,130 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ---- tarot ---- */
+
+/* click-to-flip lore backs for the relic cards. The scene owns the
+   perspective + the pointer tilt (gsap targets [data-relic]); the inner
+   .relic-flip owns the 180° turn so the two transforms never fight. */
+.relic-scene {
+  perspective: 1100px;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.relic-scene:focus-visible {
+  outline: 2px solid var(--color-acid);
+  outline-offset: 4px;
+}
+
+.relic-flip {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.45, 0.05, 0.2, 1);
+}
+
+.relic-flip.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.relic,
+.relic-back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* the face turned away must not swallow pointer events (hover, torch) */
+.relic-flip.is-flipped .relic,
+.relic-flip:not(.is-flipped) .relic-back {
+  pointer-events: none;
+}
+
+/* the tarot back: dark panel with a faint violet/ember breath */
+.relic-back {
+  transform: rotateY(180deg);
+  background:
+    radial-gradient(
+      90% 70% at 50% 0%,
+      rgba(167, 139, 250, 0.1),
+      transparent 62%
+    ),
+    radial-gradient(
+      90% 60% at 50% 100%,
+      rgba(240, 101, 94, 0.08),
+      transparent 58%
+    ),
+    var(--color-panel);
+}
+
+/* ornamental rune-ish hairline frame */
+.relic-back::before {
+  content: "";
+  position: absolute;
+  inset: 0.7rem;
+  border: 1px solid rgba(167, 139, 250, 0.26);
+  border-radius: 0.65rem;
+  pointer-events: none;
+}
+
+/* rune stitches: short ticks combed along the frame's top + bottom center */
+.relic-back::after {
+  content: "";
+  position: absolute;
+  inset: 0.7rem;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+      90deg,
+      rgba(167, 139, 250, 0.55) 0 1px,
+      transparent 1px 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(240, 101, 94, 0.45) 0 1px,
+      transparent 1px 8px
+    );
+  background-size:
+    4rem 7px,
+    4rem 7px;
+  background-position:
+    50% 0,
+    50% 100%;
+  background-repeat: no-repeat;
+}
+
+/* small diamond sigil above the lore text */
+.relic-back-ornament {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: 0 auto;
+  transform: rotate(45deg);
+  border: 1px solid rgba(240, 101, 94, 0.75);
+  box-shadow: 0 0 14px rgba(240, 101, 94, 0.35);
+}
+
+/* front "turn" hint: faintly present on touch, hover/focus-revealed on desktop */
+.relic-hint {
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .relic-hint {
+    opacity: 0;
+  }
+
+  .relic-scene:hover .relic-hint,
+  .relic-scene:focus-visible .relic-hint {
+    opacity: 1;
+  }
+}
+
+/* reduced motion: instant front/back swap, no 3D rotation */
+@media (prefers-reduced-motion: reduce) {
+  .relic-flip {
+    transition: none;
+  }
+}
