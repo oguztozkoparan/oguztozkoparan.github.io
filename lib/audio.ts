@@ -6,6 +6,28 @@
 
 type StopFn = () => void;
 
+// --- SFX preference (single source of truth for the "ot-sfx" flag) ---------
+const LS_SFX = "ot-sfx";
+
+export function isSfxOn(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(LS_SFX) === "1";
+}
+
+// flips the opt-in flag and broadcasts the change so every consumer
+// (SoundControl pill, command palette) stays in sync. Turning SFX on for
+// the first time counts as an achievement — dispatched fire-and-forget.
+export function setSfx(on: boolean) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(LS_SFX, on ? "1" : "0");
+  window.dispatchEvent(new CustomEvent("ot:sfx", { detail: { on } }));
+  if (on) {
+    window.dispatchEvent(
+      new CustomEvent("ot:achievement", { detail: { id: "sound-awakened" } })
+    );
+  }
+}
+
 export type Track = {
   id: string;
   title: string;
@@ -296,6 +318,32 @@ class AudioEngine {
       osc.start(t);
       osc.stop(t + 0.1);
     });
+  }
+
+  // short two-note rise for achievement unlocks. Like hover(), this can
+  // fire without a user gesture, so it never creates or resumes a context —
+  // and it stays silent unless the user has opted into interface sounds.
+  unlockChime() {
+    if (!isSfxOn()) return;
+    const ctx = this.ctx;
+    if (!ctx || ctx.state !== "running" || !this.sfxGain) return;
+    const notes: Array<[number, number]> = [
+      [659.25, 0], // E5
+      [987.77, 0.14], // B5 — a fifth up, the "rise"
+    ];
+    for (const [freq, at] of notes) {
+      const t = ctx.currentTime + at;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.085, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+      osc.connect(gain).connect(this.sfxGain);
+      osc.start(t);
+      osc.stop(t + 0.5);
+    }
   }
 
   hover() {

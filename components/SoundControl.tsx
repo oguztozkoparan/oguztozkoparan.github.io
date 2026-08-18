@@ -11,7 +11,7 @@ import {
   SkipForward,
   X,
 } from "lucide-react";
-import { audio, tracks } from "@/lib/audio";
+import { audio, setSfx, tracks } from "@/lib/audio";
 import SpectrumStrip, { LiveEq } from "@/components/SpectrumStrip";
 
 const LS_SFX = "ot-sfx";
@@ -43,12 +43,16 @@ export default function SoundControl() {
     if (!Number.isNaN(t) && t >= 0 && t < tracks.length) setTrackIndex(t);
   }, []);
 
-  const toggleSfx = () => {
-    setSfxOn((v) => {
-      localStorage.setItem(LS_SFX, v ? "0" : "1");
-      return !v;
-    });
-  };
+  // route through the shared setter (lib/audio.ts) — it persists the flag
+  // and broadcasts "ot:sfx" so the palette and this pill stay in sync
+  const toggleSfx = () => setSfx(!sfxOnRef.current);
+
+  useEffect(() => {
+    const onSfx = (e: Event) =>
+      setSfxOn(!!(e as CustomEvent<{ on?: boolean }>).detail?.on);
+    window.addEventListener("ot:sfx", onSfx);
+    return () => window.removeEventListener("ot:sfx", onSfx);
+  }, []);
 
   const changeVolume = (v: number) => {
     setVolume(v);

@@ -5,6 +5,9 @@ import Cursor from "@/components/Cursor";
 import Header from "@/components/Header";
 import ScrollTop from "@/components/ScrollTop";
 import PageTransition from "@/components/PageTransition";
+import Achievements from "@/components/Achievements";
+import CommandPalette from "@/components/CommandPalette";
+import CheatCodes from "@/components/CheatCodes";
 import "./globals.css";
 
 const anton = Anton({
@@ -75,6 +78,9 @@ export default function RootLayout({
           <Cursor />
           <PageTransition />
           <Header />
+          <Achievements />
+          <CommandPalette />
+          <CheatCodes />
           {children}
         </SmoothScroll>
       </body>

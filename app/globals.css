@@ -861,3 +861,68 @@ body {
   -webkit-mask-image: radial-gradient(circle at bottom right, transparent 17.5px, #000 18px);
   mask-image: radial-gradient(circle at bottom right, transparent 17.5px, #000 18px);
 }
+
+/* ---- arcana ---- */
+
+/* full-viewport CRT overlay (Konami code / command palette toggle).
+   Sits above page content (z-60), below the palette (z-75) and the
+   achievement toasts (z-80). GPU-cheap: gradients + opacity only. */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  /* slight vignette */
+  background: radial-gradient(
+    ellipse at center,
+    transparent 58%,
+    rgba(0, 0, 0, 0.16) 82%,
+    rgba(0, 0, 0, 0.38) 100%
+  );
+  animation: crt-flicker 3.6s steps(2, jump-none) infinite;
+}
+
+/* scanlines — same pattern family as the hero's .crt, softened for
+   full-page use, drifting on the existing crt-drift keyframes */
+.crt-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.16) 2px,
+    rgba(0, 0, 0, 0.16) 3px
+  );
+  animation: crt-drift 9s linear infinite;
+}
+
+/* faint phosphor tint at the edges */
+.crt-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 70%,
+    rgba(167, 139, 250, 0.05) 100%
+  );
+}
+
+@keyframes crt-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.93;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-overlay,
+  .crt-overlay::before {
+    animation: none;
+  }
+}
