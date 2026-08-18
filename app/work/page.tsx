@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import Contact from "@/components/Contact";
 import ProjectVisual from "@/components/ProjectVisual";
+import RippleImage from "@/components/RippleImage";
 import { projects } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -31,11 +32,9 @@ export default function WorkPage() {
               <>
                 <div className="relative aspect-[3/2] overflow-hidden">
                   {project.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <RippleImage
                       src={project.image}
                       alt={`${project.title} artwork`}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   ) : (
                     <ProjectVisual id={project.id} />

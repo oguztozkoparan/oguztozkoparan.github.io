@@ -811,3 +811,22 @@ body {
     transition: none;
   }
 }
+
+/* ---- ripple ---- */
+.ripple-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.22s ease-out;
+}
+
+.ripple-canvas.is-on {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .ripple-canvas {
+    display: none;
+  }
+}
