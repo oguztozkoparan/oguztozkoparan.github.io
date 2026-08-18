@@ -136,6 +136,7 @@ The hobbies section (04) is a horizontal snap-scroll shelf — it never overflow
   alt: "Describe the artwork",
   stats: [ { k: "Hours", v: "Too many" }, { k: "Mood", v: "Obsidian" } ],
   whisper: "turn it up",          // the soulslike player-message at the card foot
+  lore: "Two or three first-person sentences shown on the card's BACK when it's clicked (tarot flip).",
 }
 ```
 
@@ -150,6 +151,15 @@ The cursor set is **Jeelh's Retro Cursors** (https://jeelh.itch.io/retro-cursor,
 ## 9. Theme
 
 Colors and fonts are Tailwind tokens in `app/globals.css` under `@theme`. The single accent color is `--color-acid` (currently violet `#a78bfa`) — change it once and the marquee, buttons, glows and SVG art (`components/ProjectVisual.tsx` `ACID` const) follow.
+
+## 10. Interactions & easter eggs
+
+- **Achievements** — titles/descriptions/icons live in `lib/achievements.ts` (not `lib/data.ts`). Unlocks persist in localStorage `ot-achievements`. Anything on the site can award one by dispatching `window.dispatchEvent(new CustomEvent("ot:achievement", { detail: { id } }))`.
+- **Command palette** — ⌘K / Ctrl+K (or the ⌘K chip in the navbar). Commands are defined in `components/CommandPalette.tsx`; it also lists achievement progress.
+- **CRT mode** — the Konami code (↑↑↓↓←→←→BA) or the palette's "Toggle CRT mode" turns on a site-wide scanline overlay; persists in localStorage `ot-crt`.
+- **404 boss fight** — the "Sector Guardian" on the 404 page; copy lives in `components/GuardianFight.tsx`.
+- **Hobby card backs** — the tarot-flip lore texts are the `lore` field in §7.
+- **Spectrum strip** — the bottom-edge visualizer appears automatically while music plays; nothing to configure.
 
 ## Build & deploy
 

@@ -297,7 +297,7 @@ export default function CommandPalette() {
         role="dialog"
         aria-modal="true"
         aria-label="Command grimoire"
-        className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-panel shadow-2xl shadow-black/60"
+        className="glass-panel relative w-full max-w-xl overflow-hidden rounded-2xl border border-line shadow-2xl shadow-black/60"
       >
         {/* acid seam along the top edge */}
         <div

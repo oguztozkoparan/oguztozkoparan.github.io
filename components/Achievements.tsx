@@ -71,7 +71,7 @@ function Toast({
     <div
       ref={ref}
       role="status"
-      className="pointer-events-auto relative flex w-[calc(100vw-2rem)] max-w-sm items-center gap-3.5 overflow-hidden rounded-xl border border-line bg-panel/95 p-3.5 pl-4 opacity-0 shadow-2xl shadow-black/60 backdrop-blur-sm"
+      className="glass-panel pointer-events-auto relative flex w-[calc(100vw-2rem)] max-w-sm items-center gap-3.5 overflow-hidden rounded-xl border border-line p-3.5 pl-4 opacity-0 shadow-2xl shadow-black/60"
     >
       <span
         aria-hidden="true"

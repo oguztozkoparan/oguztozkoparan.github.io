@@ -684,6 +684,7 @@ body {
 .boss-reward--in {
   opacity: 1;
   transform: none;
+}
 
 /* ---- tarot ---- */
 
@@ -829,6 +830,7 @@ body {
   .ripple-canvas {
     display: none;
   }
+}
 
 /* ---- glass ---- */
 
