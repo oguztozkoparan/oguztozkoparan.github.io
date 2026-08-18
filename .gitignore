@@ -47,3 +47,7 @@ next-env.d.ts
 # cursor generator outputs (re-emitted on demand)
 scripts/cursors/*.png
 scripts/cursors/uris.txt
+scripts/cursors/*.svg
+scripts/cursors/uris_modern.txt
+scripts/cursors/pngs_modern.txt
+scripts/cursors/sheet_modern.html
