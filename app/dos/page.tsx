@@ -1,15 +1,13 @@
-import DOSTerminal from "../../components/dos-terminal";
+import type { Metadata } from "next";
+import DOSTerminal from "@/components/dos-terminal";
 
-export const metadata = {
-  title: "DOS Terminal - Oguz Tozkoparan",
+export const metadata: Metadata = {
+  title: "DOS Terminal",
   description:
-    "Interactive DOS-like command-line interface with retro styling and modern functionality.",
+    "An interactive DOS-style terminal in the browser — virtual file system, tab completion and command history.",
+  alternates: { canonical: "/dos" },
 };
 
 export default function DOSPage() {
-  return (
-    <div className="min-h-screen bg-black text-green-400 font-mono">
-      <DOSTerminal />
-    </div>
-  );
+  return <DOSTerminal />;
 }

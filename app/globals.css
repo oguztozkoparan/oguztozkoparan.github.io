@@ -1,228 +1,930 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-  }
+/* the recovered v2 apps (DOS terminal, games) use `dark:` variants —
+   force them on via the .dark class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
+@theme {
+  --color-void: #0e0f11;
+  --color-panel: #141619;
+  --color-card: #17191d;
+  --color-ink: #f7f7f8;
+  --color-dim: #9aa1a9;
+  --color-acid: #a78bfa;
+  --color-ember: #f0655e;
+  --color-line: rgba(247, 247, 248, 0.08);
+
+  /* shadcn-compat tokens for the recovered v2 components */
+  --color-background: #0e0f11;
+  --color-foreground: #f7f7f8;
+  --color-primary: #a78bfa;
+  --color-primary-foreground: #0e0f11;
+  --color-secondary: #141619;
+  --color-secondary-foreground: #f7f7f8;
+  --color-muted: #141619;
+  --color-muted-foreground: #9aa1a9;
+  --color-accent: #17191d;
+  --color-accent-foreground: #f7f7f8;
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: #f7f7f8;
+  --color-card-foreground: #f7f7f8;
+  --color-input: rgba(247, 247, 248, 0.14);
+  --color-ring: #a78bfa;
+
+  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jbmono), ui-monospace, monospace;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
+html {
+  background: var(--color-void);
+  overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(247, 247, 248, 0.25) var(--color-void);
 }
 
-/* Modern Glassmorphism */
-.glass-modern {
-  backdrop-filter: blur(20px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+html.lenis,
+html.lenis body {
+  height: auto;
 }
 
-.glass-modern-dark {
-  backdrop-filter: blur(20px) saturate(180%);
-  background-color: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-/* Mesh Gradient Enhancements */
-.mesh-gradient-overlay {
-  background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
-  animation: meshFloat 20s ease-in-out infinite;
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
-.dark .mesh-gradient-overlay {
-  background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
-@keyframes meshFloat {
-  0%,
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(10px, -10px) scale(1.02);
-  }
-  66% {
-    transform: translate(-5px, 5px) scale(0.98);
-  }
-}
-
-/* Enhanced Glassmorphism with Mesh Support */
-.glass-mesh {
-  backdrop-filter: blur(20px) saturate(180%);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%),
-    radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark .glass-mesh {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%),
-    radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Clean Animations */
-@keyframes float-subtle {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float-subtle {
-  animation: float-subtle 6s ease-in-out infinite;
-}
-
-/* Brutalist Typography */
-.text-brutalist {
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-}
-
-/* Minimal Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
-}
-
-/* Selection */
 ::selection {
-  background: rgba(59, 130, 246, 0.2);
+  background: var(--color-acid);
+  color: var(--color-void);
 }
 
-/* Focus States */
-.focus-visible:focus-visible {
-  outline: 2px solid rgb(59, 130, 246);
-  outline-offset: 2px;
+/* retro cursor set — Jeelh Retro Cursors, dark variant (jeelh.itch.io/retro-cursor) */
+.no-cursor,
+.no-cursor * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAnElEQVR42u2WwQqEMAxEM2G/vPnw8WKkWl0VTFyWvFNoC/NoWlqRH4JvhOrbEisBkukSOvQhWWIQAJAqoXuDmRJ6NJElod8mMyT0bEG0hF5ZFClxKkDSw0Mk9Ci0x8zEzATA4y347IWbmZAUAMv2z+GIvBEkydYavZ63u69jX0MP9zpbYhuQItCfgaG/fha8jgA3PymQoiiKovg3Jmt8eBRJPmE4AAAAAElFTkSuQmCC") 2 1, default !important;
 }
 
-/* Reduced Motion */
+.no-cursor a,
+.no-cursor a *,
+.no-cursor button:not([disabled]),
+.no-cursor button:not([disabled]) *,
+.no-cursor [data-cursor],
+.no-cursor [data-cursor] * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAuklEQVR42u2VUQ/DIAiEj6a/2wf84beHFeOYzmVTlyx8iUmhD94BpUDwY8TFHLyfzlFfrqogCZJQVS+I7kyHJHkJIUmqarnQci6/RoAdu8zw+RkizjrIOYMkRO6tF5GH2J4tDwApJc6cleLYV6IxA3V+TgUAyOXoqRI7Kc56zlfMQncYR+X/tg3HcFN1yj+rLU0B9jXs4GyZqwfxlVuSyDmvG0a/AVcto7eErFrH8oGYrX/LIAiCIPh/bgz76cmJwLIgAAAAAElFTkSuQmCC") 2 3, pointer !important;
+}
+
+.no-cursor input,
+.no-cursor textarea,
+.no-cursor [contenteditable="true"] {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAhklEQVR42u2VwQrEMAhEzbJfrh/+9tJKkZRSSF0o804GAuo4JmZ/ZpQzN+4u4XNM7u4GGGA1vihuCQBsic7iRxWwiMiOxxipQkS0eQJ3z44B3J0O+aejeFL66Qh2Ix7pMuDUiB0qVAXSiFs1rQaUB3IF99Wr51e+hN8zA9b4tb+hEEIIIcQPI5yqJsjoZBEAAAAASUVORK5CYII=") 6 8, text !important;
+}
+
+.no-cursor .prose p,
+.no-cursor .prose li,
+.no-cursor .prose h2,
+.no-cursor .prose h3 {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAWElEQVR42u3VsQ0AIQxD0S9Gjwf3NUeTAQISflU6R8gARONfn8fCAe/sNs8tUVUGXFWz4f0kJsLX6c6tK2/BLt94AdOBKxawbUkASOLNl/DYXxARERFxwgfGUHW5tIqFUwAAAABJRU5ErkJggg==") 6 8, text !important;
+}
+
+.no-cursor [title] {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAiUlEQVR42u2V2woDMQhEddkvHz/89GFLSYpbKK2bUjzgQy4wZoyJWbMYT+Z4Y+/HbM/ikgyYQtKrxL4GkgC4iz0CQBIVSYy2Aph77vSw5pUlmAQPM2rZVnfBPg4iYjr1WTkuv4iVl/Ck/CwTn1xYIZ46UJnAb3VB1g0RcflnlL37bk3TNE3T/Cs3G7Z5CssqtsYAAAAASUVORK5CYII=") 2 3, help !important;
+}
+
+.no-cursor [disabled],
+.no-cursor [disabled] *,
+.no-cursor [aria-disabled="true"] {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAwUlEQVR42u2XyQ4EIQhEKTJfTn949WFi4oLOkgHnYCVc0KRei2Ir8kfiDlPdDdEAkEyH0KEOyRADAIBUCPWSmRA6G8iC0NVgBoS+mhANoe9MioR4TNsi6eYAUEQQugIk5bouATBE6F1QZGbc0ZY9c1Yhi9zPbsPG3MzI52ZoImOVGvMaophHQ/QG3v6owUJ+TgbDiXlcGTyILHOZmHkbM8e8L0U0xGBeNIGIO4b919ZHM7UXRDUifPBWwCJ3dHT0tW4SiC9QLPDnhAAAAABJRU5ErkJggg==") 2 1, not-allowed !important;
+}
+
+.no-cursor a[href^="mailto"],
+.no-cursor a[href^="mailto"] * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAfElEQVR42u2WQQrAIBADE5++Pnx7aUuP1Y2KsgOCt2SClAJJchh+n98UZbi7w93RUqIow2utINlcQlXgmf97n7LAaw8AZjb/4fXaKxbY2z66wP72kQXOsO9d4Bz78Hdgmb2ZSexD86vCS2cLkAQALimgCp/yyzWiQJIkUi5WwJ519BC5sgAAAABJRU5ErkJggg==") 11 25, pointer !important;
+}
+
+.no-cursor [data-cursor-move],
+.no-cursor [data-cursor-move] * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAArUlEQVR42u2UzRaEIAiFYU7P7QIe/M6iPEcd+qGkzfBtQiq5IEKUJEny7/CNfzBzv48zMESEABAAGu0TcY+AiKDSrltbRBAlwgzc+qsdJaILZAWOFvGTuSXK8J+yXL0tpRRspSDmtdnr8w12S75XgavHwA4BXcbjevQ373nKHFBVWhOnw/J7j+VRD8xgcXzbiTjKFgCpalxDjpPxrWFkChnFeIPzRDER+yZJEs8XIPLuSYvN4B0AAAAASUVORK5CYII=") 15 15, move !important;
+}
+
+.no-cursor [data-cursor-precision],
+.no-cursor [data-cursor-precision] * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAg0lEQVR42u2V2woDIRBDE+mXz3x49knYlkpXq24LOSCCeJmZRAWMMeZm+MVazdinjB4eEZCEiHgNZguSpHO/uwLTeAxqPs0TpVfz2jITAJCZT+O9nmCH5iB5ZWKdx6keaGSKVmVWvAN6l2mjMlxhQn4wJP/yGg4HUD3Rq/nP/QXGGGMONgxeOgOv5QwAAAAASUVORK5CYII=") 15 15, crosshair !important;
+}
+
+.no-cursor [data-cursor-alt],
+.no-cursor [data-cursor-alt] * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAdklEQVR42u2VsQrAMAhE76Rfnnz4depQkrRdoh3uQRYVfBhQ4EeoomlUS9wEJKVLxPAPyRKDAMlUiZgFMyVilciSiKdkhkS8FeyWiC9FOyWO5VqUpjGSAsCtE5CE3jtIDm/rLbhoraliLZc05+IQEcYYY4wxSZwAwkOWf0WBZAAAAABJRU5ErkJggg==") 2 1, pointer !important;
+}
+
+.no-cursor [data-cursor-aseprite] {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAqElEQVR42u2VwQoDMQhEZ5Z8ufnw6aEVbEjbhM1uDlUQIhjyNINSEnZa8QPJWRICwNkCjhhIGnIzA4AlraNXQFKSQPLnpZDHpR3YYdsBykhS2+Za670AJNHRBy//gli5Q6x8fEgDHyB0G0BT+XKIY0YDV0CUVt3xoaB2zgyqKfPx6mHHm/SnmZleMc546S2Y77/xtrS4bBf87ShOgARIgARIgARIgO0AD33PrH3xpFZTAAAAAElFTkSuQmCC") 2 1, default !important;
+}
+
+.no-cursor .cursor-ew {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAd0lEQVR42u2Tyw6DMBAD1/10//j00AaFCgGhIA54pL15H5GdqhBCCE9HA1o2+jgy97V3OVBA2W7LZmW7mubnmL+Bz1Rss4Ztev0ZFgCUpCNXtz6dYcFlbB0gSc3X6n1eqm8+dr9+OAe9zwshnDQjIbz9G4YQQghvBQyH0YB32DsAAAAASUVORK5CYII=") 15 15, ew-resize !important;
+}
+
+.no-cursor .cursor-ns {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAcklEQVR42u2WwQrAIAxDUz89P55dHMjmyYKlkAdC8WCjNVXAGNMczXHMyCSXBEnIijhN/u5+je8nz4o4LgHJbXzlBEj+SkCyrgyZOzCqfWwBLQVoZ7s5p2sOWGz3tWWvTljeByL7GgJARGTXqvsPGGPMAx8ledbOTZx/AAAAAElFTkSuQmCC") 15 15, ns-resize !important;
+}
+
+.no-cursor .cursor-nwse {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAeUlEQVR42u2USwrAIAxEZ3r0ePDpphTpX6Jx0TxwI1EfEyKQJEkyGX6sk/O8X0A6O5B0SyxNtiRIopQS3iptEexLksxMD+3pL1A9GC6hmmkSAGRmbxLjRe4kDgnFSxz2MC2JKIHL6WgVYAcB1w/JTtMx6u4kSZIfsALsbp/UD4NUJQAAAABJRU5ErkJggg==") 15 15, nwse-resize !important;
+}
+
+.no-cursor .cursor-nesw {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAeUlEQVR42u2V0QrAIAhFdfTl9uF3L9uIirHI7GH3QA/54FERFCGEkM2oQw7M5E6zcqD1q37v6/AYY85ZVHVI7AHMDNcInlf84+VVLL7zm1UF4E1uZmXMX97psCdfN/ZOl2FyqbY7XN4U4LntabCKbbcAC28JIYT8nBNJjJ7WWAoGdQAAAABJRU5ErkJggg==") 15 15, nesw-resize !important;
+}
+
+.no-cursor.is-loading,
+.no-cursor.is-loading * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAjElEQVR42u2V2wqAMAxDW/HL0w+PDzLxOuw2lWEPiMOVJc2gigRB8HfUWc/WZw4ecQBC8vIBcNdkkVuSFFXNFaR9fSKBjVBKI73fgJyVmNYADt+8VzB6is1siVlV15ELSTGz51PYd71Ow9t9ExO14kNvg+vTKzgVrzXR5yBqyecGigZRbr+733EQBMEExtOokzGgObYAAAAASUVORK5CYII=") 15 15, progress !important;
+}
+
+
+/* film grain overlay */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  animation: grain-shift 0.6s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { background-position: 0 0; }
+  25% { background-position: -20px 30px; }
+  50% { background-position: 30px -20px; }
+  75% { background-position: -10px -30px; }
+  100% { background-position: 0 0; }
+}
+
+/* CRT scanlines over the hero video */
+.crt {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.24) 2px,
+    rgba(0, 0, 0, 0.24) 3px
+  );
+  animation: crt-drift 9s linear infinite;
+}
+
+@keyframes crt-drift {
+  from { background-position: 0 0; }
+  to { background-position: 0 24px; }
+}
+
+/* glitching display text for error pages — needs data-text on the element */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glitch::before {
+  color: var(--color-acid);
+  opacity: 0.85;
+  animation: glitch-slice 2.4s steps(2, jump-none) infinite;
+  transform: translate(-2px, 0);
+}
+
+.glitch::after {
+  color: #67e8f9;
+  opacity: 0.85;
+  animation: glitch-slice 3.1s steps(3, jump-none) infinite reverse;
+  transform: translate(2px, 0);
+}
+
+@keyframes glitch-slice {
+  0%   { clip-path: inset(4% 0 93% 0); }
+  15%  { clip-path: inset(38% 0 59% 0); }
+  30%  { clip-path: inset(76% 0 21% 0); }
+  45%  { clip-path: inset(16% 0 81% 0); }
+  60%  { clip-path: inset(55% 0 42% 0); }
+  75%  { clip-path: inset(88% 0 9% 0); }
+  100% { clip-path: inset(45% 0 52% 0); }
+}
+
+/* blinking terminal caret */
+.caret-blink {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+/* music player equalizer bars */
+.eq-bar {
+  height: 100%;
+  transform-origin: bottom;
+  animation: eq-bounce 0.9s ease-in-out infinite;
+}
+
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+
+/* big display type helper */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+}
+
+/* mono micro-label */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* underline sweep for inline links */
+.link-sweep {
+  position: relative;
+}
+
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.link-sweep:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* unified pill hovers — the Magnetic wrapper supplies the motion,
+   these supply the glow. .pill-acid = solid accent CTA,
+   .pill-ghost = bordered secondary pill */
+.pill-acid {
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pill-ghost {
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+@media (hover: hover) {
+  .pill-acid:hover {
+    background-color: color-mix(in srgb, var(--color-acid) 85%, white);
+    box-shadow: 0 0 24px rgba(167, 139, 250, 0.35);
+  }
+
+  .pill-ghost:hover {
+    border-color: rgba(167, 139, 250, 0.6);
+    color: var(--color-ink);
+  }
+}
+
+/* --- hobbies / "After Dark" section ------------------------------------- */
+
+/* relic card: artwork sleeps veiled in grayscale until torchlight (hover) */
+.relic {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.relic-img {
+  filter: grayscale(0.35) brightness(0.95);
+  transition:
+    filter 0.7s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* torchlight that follows the pointer inside the card */
+.relic-torch {
+  background: radial-gradient(
+    16rem circle at var(--mx, 50%) var(--my, 50%),
+    rgba(240, 101, 94, 0.32),
+    rgba(167, 139, 250, 0.14) 42%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .relic-img {
+    filter: grayscale(0.85) brightness(0.82);
+  }
+
+  .relic:hover .relic-img {
+    filter: grayscale(0) brightness(1);
+    transform: scale(1.045);
+  }
+
+  .relic:hover .relic-torch {
+    opacity: 1;
+  }
+
+  .relic:hover {
+    border-color: rgba(240, 101, 94, 0.45);
+  }
+}
+
+/* rising embers at the section base */
+.ember {
+  position: absolute;
+  bottom: -8px;
+  border-radius: 9999px;
+  opacity: 0;
+  animation: ember-rise var(--ember-t, 9s) linear infinite;
+  animation-delay: var(--ember-d, 0s);
+  will-change: transform, opacity;
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--ember-a, 0.7);
+  }
+  70% {
+    opacity: calc(var(--ember-a, 0.7) * 0.55);
+  }
+  100% {
+    transform: translate3d(var(--ember-dx, 24px), -52vh, 0) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* eclipse disc behind the heading */
+.eclipse-ring {
+  background: radial-gradient(
+    closest-side,
+    var(--color-void) 55%,
+    rgba(240, 101, 94, 0.5) 60%,
+    rgba(240, 101, 94, 0.16) 66%,
+    rgba(167, 139, 250, 0.1) 72%,
+    transparent 78%
+  );
+}
+
+/* hidden scrollbar for the hobby shelf (content still scrolls) */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* capability row invert on hover */
+.cap-row {
+  position: relative;
+  isolation: isolate;
+}
+
+.cap-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-acid);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (hover: hover) {
+  .cap-row:hover::before {
+    transform: scaleY(1);
+  }
+
+  .cap-row:hover,
+  .cap-row:hover * {
+    color: var(--color-void);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .grain::after {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {
+    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- spectrum ---- */
+.spectrum-strip {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  z-index: 34;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.spectrum-strip-on {
+  opacity: 1;
+}
+
+.spectrum-eq-bar {
+  height: 100%;
+  transform: scaleY(0.3);
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spectrum-strip {
+    display: none;
+  }
+}
+
+/* ---- boss ---- */
+
+/* ornamental hairline frame around the guardian's HP bar — bracket
+   end-caps drawn with borders only */
+.boss-frame {
+  position: relative;
+  border: 1px solid var(--color-line);
+  padding: 4px;
+  transition: opacity 0.9s ease;
+}
+
+.boss-frame::before,
+.boss-frame::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 6px;
+  border: 1px solid rgba(247, 247, 248, 0.3);
+}
+
+.boss-frame::before {
+  left: -6px;
+  border-right: 0;
+}
+
+.boss-frame::after {
+  right: -6px;
+  border-left: 0;
+}
+
+.boss-track {
+  position: relative;
+  height: 7px;
+  background: rgba(14, 15, 17, 0.72);
+  overflow: hidden;
+}
+
+/* delayed "ghost" damage trail — pale bar that catches up after the hit,
+   like classic action-RPG boss bars */
+.boss-ghost {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: rgba(247, 226, 200, 0.55);
+  transition: width 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) 0.35s;
+}
+
+.boss-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(
+    90deg,
+    #6e211e 0%,
+    var(--color-ember) 60%,
+    #ff9182 100%
+  );
+  transition: width 0.1s linear;
+}
+
+.boss-ticks {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(10% - 1px),
+    rgba(14, 15, 17, 0.85) calc(10% - 1px),
+    rgba(14, 15, 17, 0.85) 10%
+  );
+}
+
+.boss-bar--cleared {
+  opacity: 0.45;
+  transition: opacity 1.1s ease;
+}
+
+/* glitch intensity ramps up as the guardian's HP drops */
+.glitch[data-rage="1"]::before {
+  animation-duration: 1.1s;
+  transform: translate(-3px, 1px);
+}
+
+.glitch[data-rage="1"]::after {
+  animation-duration: 1.4s;
+  transform: translate(3px, -1px);
+}
+
+.glitch[data-rage="2"]::before {
+  animation-duration: 0.5s;
+  transform: translate(-5px, 2px);
+}
+
+.glitch[data-rage="2"]::after {
+  animation-duration: 0.62s;
+  transform: translate(5px, -2px);
+}
+
+/* brief flash on the numerals when a hit lands */
+.boss-hitflash {
+  animation: boss-hitflash 0.18s steps(2, jump-none);
+}
+
+@keyframes boss-hitflash {
+  0% {
+    color: var(--color-ember);
+    filter: brightness(1.8);
+  }
+  100% {
+    color: var(--color-ink);
+    filter: none;
+  }
+}
+
+/* tiny screen shake on hit (never added under prefers-reduced-motion) */
+.boss-shake {
+  animation: boss-shake 0.22s linear;
+}
+
+@keyframes boss-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3px, 2px);
+  }
+  40% {
+    transform: translate(3px, -2px);
+  }
+  60% {
+    transform: translate(-2px, -1px);
+  }
+  80% {
+    transform: translate(2px, 1px);
+  }
+}
+
+/* floating damage number — drifts up and fades; under reduced motion the
+   animation collapses and the number simply shows until JS removes it */
+.boss-dmg {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: clamp(1rem, 2.2vw, 1.375rem);
+  text-shadow: 0 2px 10px rgba(14, 15, 17, 0.9);
+  pointer-events: none;
+  animation: boss-dmg-float 0.9s ease-out;
+}
+
+@keyframes boss-dmg-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, -62%) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -200%) scale(1);
+  }
+}
+
+/* death sequence — heavy glitch burst, then the numerals settle */
+.boss-burst {
+  animation: boss-shake 0.16s linear 4;
+}
+
+.boss-burst::before,
+.boss-burst::after {
+  animation-duration: 0.14s !important;
+  opacity: 1 !important;
+}
+
+.boss-burst::before {
+  transform: translate(-8px, 3px);
+}
+
+.boss-burst::after {
+  transform: translate(8px, -3px);
+}
+
+.boss-settled {
+  opacity: 0.28;
+  filter: blur(1.5px) saturate(0.5);
+  transition: opacity 1.2s ease, filter 1.2s ease;
+}
+
+.boss-settled::before,
+.boss-settled::after {
+  content: none;
+}
+
+/* reward line fades in once the sector is cleared */
+.boss-reward {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.9s ease 0.45s, transform 0.9s ease 0.45s;
+}
+
+.boss-reward--in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- tarot ---- */
+
+/* click-to-flip lore backs for the relic cards. The scene owns the
+   perspective + the pointer tilt (gsap targets [data-relic]); the inner
+   .relic-flip owns the 180° turn so the two transforms never fight. */
+.relic-scene {
+  perspective: 1100px;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.relic-scene:focus-visible {
+  outline: 2px solid var(--color-acid);
+  outline-offset: 4px;
+}
+
+.relic-flip {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.45, 0.05, 0.2, 1);
+}
+
+.relic-flip.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.relic,
+.relic-back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* the face turned away must not swallow pointer events (hover, torch) */
+.relic-flip.is-flipped .relic,
+.relic-flip:not(.is-flipped) .relic-back {
+  pointer-events: none;
+}
+
+/* the tarot back: dark panel with a faint violet/ember breath */
+.relic-back {
+  transform: rotateY(180deg);
+  background:
+    radial-gradient(
+      90% 70% at 50% 0%,
+      rgba(167, 139, 250, 0.1),
+      transparent 62%
+    ),
+    radial-gradient(
+      90% 60% at 50% 100%,
+      rgba(240, 101, 94, 0.08),
+      transparent 58%
+    ),
+    var(--color-panel);
+}
+
+/* ornamental rune-ish hairline frame */
+.relic-back::before {
+  content: "";
+  position: absolute;
+  inset: 0.7rem;
+  border: 1px solid rgba(167, 139, 250, 0.26);
+  border-radius: 0.65rem;
+  pointer-events: none;
+}
+
+/* rune stitches: short ticks combed along the frame's top + bottom center */
+.relic-back::after {
+  content: "";
+  position: absolute;
+  inset: 0.7rem;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+      90deg,
+      rgba(167, 139, 250, 0.55) 0 1px,
+      transparent 1px 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(240, 101, 94, 0.45) 0 1px,
+      transparent 1px 8px
+    );
+  background-size:
+    4rem 7px,
+    4rem 7px;
+  background-position:
+    50% 0,
+    50% 100%;
+  background-repeat: no-repeat;
+}
+
+/* small diamond sigil above the lore text */
+.relic-back-ornament {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: 0 auto;
+  transform: rotate(45deg);
+  border: 1px solid rgba(240, 101, 94, 0.75);
+  box-shadow: 0 0 14px rgba(240, 101, 94, 0.35);
+}
+
+/* front "turn" hint: faintly present on touch, hover/focus-revealed on desktop */
+.relic-hint {
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .relic-hint {
+    opacity: 0;
   }
 
-  /* Mesh Gradient Performance Optimization */
-  .mesh-gradient-overlay {
+  .relic-scene:hover .relic-hint,
+  .relic-scene:focus-visible .relic-hint {
+    opacity: 1;
+  }
+}
+
+/* reduced motion: instant front/back swap, no 3D rotation */
+@media (prefers-reduced-motion: reduce) {
+  .relic-flip {
+    transition: none;
+  }
+}
+
+/* ---- ripple ---- */
+.ripple-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.22s ease-out;
+}
+
+.ripple-canvas.is-on {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .ripple-canvas {
+    display: none;
+  }
+}
+
+/* ---- glass ---- */
+
+/* shared glassmorphism surface: panel-tinted translucency + backdrop blur.
+   Used by the header capsule, fullscreen menu, sound panels — reusable by
+   any floating surface. Falls back to near-opaque panel when
+   backdrop-filter is unsupported. */
+.glass-panel,
+.glass-fillet {
+  background: rgba(20, 22, 25, 0.92);
+}
+
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass-panel,
+  .glass-fillet {
+    background: rgba(20, 22, 25, 0.78);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+  }
+}
+
+/* gooey capsule corner fillets in the same glass: the radial mask carves
+   the concave quarter-circle and clips the backdrop blur along with it */
+.glass-fillet-left {
+  -webkit-mask-image: radial-gradient(circle at bottom left, transparent 17.5px, #000 18px);
+  mask-image: radial-gradient(circle at bottom left, transparent 17.5px, #000 18px);
+}
+
+.glass-fillet-right {
+  -webkit-mask-image: radial-gradient(circle at bottom right, transparent 17.5px, #000 18px);
+  mask-image: radial-gradient(circle at bottom right, transparent 17.5px, #000 18px);
+}
+
+/* ---- arcana ---- */
+
+/* full-viewport CRT overlay (Konami code / command palette toggle).
+   Sits above page content (z-60), below the palette (z-75) and the
+   achievement toasts (z-80). GPU-cheap: gradients + opacity only. */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  /* slight vignette */
+  background: radial-gradient(
+    ellipse at center,
+    transparent 58%,
+    rgba(0, 0, 0, 0.16) 82%,
+    rgba(0, 0, 0, 0.38) 100%
+  );
+  animation: crt-flicker 3.6s steps(2, jump-none) infinite;
+}
+
+/* scanlines — same pattern family as the hero's .crt, softened for
+   full-page use, drifting on the existing crt-drift keyframes */
+.crt-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.16) 2px,
+    rgba(0, 0, 0, 0.16) 3px
+  );
+  animation: crt-drift 9s linear infinite;
+}
+
+/* faint phosphor tint at the edges */
+.crt-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 70%,
+    rgba(167, 139, 250, 0.05) 100%
+  );
+}
+
+@keyframes crt-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.93;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-overlay,
+  .crt-overlay::before {
     animation: none;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .glass-modern {
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 2px solid rgba(0, 0, 0, 0.3);
-  }
-
-  .glass-modern-dark {
-    background-color: rgba(0, 0, 0, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-  }
-
-  /* High contrast mode adjustments */
-  .mesh-gradient-overlay {
-    opacity: 0.1;
-  }
-
-  .dark .mesh-gradient-overlay {
-    opacity: 0.05;
-  }
-}
-
-/* Print Styles */
-@media print {
-  * {
-    background: transparent !important;
-    color: black !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
   }
 }

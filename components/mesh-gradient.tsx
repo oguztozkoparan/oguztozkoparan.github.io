@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 interface MeshGradientProps {
@@ -17,7 +16,6 @@ export default function MeshGradient({
   animated = true,
   opacity = 0.6,
 }: MeshGradientProps) {
-  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,7 +24,7 @@ export default function MeshGradient({
 
   if (!mounted) return null;
 
-  const isDark = resolvedTheme === "dark";
+  const isDark = true; // site is dark-only
 
   // Define gradient variants for different use cases
   const gradientVariants = {

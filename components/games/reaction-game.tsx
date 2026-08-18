@@ -5,10 +5,9 @@ import { motion } from "framer-motion"
 import { Play, RotateCcw, Zap, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import MeshGradient from "../mesh-gradient"
 
 interface ReactionGameProps {
-  onBack: () => void
+  onBack?: () => void
 }
 
 type GameState = "waiting" | "ready" | "go" | "clicked" | "tooEarly"
@@ -21,7 +20,7 @@ export default function ReactionGame({ onBack }: ReactionGameProps) {
   const [countdown, setCountdown] = useState(0)
 
   const startTimeRef = useRef<number>(0)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   const startGame = () => {
     setGameState("ready")
@@ -134,25 +133,24 @@ export default function ReactionGame({ onBack }: ReactionGameProps) {
     <div className="max-w-4xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-black mb-4 text-black dark:text-white">
-            REACTION <span className="text-yellow-600 dark:text-yellow-400">TEST</span>
+          <h1 className="text-4xl md:text-6xl font-black mb-4 text-ink">
+            REACTION <span className="text-acid">TEST</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">Test your reflexes! Click when the screen turns green.</p>
+          <p className="text-dim">Test your reflexes! Click when the screen turns green.</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Game Area */}
           <div className="lg:col-span-2">
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-8 rounded-3xl">
+            <Card className="border border-line bg-card p-8 rounded-2xl">
               <div className="relative">
-                <MeshGradient variant="card" opacity={0.1} />
                 <div className="relative z-10">
                   <motion.div
                     onClick={handleClick}
                     whileHover={{ scale: gameState === "go" || gameState === "ready" ? 1.02 : 1 }}
                     whileTap={{ scale: gameState === "go" || gameState === "ready" ? 0.98 : 1 }}
                     className={`
-                      w-full aspect-square max-w-md mx-auto rounded-3xl flex flex-col items-center justify-center
+                      w-full aspect-square max-w-md mx-auto rounded-2xl flex flex-col items-center justify-center
                       transition-all duration-300 cursor-pointer select-none
                       ${getStateColor()}
                       ${gameState === "go" || gameState === "ready" ? "hover:shadow-2xl" : ""}
@@ -198,45 +196,45 @@ export default function ReactionGame({ onBack }: ReactionGameProps) {
           {/* Stats & Controls */}
           <div className="space-y-6">
             {/* Current Stats */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">STATS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">STATS</h3>
               <div className="space-y-3">
                 {reactionTime && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Last</span>
-                    <span className="text-2xl font-black text-yellow-600 dark:text-yellow-400">{reactionTime}ms</span>
+                    <span className="text-dim">Last</span>
+                    <span className="text-2xl font-black text-acid">{reactionTime}ms</span>
                   </div>
                 )}
 
                 {bestTime && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Best</span>
-                    <span className="text-xl font-black text-green-600 dark:text-green-400">{bestTime}ms</span>
+                    <span className="text-dim">Best</span>
+                    <span className="text-xl font-black text-acid">{bestTime}ms</span>
                   </div>
                 )}
 
                 {getAverageTime() && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Average</span>
-                    <span className="text-lg font-black text-black dark:text-white">{getAverageTime()}ms</span>
+                    <span className="text-dim">Average</span>
+                    <span className="text-lg font-black text-ink">{getAverageTime()}ms</span>
                   </div>
                 )}
 
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Attempts</span>
-                  <span className="text-lg font-black text-blue-600 dark:text-blue-400">{attempts.length}</span>
+                  <span className="text-dim">Attempts</span>
+                  <span className="text-lg font-black text-acid">{attempts.length}</span>
                 </div>
               </div>
             </Card>
 
             {/* Controls */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">CONTROLS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">CONTROLS</h3>
               <div className="space-y-3">
                 <Button
                   onClick={startGame}
                   disabled={gameState === "ready" || gameState === "go"}
-                  className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded-2xl disabled:opacity-50"
+                  className="w-full bg-acid hover:bg-acid/90 text-void font-bold py-3 rounded-2xl disabled:opacity-50"
                 >
                   <Play className="h-4 w-4 mr-2" />
                   {gameState === "ready" || gameState === "go" ? "IN PROGRESS..." : "START TEST"}
@@ -245,7 +243,7 @@ export default function ReactionGame({ onBack }: ReactionGameProps) {
                 <Button
                   onClick={resetGame}
                   variant="ghost"
-                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white rounded-2xl py-3"
+                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-line hover:bg-black/10 dark:hover:bg-white/10 text-ink rounded-2xl py-3"
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
                   RESET
@@ -264,36 +262,36 @@ export default function ReactionGame({ onBack }: ReactionGameProps) {
             </Card>
 
             {/* Reaction Time Guide */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">REACTION GUIDE</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">REACTION GUIDE</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">&lt; 200ms</span>
-                  <span className="text-green-600 dark:text-green-400 font-bold">Lightning ⚡</span>
+                  <span className="text-dim">&lt; 200ms</span>
+                  <span className="text-acid font-bold">Lightning ⚡</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">200-300ms</span>
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">Excellent 🎯</span>
+                  <span className="text-dim">200-300ms</span>
+                  <span className="text-acid font-bold">Excellent 🎯</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">300-400ms</span>
-                  <span className="text-yellow-600 dark:text-yellow-400 font-bold">Good 👍</span>
+                  <span className="text-dim">300-400ms</span>
+                  <span className="text-acid font-bold">Good 👍</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">400-500ms</span>
-                  <span className="text-orange-600 dark:text-orange-400 font-bold">Average 👌</span>
+                  <span className="text-dim">400-500ms</span>
+                  <span className="text-acid font-bold">Average 👌</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">&gt; 500ms</span>
+                  <span className="text-dim">&gt; 500ms</span>
                   <span className="text-red-600 dark:text-red-400 font-bold">Slow 🐌</span>
                 </div>
               </div>
             </Card>
 
             {/* Instructions */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">HOW TO PLAY</h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">HOW TO PLAY</h3>
+              <div className="space-y-2 text-sm text-dim">
                 <p>• Click START to begin</p>
                 <p>• Wait for the green signal</p>
                 <p>• Click as fast as possible</p>

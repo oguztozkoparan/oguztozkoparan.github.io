@@ -5,7 +5,7 @@ import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Terminal } from "lucide-react";
-import { FolderIcon, DocumentIcon } from "./icons/custom-icons";
+import { Folder as FolderIcon, FileText as DocumentIcon } from "lucide-react";
 import { ArrowLeft, Minimize2, Maximize2, X } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -475,13 +475,13 @@ const initialFileSystem: { [key: string]: FileSystemItem } = {
             name: "RESUME.TXT",
             type: "file",
             content:
-              "Oguz Tozkoparan\nSoftware Engineer\n\nExperience:\n- 5+ years in web development\n- Specialized in React/Next.js\n- Expert in modern CSS and animations\n- Strong focus on performance and UX\n\nContact:\n- Email: oguz.tozkoparan@orionsgate.studio\n- Location: Ankara, Turkiye\n- Portfolio: oguztozkoparan.com",
+              "Oguz Tozkoparan\nSoftware Engineer\n\nExperience:\n- 5+ years in web development\n- Specialized in React/Next.js\n- Expert in modern CSS and animations\n- Strong focus on performance and UX\n\nContact:\n- Email: oguztozkoparan@gmail.com\n- Location: Ankara, Turkey\n- Portfolio: oguztozkoparan.com",
           },
           "CONTACT.TXT": {
             name: "CONTACT.TXT",
             type: "file",
             content:
-              "Contact Information:\n\nEmail: oguz.tozkoparan@orionsgate.studio\nPhone: +90 (531) 467-4610\nLocation: Ankara, Turkiye\n\nSocial Media:\n- GitHub: github.com/oguztozkoparan\n- LinkedIn: linkedin.com/in/oguztozkoparan\n- Twitter: @oguztozkoparan\n\nAvailable for:\n- Freelance projects\n- Full-time opportunities\n- Consulting work\n- Speaking engagements",
+              "Contact Information:\n\nEmail: oguztozkoparan@gmail.com\nLocation: Ankara, Turkey\n\nSocial Media:\n- GitHub: github.com/oguztozkoparan\n- LinkedIn: linkedin.com/in/oguztozkoparan\n- Twitter: @oguztozkoparan\n\nAvailable for:\n- Freelance projects\n- Full-time opportunities\n- Consulting work\n- Speaking engagements",
           },
         },
       },
@@ -1090,7 +1090,7 @@ export default function DOSTerminal() {
 
   if (showStartupAnimation) {
     return (
-      <div className="min-h-screen bg-black text-green-400 font-mono flex items-center justify-center">
+      <div className="min-h-svh bg-void pt-16 text-acid font-mono md:pt-[68px] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -1102,7 +1102,7 @@ export default function DOSTerminal() {
             transition={{ delay: 0.5, type: "spring", bounce: 0.3 }}
             className="flex justify-center mb-8"
           >
-            <Terminal className="h-24 w-24 text-green-400" />
+            <Terminal className="h-24 w-24 text-acid" />
           </motion.div>
 
           <motion.div
@@ -1127,7 +1127,7 @@ export default function DOSTerminal() {
               <motion.div
                 animate={{ width: ["0%", "100%"] }}
                 transition={{ delay: 2, duration: 1 }}
-                className="h-1 bg-green-400 w-48"
+                className="h-1 bg-acid w-48"
               />
             </div>
           </motion.div>
@@ -1146,16 +1146,16 @@ export default function DOSTerminal() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-400 font-mono relative">
+    <div className="min-h-svh bg-void pt-16 text-acid font-mono md:pt-[68px] relative">
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-900/5 to-blue-900/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2e1065]/25 to-transparent" />
         <motion.div
           animate={{
             background: [
-              "radial-gradient(circle at 20% 80%, rgba(0, 255, 0, 0.03) 0%, transparent 50%)",
-              "radial-gradient(circle at 80% 20%, rgba(0, 255, 0, 0.03) 0%, transparent 50%)",
-              "radial-gradient(circle at 20% 80%, rgba(0, 255, 0, 0.03) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 80%, rgba(167, 139, 250, 0.05) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.05) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 80%, rgba(167, 139, 250, 0.05) 0%, transparent 50%)",
             ],
           }}
           transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
@@ -1174,9 +1174,9 @@ export default function DOSTerminal() {
         }`}
       >
         {/* Window Header */}
-        <div className="bg-gray-800 border-b border-gray-700 px-4 py-2 flex items-center justify-between flex-shrink-0">
+        <div className="bg-panel border-b border-line px-4 py-2 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
-            <Terminal className="h-4 w-4 text-green-400" />
+            <Terminal className="h-4 w-4 text-acid" />
             <span className="text-white text-sm font-medium">
               DOS Terminal - Oguz Tozkoparan
             </span>
@@ -1187,7 +1187,7 @@ export default function DOSTerminal() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-gray-400 hover:text-white hover:bg-gray-700 p-1"
+                className="text-dim hover:text-white hover:bg-card p-1"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
@@ -1197,7 +1197,7 @@ export default function DOSTerminal() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMaximized(!isMaximized)}
-              className="text-gray-400 hover:text-white hover:bg-gray-700 p-1"
+              className="text-dim hover:text-white hover:bg-card p-1"
             >
               {isMaximized ? (
                 <Minimize2 className="h-4 w-4" />
@@ -1210,7 +1210,7 @@ export default function DOSTerminal() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-gray-400 hover:text-red-400 hover:bg-gray-700 p-1"
+                className="text-dim hover:text-red-400 hover:bg-card p-1"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -1222,7 +1222,7 @@ export default function DOSTerminal() {
         <div className="flex-1 flex flex-col min-h-0">
           <div
             ref={terminalRef}
-            className="flex-1 bg-black text-green-400 overflow-y-auto scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-gray-800"
+            className="flex-1 bg-black text-acid overflow-y-auto scrollbar-thin scrollbar-thumb-acid scrollbar-track-panel"
             style={{ fontFamily: "Consolas, 'Courier New', monospace" }}
           >
             <div ref={contentRef} className="p-4 pb-20">
@@ -1257,7 +1257,7 @@ export default function DOSTerminal() {
                     {entry.output.map((line, lineIndex) => (
                       <div
                         key={lineIndex}
-                        className="text-green-400 whitespace-pre-wrap"
+                        className="text-acid whitespace-pre-wrap"
                       >
                         {line}
                       </div>
@@ -1279,7 +1279,7 @@ export default function DOSTerminal() {
                     {tabSuggestions.map((suggestion, index) => (
                       <span
                         key={index}
-                        className="bg-gray-800 px-2 py-1 rounded text-xs"
+                        className="bg-panel px-2 py-1 rounded text-xs"
                       >
                         {suggestion}
                       </span>
@@ -1297,14 +1297,14 @@ export default function DOSTerminal() {
                   value={currentCommand}
                   onChange={(e) => setCurrentCommand(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="bg-transparent text-white ml-1 flex-1 outline-none caret-green-400"
+                  className="bg-transparent text-white ml-1 flex-1 outline-none caret-acid"
                   autoComplete="off"
                   spellCheck={false}
                 />
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
                   transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
-                  className="text-green-400 ml-1"
+                  className="text-acid ml-1"
                 >
                   █
                 </motion.span>
@@ -1313,7 +1313,7 @@ export default function DOSTerminal() {
           </div>
 
           {/* Status Bar - Fixed at bottom */}
-          <div className="bg-gray-800 border-t border-gray-700 px-4 py-1 text-xs text-gray-400 flex justify-between items-center flex-shrink-0">
+          <div className="bg-panel border-t border-line px-4 py-1 text-xs text-dim flex justify-between items-center flex-shrink-0">
             <div className="flex items-center gap-4">
               <span>Path: {currentPath.join("\\")}</span>
               <span className="hidden sm:inline">

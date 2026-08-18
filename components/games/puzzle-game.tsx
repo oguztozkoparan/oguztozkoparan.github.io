@@ -5,10 +5,9 @@ import { motion } from "framer-motion"
 import { Play, RotateCcw, Trophy, Shuffle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import MeshGradient from "../mesh-gradient"
 
 interface PuzzleGameProps {
-  onBack: () => void
+  onBack?: () => void
 }
 
 type PuzzleState = number[]
@@ -131,10 +130,10 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
     <div className="max-w-4xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-black mb-4 text-black dark:text-white">
-            SLIDE <span className="text-orange-600 dark:text-orange-400">PUZZLE</span>
+          <h1 className="text-4xl md:text-6xl font-black mb-4 text-ink">
+            SLIDE <span className="text-acid">PUZZLE</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-dim">
             Arrange the numbered tiles in order by sliding them into the empty space.
           </p>
         </div>
@@ -142,9 +141,8 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Game Board */}
           <div className="lg:col-span-2">
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-8 rounded-3xl">
+            <Card className="border border-line bg-card p-8 rounded-2xl">
               <div className="relative">
-                <MeshGradient variant="card" opacity={0.1} />
                 <div className="relative z-10">
                   <div
                     className="grid gap-2 bg-black/5 dark:bg-white/5 p-4 rounded-2xl mx-auto"
@@ -170,8 +168,8 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
                             tile === EMPTY_TILE
                               ? "bg-transparent"
                               : isTileMovable(index)
-                                ? "bg-orange-500 hover:bg-orange-600 text-white cursor-pointer shadow-lg hover:shadow-xl"
-                                : "bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed"
+                                ? "bg-acid hover:bg-acid/90 text-void cursor-pointer shadow-lg hover:shadow-xl"
+                                : "bg-gray-300 dark:bg-gray-700 text-dim cursor-not-allowed"
                           }
                           ${!gameStarted && tile !== EMPTY_TILE ? "opacity-50" : ""}
                         `}
@@ -186,7 +184,7 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="absolute inset-0 bg-black/50 dark:bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center"
+                      className="absolute inset-0 bg-void/70 backdrop-blur-sm rounded-2xl flex items-center justify-center"
                     >
                       <div className="text-center text-white dark:text-white">
                         <Trophy className="h-16 w-16 mx-auto mb-4 text-yellow-400" />
@@ -194,7 +192,7 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
                         <p className="text-xl mb-6">Moves: {moves}</p>
                         <Button
                           onClick={initializeGame}
-                          className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-6 py-3 rounded-2xl"
+                          className="bg-acid hover:bg-acid/90 text-void font-bold px-6 py-3 rounded-2xl"
                         >
                           <Play className="h-4 w-4 mr-2" />
                           New Puzzle
@@ -210,30 +208,30 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
           {/* Game Stats */}
           <div className="space-y-6">
             {/* Stats */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">STATS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">STATS</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Moves</span>
-                  <span className="text-2xl font-black text-orange-600 dark:text-orange-400">{moves}</span>
+                  <span className="text-dim">Moves</span>
+                  <span className="text-2xl font-black text-acid">{moves}</span>
                 </div>
 
                 {bestMoves && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Best</span>
-                    <span className="text-xl font-black text-green-600 dark:text-green-400">{bestMoves}</span>
+                    <span className="text-dim">Best</span>
+                    <span className="text-xl font-black text-acid">{bestMoves}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">Status</span>
+                  <span className="text-dim">Status</span>
                   <span
                     className={`text-sm font-bold px-3 py-1 rounded-full ${
                       isWon
-                        ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                        ? "border border-acid/40 text-acid"
                         : gameStarted
-                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                          : "bg-gray-100 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400"
+                          ? "border border-acid/40 text-acid"
+                          : "bg-gray-100 dark:bg-gray-900/30 text-dim"
                     }`}
                   >
                     {isWon ? "Solved!" : gameStarted ? "Playing" : "Ready"}
@@ -243,13 +241,13 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
             </Card>
 
             {/* Controls */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">CONTROLS</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">CONTROLS</h3>
               <div className="space-y-3">
                 {!gameStarted && !isWon && (
                   <Button
                     onClick={startGame}
-                    className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-2xl"
+                    className="w-full bg-acid hover:bg-acid/90 text-void font-bold py-3 rounded-2xl"
                   >
                     <Play className="h-4 w-4 mr-2" />
                     START PUZZLE
@@ -259,7 +257,7 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
                 <Button
                   onClick={initializeGame}
                   variant="ghost"
-                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white rounded-2xl py-3"
+                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-line hover:bg-black/10 dark:hover:bg-white/10 text-ink rounded-2xl py-3"
                 >
                   <Shuffle className="h-4 w-4 mr-2" />
                   NEW PUZZLE
@@ -268,7 +266,7 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
                 <Button
                   onClick={() => setMoves(0)}
                   variant="ghost"
-                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white rounded-2xl py-3"
+                  className="w-full backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-line hover:bg-black/10 dark:hover:bg-white/10 text-ink rounded-2xl py-3"
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
                   RESET MOVES
@@ -277,8 +275,8 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
             </Card>
 
             {/* Solution Preview */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">SOLUTION</h3>
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">SOLUTION</h3>
               <div
                 className="grid gap-1 bg-black/5 dark:bg-white/5 p-2 rounded-xl"
                 style={{ gridTemplateColumns: `repeat(${PUZZLE_SIZE}, 1fr)` }}
@@ -302,9 +300,9 @@ export default function PuzzleGame({ onBack }: PuzzleGameProps) {
             </Card>
 
             {/* Instructions */}
-            <Card className="backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
-              <h3 className="text-xl font-black mb-4 text-black dark:text-white">HOW TO PLAY</h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <Card className="border border-line bg-card p-6 rounded-2xl">
+              <h3 className="text-xl font-black mb-4 text-ink">HOW TO PLAY</h3>
+              <div className="space-y-2 text-sm text-dim">
                 <p>• Click tiles next to empty space</p>
                 <p>• Arrange numbers 1-15 in order</p>
                 <p>• Empty space goes bottom-right</p>
