@@ -6,18 +6,17 @@ import { gsap } from "@/lib/gsapConfig";
 import { ArrowUpRight } from "lucide-react";
 import { projects, type Project } from "@/lib/data";
 import ProjectVisual from "@/components/ProjectVisual";
+import RippleImage from "@/components/RippleImage";
 
 function ProjectCard({ project }: { project: Project }) {
   const inner = (
     <>
       <div className="relative aspect-[3/2] overflow-hidden">
         {project.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <RippleImage
             src={project.image}
             alt={`${project.title} artwork`}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
           <ProjectVisual id={project.id} />
