@@ -43,6 +43,8 @@ export default function Hero() {
       const ctx = canvas.getContext("2d");
       const images: HTMLImageElement[] = [];
       const seq = { frame: 0 };
+      // 0 = framed 16:9 window, 1 = full-bleed
+      const view = { p: reduced ? 1 : 0 };
 
       const sizeCanvas = () => {
         const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -50,39 +52,46 @@ export default function Hero() {
         canvas.height = section.clientHeight * dpr;
       };
 
-      // contain-fit: the full 16:9 frame stays visible and centered on every
-      // viewport (no off-center cropping on wide or portrait screens)
+      // scale lerps from contain (windowed) to cover (full-bleed) as the
+      // window opens, so portrait screens never show letterbox bars
       const draw = () => {
         const img = images[Math.round(seq.frame)];
         if (!ctx || !img || !img.complete || !img.naturalWidth) return;
         const cw = canvas.width;
         const ch = canvas.height;
-        const scale = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
+        const contain = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
+        const cover = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+        const scale = contain + (cover - contain) * view.p;
         const dw = img.naturalWidth * scale;
         const dh = img.naturalHeight * scale;
         ctx.clearRect(0, 0, cw, ch);
         ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
       };
 
-      // the opening "window" hugs the centered 16:9 video rect so it always
-      // frames the footage symmetrically and holds its aspect ratio
-      const computeClip = () => {
+      // the opening "window" is a centered 16:9 rect whose insets are written
+      // by hand from view.p — tweening the clip-path string lets the browser's
+      // inset() shorthand serialization desync the sides and open off-center
+      const applyClip = () => {
         const w = section.clientWidth;
         const h = section.clientHeight;
         const ar = 16 / 9;
-        let vw = w * 0.86;
+        let vw = w * (w < 768 ? 0.92 : 0.86);
         let vh = vw / ar;
         const maxH = h * 0.72;
         if (vh > maxH) {
           vh = maxH;
           vw = vh * ar;
         }
-        const xi = (((w - vw) / 2 / w) * 100).toFixed(2);
-        const yi = (((h - vh) / 2 / h) * 100).toFixed(2);
-        return `inset(${yi}% ${xi}% ${yi}% ${xi}% round 20px)`;
+        const k = 1 - view.p;
+        const xi = (((w - vw) / 2 / w) * 100 * k).toFixed(2);
+        const yi = (((h - vh) / 2 / h) * 100 * k).toFixed(2);
+        clip.style.clipPath = `inset(${yi}% ${xi}% ${yi}% ${xi}% round ${(
+          20 * k
+        ).toFixed(1)}px)`;
       };
 
       sizeCanvas();
+      applyClip();
 
       const frameTotal = reduced ? 1 : FRAME_COUNT;
       for (let i = 0; i < frameTotal; i++) {
@@ -155,10 +164,8 @@ export default function Hero() {
         sizeCanvas();
         draw();
         if (!reduced) sizeParticles();
-        // re-fit the opening window while the hero hasn't been scrolled yet
-        if (!reduced && window.scrollY < 4 && clip) {
-          gsap.set(clip, { clipPath: computeClip() });
-        }
+        // insets scale with (1 - view.p), so re-fitting is safe mid-scroll
+        applyClip();
       };
       window.addEventListener("resize", onResize);
 
@@ -195,10 +202,7 @@ export default function Hero() {
       );
 
       // initial states
-      gsap.set(clip, {
-        clipPath: computeClip(),
-        willChange: "clip-path",
-      });
+      gsap.set(clip, { willChange: "clip-path" });
       gsap.set(codeLines, { x: -70, autoAlpha: 0 });
       gsap.set(web, { xPercent: -130, autoAlpha: 0 });
       gsap.set(forge, { xPercent: 130, autoAlpha: 0 });
@@ -236,12 +240,17 @@ export default function Hero() {
         .to(metaEls, { autoAlpha: 0, y: 20, duration: 0.05 }, 0)
 
         // phase 1 — the unfolding grid
-        .to(
-          clip,
+        .fromTo(
+          view,
+          { p: 0 },
           {
-            clipPath: "inset(0% 0% 0% 0% round 0px)",
+            p: 1,
             duration: 0.26,
             ease: "power1.inOut",
+            onUpdate: () => {
+              applyClip();
+              draw();
+            },
           },
           0.02
         )

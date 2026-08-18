@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import About from "@/components/About";
+import AboutVideo from "@/components/AboutVideo";
 import Capabilities from "@/components/Capabilities";
 import Contact from "@/components/Contact";
 import { about } from "@/lib/data";
@@ -17,11 +18,10 @@ export default function AboutPage() {
         {about.image && (
           <div className="px-6 md:px-10">
             <div className="overflow-hidden rounded-2xl border border-line">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={about.image}
-                alt="Isometric pixel-art developer workshop"
-                className="max-h-[52vh] w-full object-cover"
+              <AboutVideo
+                src="/videos/about-loop.mp4"
+                poster={about.image}
+                alt="Ambient dark-fantasy scene of a hooded figure at a desk of glowing monitors"
               />
             </div>
           </div>
