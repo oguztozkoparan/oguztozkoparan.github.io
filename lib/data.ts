@@ -167,6 +167,7 @@ export type HobbyRelic = {
   alt: string;
   stats: { k: string; v: string }[]; // two short flavor stats
   whisper: string; // soulslike "player message" at the card foot
+  lore: string; // first-person lore text revealed on the card's tarot back
 };
 
 export const hobbies = {
@@ -193,6 +194,7 @@ export const hobbies = {
         { k: "Regrets", v: "None" },
       ],
       whisper: "bonfire ahead, therefore hope",
+      lore: "I was not welcomed into these worlds — I earned every inch of them, death by patient death. Somewhere past the hundredth attempt, frustration turns into ritual. That calm is the real loot, and I carry it out of the game with me.",
     },
     {
       id: "manga",
@@ -209,6 +211,7 @@ export const hobbies = {
         { k: "Heart", v: "Broken, often" },
       ],
       whisper: "don't get attached",
+      lore: "I keep vigil over ink-black pages where hope is rationed one panel at a time. The stories I love best make no promises — and keep them beautifully. I turn every page like a card I already know is cursed, and I read on anyway.",
     },
     {
       id: "myth",
@@ -225,6 +228,7 @@ export const hobbies = {
         { k: "Maps owned", v: "Too many" },
       ],
       whisper: "the road goes ever on",
+      lore: "Hand me a world with its own dead languages and I will not be seen for weeks. I chart bloodlines, memorize forgotten kings, and read appendices like scripture. The deeper the lore runs, the more it feels like coming home.",
     },
   ] as HobbyRelic[],
   quote: {

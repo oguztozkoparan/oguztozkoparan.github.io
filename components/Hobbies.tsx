@@ -23,60 +23,158 @@ const EMBERS = Array.from({ length: 16 }, (_, i) => ({
   violet: i % 3 === 0,
 }));
 
+// fires once per page load, whichever relic is turned first
+let fateReaderFired = false;
+
 function RelicCard({ relic }: { relic: HobbyRelic }) {
   const Icon = RELIC_ICONS[relic.id] ?? Sparkles;
+  const [flipped, setFlipped] = useState(false);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const pointerDown = useRef<{ id: number; x: number; y: number } | null>(null);
+
+  const toggleFlip = () => {
+    const next = !flipped;
+    if (next && !fateReaderFired) {
+      fateReaderFired = true;
+      // fire-and-forget: a listener may or may not exist
+      window.dispatchEvent(
+        new CustomEvent("ot:achievement", { detail: { id: "fate-reader" } })
+      );
+    }
+    setFlipped(next);
+  };
+
+  // straighten any leftover torchlight tilt as the card turns
+  useEffect(() => {
+    if (flipped && sceneRef.current) {
+      gsap.to(sceneRef.current, {
+        rotationX: 0,
+        rotationY: 0,
+        duration: 0.4,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+    }
+  }, [flipped]);
 
   return (
-    <article
+    <div
+      ref={sceneRef}
       data-relic
-      className="relic group relative aspect-[3/4] w-[78vw] shrink-0 snap-start overflow-hidden rounded-2xl border border-line bg-card sm:w-[360px] md:w-[380px]"
+      data-flipped={flipped ? "true" : undefined}
+      role="button"
+      tabIndex={0}
+      aria-pressed={flipped}
+      aria-label={`${relic.tag} relic: ${relic.title}. ${
+        flipped ? "Turn back to the artwork" : "Turn the card to read its lore"
+      }`}
+      className="relic-scene group relative aspect-[3/4] w-[78vw] shrink-0 cursor-pointer snap-start rounded-2xl sm:w-[360px] md:w-[380px]"
+      onPointerDown={(e) => {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        pointerDown.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
+      }}
+      onPointerUp={(e) => {
+        const down = pointerDown.current;
+        pointerDown.current = null;
+        if (!down || down.id !== e.pointerId) return;
+        // the shelf drags to scroll — only a near-still pointer flips
+        if (Math.hypot(e.clientX - down.x, e.clientY - down.y) >= 8) return;
+        toggleFlip();
+      }}
+      onPointerCancel={() => {
+        pointerDown.current = null;
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleFlip();
+        }
+      }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={relic.image}
-        alt={relic.alt}
-        loading="lazy"
-        className="relic-img absolute inset-0 h-full w-full object-cover"
-      />
-      {/* pointer-following torchlight */}
-      <div aria-hidden="true" className="relic-torch absolute inset-0" />
-      {/* readability scrim */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-void via-void/40 via-45% to-void/5"
-      />
+      <div className={`relic-flip${flipped ? " is-flipped" : ""}`}>
+        {/* front: the relic artwork */}
+        <article
+          aria-hidden={flipped}
+          className="relic absolute inset-0 overflow-hidden rounded-2xl border border-line bg-card"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={relic.image}
+            alt={relic.alt}
+            loading="lazy"
+            className="relic-img absolute inset-0 h-full w-full object-cover"
+          />
+          {/* pointer-following torchlight */}
+          <div aria-hidden="true" className="relic-torch absolute inset-0" />
+          {/* readability scrim */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-void via-void/40 via-45% to-void/5"
+          />
 
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 md:p-6">
-        <p className="label flex items-center gap-2 text-ink/90">
-          <Icon aria-hidden="true" className="h-3.5 w-3.5 text-ember" />
-          {relic.tag}
-        </p>
-        <span className="label text-dim">{relic.numeral}</span>
-      </div>
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 md:p-6">
+            <p className="label flex items-center gap-2 text-ink/90">
+              <Icon aria-hidden="true" className="h-3.5 w-3.5 text-ember" />
+              {relic.tag}
+            </p>
+            <span className="flex items-center gap-3">
+              <span aria-hidden="true" className="relic-hint label text-acid">
+                ✦ turn
+              </span>
+              <span className="label text-dim">{relic.numeral}</span>
+            </span>
+          </div>
 
-      <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-        <p className="label text-ember/90">{relic.kicker}</p>
-        <h3 className="display mt-2 text-3xl text-ink md:text-4xl">
-          {relic.title}
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-ink/75">
-          {relic.description}
-        </p>
+          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+            <p className="label text-ember/90">{relic.kicker}</p>
+            <h3 className="display mt-2 text-3xl text-ink md:text-4xl">
+              {relic.title}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-ink/75">
+              {relic.description}
+            </p>
 
-        <div className="mt-5 flex gap-x-8 border-t border-ink/10 pt-4">
-          {relic.stats.map((stat) => (
-            <div key={stat.k}>
-              <p className="label text-dim">{stat.k}</p>
-              <p className="label mt-1.5 text-ink">{stat.v}</p>
+            <div className="mt-5 flex gap-x-8 border-t border-ink/10 pt-4">
+              {relic.stats.map((stat) => (
+                <div key={stat.k}>
+                  <p className="label text-dim">{stat.k}</p>
+                  <p className="label mt-1.5 text-ink">{stat.v}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <p className="label mt-5 text-ember/90">
-          † message: &ldquo;{relic.whisper}&rdquo;
-        </p>
+            <p className="label mt-5 text-ember/90">
+              † message: &ldquo;{relic.whisper}&rdquo;
+            </p>
+          </div>
+        </article>
+
+        {/* back: the tarot lore face */}
+        <div
+          aria-hidden={!flipped}
+          className="relic-back absolute inset-0 overflow-hidden rounded-2xl border border-line"
+        >
+          <div className="relative flex h-full flex-col p-7 md:p-8">
+            <div className="flex items-center justify-between">
+              <p className="label flex items-center gap-2 text-ink/90">
+                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-acid" />
+                {relic.tag}
+              </p>
+              <span className="label text-dim">{relic.numeral}</span>
+            </div>
+
+            <div className="my-auto py-6">
+              <span aria-hidden="true" className="relic-back-ornament" />
+              <p className="mt-6 text-center text-sm leading-relaxed text-ink/85 md:text-base">
+                {relic.lore}
+              </p>
+            </div>
+
+            <p className="label text-center text-dim">↻ Turn back</p>
+          </div>
+        </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -223,6 +321,12 @@ export default function Hobbies() {
           });
 
           card.addEventListener("pointermove", (e) => {
+            // the flip owns the card while the back is up — no tilt
+            if (card.dataset.flipped) {
+              rotX(0);
+              rotY(0);
+              return;
+            }
             const r = card.getBoundingClientRect();
             const px = (e.clientX - r.left) / r.width;
             const py = (e.clientY - r.top) / r.height;
