@@ -46,7 +46,7 @@ C["alt"] = ((3, 2), svg(
 ))
 
 PT_FINGERS = (
-    "M9.8 3.4 L9.8 12 "      # extended index finger
+    "M9.8 5 L9.8 12 "         # extended index finger
     "M12.7 10.8 L12.7 13.6 "  # folded middle
     "M15.1 11.4 L15.1 14 "    # folded ring
     "M17.2 12 L17.1 14.4 "    # folded pinky
@@ -54,7 +54,7 @@ PT_FINGERS = (
 )
 PT_PALM = '<ellipse cx="12.4" cy="15.8" rx="4.7" ry="3.8"'
 
-C["pointer"] = ((10, 2), svg(
+C["pointer"] = ((10, 3), svg(
     # same construction as the move hand (capsule fingers + palm union),
     # with the index finger extended to point
     f'<path d="{PT_FINGERS}" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>'
