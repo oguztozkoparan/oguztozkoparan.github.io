@@ -930,3 +930,26 @@ body {
     animation: none;
   }
 }
+
+/* ---- dos terminal ---- */
+.dos-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(167, 139, 250, 0.45) transparent;
+}
+
+.dos-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dos-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dos-scroll::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.45);
+  border-radius: 4px;
+}
+
+.dos-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.7);
+}
