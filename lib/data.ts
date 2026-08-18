@@ -13,8 +13,8 @@ export const site = {
 
 export const socials = [
   { label: "GitHub", handle: "@oguztozkoparan", href: "https://github.com/oguztozkoparan" },
-  { label: "LinkedIn", handle: "in/oguztozkoparan", href: "https://www.linkedin.com/in/oguztozkoparan" },
-  { label: "X / Twitter", handle: "@oguztozkoparan", href: "https://x.com/oguztozkoparan" },
+  { label: "LinkedIn", handle: "in/oguz-tozkoparan", href: "https://www.linkedin.com/in/oguz-tozkoparan" },
+  { label: "X / Twitter", handle: "@dustbreaker0", href: "https://x.com/dustbreaker0" },
 ];
 
 export const about = {

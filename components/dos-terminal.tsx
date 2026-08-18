@@ -481,7 +481,7 @@ const initialFileSystem: { [key: string]: FileSystemItem } = {
             name: "CONTACT.TXT",
             type: "file",
             content:
-              "Contact Information:\n\nEmail: oguztozkoparan@gmail.com\nLocation: Ankara, Turkey\n\nSocial Media:\n- GitHub: github.com/oguztozkoparan\n- LinkedIn: linkedin.com/in/oguztozkoparan\n- Twitter: @oguztozkoparan\n\nAvailable for:\n- Freelance projects\n- Full-time opportunities\n- Consulting work\n- Speaking engagements",
+              "Contact Information:\n\nEmail: oguztozkoparan@gmail.com\nLocation: Ankara, Turkey\n\nSocial Media:\n- GitHub: github.com/oguztozkoparan\n- LinkedIn: linkedin.com/in/oguz-tozkoparan\n- X: @dustbreaker0\n\nAvailable for:\n- Freelance projects\n- Full-time opportunities\n- Consulting work\n- Speaking engagements",
           },
         },
       },
