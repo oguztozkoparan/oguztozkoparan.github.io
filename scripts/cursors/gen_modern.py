@@ -112,9 +112,21 @@ C["ns"] = ((12, 12), svg(_stem(90) + _head(90) + _head(270)))
 C["nwse"] = ((12, 12), svg(_stem(45) + _head(45) + _head(225)))
 C["nesw"] = ((12, 12), svg(_stem(135) + _head(135) + _head(315)))
 
-C["move"] = ((12, 12), svg(
-    _stem(0, 4.6, 19.4) + _stem(90, 4.6, 19.4)
-    + _head(0) + _head(90) + _head(180) + _head(270)
+C["move"] = ((9, 11), svg(
+    # grabbing/drag hand: four curled knuckles, rounded fist, thumb-side wrist
+    '<path d="M4.6 12 V8.6 c0.7 -0.9 1.8 -0.9 2.4 -0.1 c0.5 -0.9 1.7 -0.9 2.3 -0.1 '
+    'c0.5 -0.9 1.7 -0.8 2.3 0 c0.7 -0.6 1.7 -0.3 2.1 0.5 c0.4 0.7 0.6 1.5 0.6 2.4 '
+    'c0 2.9 -1.9 4.9 -4.9 4.9 c-2.1 0 -3.4 -0.9 -4.3 -2.5 L3.7 13.3 '
+    'c-0.5 -0.9 0.4 -1.8 1.2 -1.2 Z" '
+    f'fill="{BODY}" stroke="{INK}" stroke-width="1.3" stroke-linejoin="round"/>'
+    # mini move-cross badge, bottom-right
+    '<g transform="translate(17.8 17.8)">'
+    f'<path d="M-3.6 0 H3.6 M0 -3.6 V3.6" stroke="{INK}" stroke-width="2.6" stroke-linecap="round"/>'
+    f'<path d="M-3.6 0 H3.6 M0 -3.6 V3.6" stroke="{BODY}" stroke-width="1.2" stroke-linecap="round"/>'
+    f'<path d="M2.5 -1.4 L4.7 0 L2.5 1.4 Z M-2.5 -1.4 L-4.7 0 L-2.5 1.4 Z '
+    f'M-1.4 -2.5 L0 -4.7 L1.4 -2.5 Z M-1.4 2.5 L0 4.7 L1.4 2.5 Z" '
+    f'fill="{ACID}" stroke="{INK}" stroke-width="0.8" stroke-linejoin="round"/>'
+    "</g>"
 ))
 
 C["precision"] = ((12, 12), svg(
