@@ -449,3 +449,35 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ---- glass ---- */
+
+/* shared glassmorphism surface: panel-tinted translucency + backdrop blur.
+   Used by the header capsule, fullscreen menu, sound panels — reusable by
+   any floating surface. Falls back to near-opaque panel when
+   backdrop-filter is unsupported. */
+.glass-panel,
+.glass-fillet {
+  background: rgba(20, 22, 25, 0.92);
+}
+
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass-panel,
+  .glass-fillet {
+    background: rgba(20, 22, 25, 0.78);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+  }
+}
+
+/* gooey capsule corner fillets in the same glass: the radial mask carves
+   the concave quarter-circle and clips the backdrop blur along with it */
+.glass-fillet-left {
+  -webkit-mask-image: radial-gradient(circle at bottom left, transparent 17.5px, #000 18px);
+  mask-image: radial-gradient(circle at bottom left, transparent 17.5px, #000 18px);
+}
+
+.glass-fillet-right {
+  -webkit-mask-image: radial-gradient(circle at bottom right, transparent 17.5px, #000 18px);
+  mask-image: radial-gradient(circle at bottom right, transparent 17.5px, #000 18px);
+}

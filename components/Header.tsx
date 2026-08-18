@@ -43,7 +43,7 @@ function useLiveClock() {
 }
 
 export default function Header() {
-  const headerRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const [open, setOpen] = useState(false);
@@ -170,7 +170,7 @@ export default function Header() {
       {/* fullscreen menu overlay */}
       <div
         ref={overlayRef}
-        className={`fixed inset-0 z-40 flex flex-col justify-between bg-void/95 px-6 pb-8 pt-28 backdrop-blur-md md:px-10 md:pt-32 [clip-path:inset(0%_0%_100%_0%)] ${
+        className={`glass-panel fixed inset-0 z-40 flex flex-col justify-between px-6 pb-8 pt-28 md:px-10 md:pt-32 [clip-path:inset(0%_0%_100%_0%)] ${
           open ? "" : "pointer-events-none"
         }`}
         aria-hidden={!open}
@@ -239,22 +239,34 @@ export default function Header() {
         </div>
       </div>
 
-      {/* top bar — floating capsule notch hanging from the top edge */}
-      <header
-        ref={headerRef}
-        className="fixed left-1/2 top-0 z-50 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2"
-      >
-        {/* gooey fillets connecting the capsule to the top edge */}
-        <span
-          aria-hidden="true"
-          className="absolute -left-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_left,transparent_17.5px,#141619_18px)]"
-        />
-        <span
-          aria-hidden="true"
-          className="absolute -right-[18px] top-0 h-[18px] w-[18px] bg-[radial-gradient(circle_at_bottom_right,transparent_17.5px,#141619_18px)]"
-        />
+      {/* top bar — floating capsule notch hanging from the top edge.
+          The <header> stays untransformed; GSAP translates the inner
+          wrapper, and the backdrop blur lives on its own untransformed
+          layer beneath the capsule content — this split is what keeps
+          backdrop sampling stable over GSAP-pinned sections */}
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
+        <div
+          ref={headerRef}
+          className="pointer-events-auto relative w-max max-w-[calc(100vw-2rem)]"
+        >
+          {/* gooey fillets connecting the capsule to the top edge */}
+          <span
+            aria-hidden="true"
+            className="glass-fillet glass-fillet-left absolute -left-[18px] top-0 h-[18px] w-[18px]"
+          />
+          <span
+            aria-hidden="true"
+            className="glass-fillet glass-fillet-right absolute -right-[18px] top-0 h-[18px] w-[18px]"
+          />
 
-        <div className="relative flex items-center gap-5 rounded-b-2xl bg-panel py-3 pl-5 pr-3 shadow-2xl shadow-black/50 transition-[padding] duration-300 md:gap-7 md:pl-6 [.nav-condensed_&]:py-2">
+          {/* glass surface — kept out of the capsule's subtree so the
+              sound dropdown never sits under a backdrop-filter ancestor */}
+          <div
+            aria-hidden="true"
+            className="glass-panel absolute inset-0 rounded-b-2xl shadow-2xl shadow-black/50"
+          />
+
+          <div className="relative flex items-center gap-5 rounded-b-2xl py-3 pl-5 pr-3 transition-[padding] duration-300 md:gap-7 md:pl-6 [.nav-condensed_&]:py-2">
           {/* reading progress traced along the capsule's bottom edge —
               clipped in its own layer so dropdowns can escape the capsule */}
           <div
@@ -327,6 +339,7 @@ export default function Header() {
               />
             </span>
           </button>
+          </div>
         </div>
       </header>
     </>
