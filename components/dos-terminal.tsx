@@ -548,6 +548,8 @@ export default function DOSTerminal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const tabCycleRef = useRef<{ matches: string[]; idx: number } | null>(null);
+  const [activeSuggestion, setActiveSuggestion] = useState(-1);
 
   // Update time every second
   useEffect(() => {
@@ -594,15 +596,13 @@ export default function DOSTerminal() {
       const commonPrefix = getCommonPrefix(suggestions);
       return { suggestions, commonPrefix };
     } else if (
-      args.length === 2 &&
-      (command === "cd" ||
-        command === "type" ||
-        command === "del" ||
-        command === "ren")
+      args.length >= 2 &&
+      ["cd", "type", "del", "ren", "copy", "attrib"].includes(command) &&
+      command !== "read"
     ) {
-      // Complete file/directory names
+      // Complete file/directory names (always the last argument)
       const currentDir = getCurrentDirectory();
-      const partial = args[1].toUpperCase();
+      const partial = args[args.length - 1].toUpperCase();
       const items = Object.keys(currentDir);
 
       let suggestions: string[] = [];
@@ -672,34 +672,46 @@ export default function DOSTerminal() {
     return prefix;
   };
 
-  const handleTabCompletion = () => {
+  const applySuggestion = (value: string, trailingSpace: boolean) => {
+    const args = currentCommand.trim().split(/\s+/);
+    if (args.length <= 1) {
+      setCurrentCommand(value + (trailingSpace ? " " : ""));
+    } else {
+      args[args.length - 1] = value;
+      setCurrentCommand(args.join(" ") + (trailingSpace ? " " : ""));
+    }
+  };
+
+  const handleTabCompletion = (backwards: boolean) => {
+    // repeated Tab cycles through the current match list (Shift+Tab reverses)
+    const cycle = tabCycleRef.current;
+    if (cycle && cycle.matches.length > 1) {
+      const dir = backwards ? -1 : 1;
+      cycle.idx = (cycle.idx + dir + cycle.matches.length) % cycle.matches.length;
+      setActiveSuggestion(cycle.idx);
+      applySuggestion(cycle.matches[cycle.idx], false);
+      return;
+    }
+
     const args = currentCommand.trim().split(/\s+/);
     const completion = getTabCompletion(currentCommand);
 
     if (completion.suggestions.length === 1) {
-      // Single match - complete it
-      const suggestion = completion.suggestions[0];
-      if (args.length === 1) {
-        setCurrentCommand(suggestion + " ");
-      } else {
-        args[args.length - 1] = suggestion;
-        setCurrentCommand(args.join(" ") + " ");
-      }
+      applySuggestion(completion.suggestions[0], true);
       setShowSuggestions(false);
+      tabCycleRef.current = null;
+      setActiveSuggestion(-1);
     } else if (completion.suggestions.length > 1) {
-      // Multiple matches - show suggestions and complete common prefix
+      // complete the common prefix, list the candidates, arm cycling
       if (
         completion.commonPrefix.length > (args[args.length - 1]?.length || 0)
       ) {
-        if (args.length === 1) {
-          setCurrentCommand(completion.commonPrefix);
-        } else {
-          args[args.length - 1] = completion.commonPrefix;
-          setCurrentCommand(args.join(" "));
-        }
+        applySuggestion(completion.commonPrefix, false);
       }
       setTabSuggestions(completion.suggestions);
       setShowSuggestions(true);
+      tabCycleRef.current = { matches: completion.suggestions, idx: -1 };
+      setActiveSuggestion(-1);
     }
   };
 
@@ -1018,11 +1030,36 @@ export default function DOSTerminal() {
     addToHistory(command, output);
   };
 
+  const resetTabCycle = () => {
+    tabCycleRef.current = null;
+    setActiveSuggestion(-1);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       executeCommand(currentCommand);
       setCurrentCommand("");
       setShowSuggestions(false);
+      resetTabCycle();
+    } else if (e.key === "l" && (e.ctrlKey || e.metaKey)) {
+      // Ctrl+L clears the screen, like every terminal
+      e.preventDefault();
+      setCommandHistory([]);
+      setShowSuggestions(false);
+      resetTabCycle();
+    } else if (e.key === "c" && e.ctrlKey) {
+      // Ctrl+C cancels the current line
+      e.preventDefault();
+      addToHistory(currentCommand + "^C", []);
+      setCurrentCommand("");
+      setShowSuggestions(false);
+      resetTabCycle();
+    } else if (e.key === "F1") {
+      e.preventDefault();
+      executeCommand("help");
+      setCurrentCommand("");
+      setShowSuggestions(false);
+      resetTabCycle();
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length > 0) {
@@ -1049,11 +1086,16 @@ export default function DOSTerminal() {
       setShowSuggestions(false);
     } else if (e.key === "Tab") {
       e.preventDefault();
-      handleTabCompletion();
+      handleTabCompletion(e.shiftKey);
     } else if (e.key === "Escape") {
+      // Esc clears the line, like cmd.exe
+      setCurrentCommand("");
       setShowSuggestions(false);
-    } else {
-      // Hide suggestions when typing
+      resetTabCycle();
+      setHistoryIndex(-1);
+    } else if (e.key !== "Shift" && e.key !== "Control" && e.key !== "Meta" && e.key !== "Alt") {
+      // typing anything else ends the tab cycle and hides suggestions
+      resetTabCycle();
       if (showSuggestions) {
         setShowSuggestions(false);
       }
@@ -1064,21 +1106,55 @@ export default function DOSTerminal() {
     if (terminalRef.current && contentRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
-  }, [commandHistory]);
+  }, [commandHistory, showSuggestions]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowStartupAnimation(false);
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
     }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  // the input only mounts after the startup screen unmounts — focus it then
+  useEffect(() => {
+    if (!showStartupAnimation) inputRef.current?.focus();
+  }, [showStartupAnimation]);
+
+  // route stray keystrokes back to the prompt (otherwise Tab walks the
+  // header links and Enter navigates away); leave other inputs alone
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (showStartupAnimation) return;
+      const ae = document.activeElement as HTMLElement | null;
+      if (ae === inputRef.current) return;
+      if (
+        ae &&
+        (ae.tagName === "INPUT" ||
+          ae.tagName === "TEXTAREA" ||
+          ae.isContentEditable)
+      )
+        return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (
+        e.key === "Tab" ||
+        e.key === "Backspace" ||
+        e.key === "Enter" ||
+        e.key.length === 1
+      ) {
+        if (e.key === "Tab" || e.key === "Enter") e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showStartupAnimation]);
+
   useEffect(() => {
     const handleClick = () => {
+      // don't steal focus while the user is selecting terminal text
+      const sel = window.getSelection();
+      if (sel && !sel.isCollapsed) return;
       if (inputRef.current && !showStartupAnimation) {
         inputRef.current.focus();
       }
@@ -1169,8 +1245,8 @@ export default function DOSTerminal() {
         animate={{ opacity: 1, scale: 1 }}
         className={`relative z-10 flex flex-col ${
           isMaximized
-            ? "h-screen"
-            : "max-w-4xl mx-auto mt-8 h-[600px] rounded-2xl overflow-hidden"
+            ? "h-[calc(100svh-4rem)] md:h-[calc(100svh-68px)]"
+            : "mx-4 mt-8 h-[min(600px,calc(100svh-9rem))] max-w-4xl rounded-2xl overflow-hidden sm:mx-auto"
         }`}
       >
         {/* Window Header */}
@@ -1222,10 +1298,11 @@ export default function DOSTerminal() {
         <div className="flex-1 flex flex-col min-h-0">
           <div
             ref={terminalRef}
-            className="flex-1 bg-black text-acid overflow-y-auto scrollbar-thin scrollbar-thumb-acid scrollbar-track-panel"
+            data-lenis-prevent
+            className="dos-scroll flex-1 overscroll-contain bg-black text-acid overflow-y-auto"
             style={{ fontFamily: "Consolas, 'Courier New', monospace" }}
           >
-            <div ref={contentRef} className="p-4 pb-20">
+            <div ref={contentRef} className="p-4 pb-6">
               {/* Welcome Message */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -1257,7 +1334,7 @@ export default function DOSTerminal() {
                     {entry.output.map((line, lineIndex) => (
                       <div
                         key={lineIndex}
-                        className="text-acid whitespace-pre-wrap"
+                        className="text-acid whitespace-pre-wrap [overflow-wrap:anywhere]"
                       >
                         {line}
                       </div>
@@ -1274,15 +1351,26 @@ export default function DOSTerminal() {
                   exit={{ opacity: 0, y: -10 }}
                   className="mb-2 text-cyan-400"
                 >
-                  <div className="text-sm">Suggestions:</div>
+                  <div className="text-sm">Suggestions (TAB cycles):</div>
                   <div className="flex flex-wrap gap-2 ml-4">
                     {tabSuggestions.map((suggestion, index) => (
-                      <span
+                      <button
                         key={index}
-                        className="bg-panel px-2 py-1 rounded text-xs"
+                        type="button"
+                        onClick={() => {
+                          applySuggestion(suggestion, true);
+                          setShowSuggestions(false);
+                          resetTabCycle();
+                          inputRef.current?.focus();
+                        }}
+                        className={`px-2 py-1 rounded text-xs transition-colors ${
+                          index === activeSuggestion
+                            ? "bg-acid text-void"
+                            : "bg-panel hover:bg-card"
+                        }`}
                       >
                         {suggestion}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 </motion.div>
@@ -1323,7 +1411,8 @@ export default function DOSTerminal() {
             <div className="hidden md:flex gap-4">
               <span>F1: Help</span>
               <span>TAB: Complete</span>
-              <span>ESC: Exit</span>
+              <span>ESC: Clear</span>
+              <span>CTRL+L: Cls</span>
             </div>
             <div className="text-right">
               <div className="hidden sm:inline">
