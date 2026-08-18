@@ -113,8 +113,32 @@ export default function Hero() {
         phase: number;
         alpha: number;
         violet: boolean;
+        // spring offset away from the natural drift path (cursor repulsion)
+        ox: number;
+        oy: number;
+        vx: number;
+        vy: number;
       };
       let particles: Particle[] = [];
+
+      // ---- cursor repulsion ----
+      const pointer = { x: 0, y: 0, active: false };
+      const REPEL_RADIUS = 120; // px around the cursor that disturbs particles
+      const REPEL_FORCE = 3000; // px/s^2 at the cursor, eased by falloff^2
+      const SPRING = 14; // pull back toward the drift path (1/s^2)
+      const DAMPING = 7; // ~critical for SPRING — settles without jitter (1/s)
+
+      const onPointerMove = (e: PointerEvent) => {
+        if (e.pointerType === "touch") return;
+        const rect = section.getBoundingClientRect();
+        pointer.x = e.clientX - rect.left;
+        pointer.y = e.clientY - rect.top;
+        pointer.active = true;
+      };
+      const onPointerLeave = (e: PointerEvent) => {
+        if (e.pointerType === "touch") return;
+        pointer.active = false;
+      };
 
       const sizeParticles = () => {
         if (!pCanvas) return;
@@ -129,6 +153,10 @@ export default function Hero() {
           phase: Math.random() * Math.PI * 2,
           alpha: 0.12 + Math.random() * 0.35,
           violet: Math.random() < 0.6,
+          ox: 0,
+          oy: 0,
+          vx: 0,
+          vy: 0,
         }));
       };
 
@@ -138,19 +166,44 @@ export default function Hero() {
         const h = pCanvas.height;
         pCtx.clearRect(0, 0, w, h);
         pCtx.globalCompositeOperation = "lighter";
+        const dt = Math.min(delta, 34) / 1000; // clamp tab-switch spikes
         for (const p of particles) {
           p.y -= (p.speed * delta) / 1000;
           if (p.y < -4) {
             p.y = h + 4;
             p.x = Math.random() * w;
+            p.ox = p.oy = p.vx = p.vy = 0;
           }
-          const x = p.x + Math.sin(time * p.sway + p.phase) * 18;
+          // natural drift path (unchanged base behavior)
+          const bx = p.x + Math.sin(time * p.sway + p.phase) * 18;
+          // gentle repulsion from the cursor, smooth falloff toward the edge
+          if (pointer.active) {
+            const dx = bx + p.ox - pointer.x;
+            const dy = p.y + p.oy - pointer.y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < REPEL_RADIUS && d > 0.001) {
+              const falloff = 1 - d / REPEL_RADIUS;
+              const f = (REPEL_FORCE * falloff * falloff * dt) / d;
+              p.vx += dx * f;
+              p.vy += dy * f;
+            }
+          }
+          // damped spring back toward the drift path
+          p.vx += (-p.ox * SPRING - p.vx * DAMPING) * dt;
+          p.vy += (-p.oy * SPRING - p.vy * DAMPING) * dt;
+          p.ox += p.vx * dt;
+          p.oy += p.vy * dt;
+          const x = bx + p.ox;
+          const y = p.y + p.oy;
           const pulse = 0.75 + 0.25 * Math.sin(time * 0.8 + p.phase);
+          // disturbed particles glow a touch brighter (alpha clamps at 1)
+          const stir = p.ox * p.ox + p.oy * p.oy;
+          const glow = 1 + Math.min(1, stir / 2304) * 0.5; // full at 48px offset
           pCtx.beginPath();
-          pCtx.arc(x, p.y, p.r, 0, Math.PI * 2);
+          pCtx.arc(x, y, p.r, 0, Math.PI * 2);
           pCtx.fillStyle = p.violet
-            ? `rgba(167, 139, 250, ${p.alpha * pulse})`
-            : `rgba(247, 247, 248, ${p.alpha * 0.7 * pulse})`;
+            ? `rgba(167, 139, 250, ${p.alpha * pulse * glow})`
+            : `rgba(247, 247, 248, ${p.alpha * 0.7 * pulse * glow})`;
           pCtx.fill();
         }
       };
@@ -158,6 +211,8 @@ export default function Hero() {
       if (!reduced) {
         sizeParticles();
         gsap.ticker.add(drawParticles);
+        section.addEventListener("pointermove", onPointerMove);
+        section.addEventListener("pointerleave", onPointerLeave);
       }
 
       const onResize = () => {
@@ -345,6 +400,8 @@ export default function Hero() {
       return () => {
         window.removeEventListener("resize", onResize);
         gsap.ticker.remove(drawParticles);
+        section.removeEventListener("pointermove", onPointerMove);
+        section.removeEventListener("pointerleave", onPointerLeave);
       };
     },
     { scope: sectionRef }
