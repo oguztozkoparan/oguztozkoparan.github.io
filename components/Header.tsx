@@ -297,6 +297,16 @@ export default function Header() {
 
           <SoundControl />
 
+          {/* ghost trigger for the command palette (CommandPalette listens) */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("ot:palette"))}
+            aria-label="Open command palette"
+            className="label hidden rounded-md border border-line px-1.5 py-1 text-dim transition-colors duration-200 hover:border-acid/50 hover:text-ink md:block"
+          >
+            ⌘K
+          </button>
+
           <Magnetic className="max-sm:hidden">
             <a
               href={`mailto:${site.email}`}
