@@ -45,15 +45,22 @@ C["alt"] = ((3, 2), svg(
     f'<path d="{ARROW_D}" fill="{ACID}" stroke="{INK}" stroke-width="1.5" stroke-linejoin="round"/>'
 ))
 
+PT_FINGERS = (
+    "M9.8 3.4 L9.8 12 "      # extended index finger
+    "M12.7 10.8 L12.7 13.6 "  # folded middle
+    "M15.1 11.4 L15.1 14 "    # folded ring
+    "M17.2 12 L17.1 14.4 "    # folded pinky
+    "M6.4 14.4 L9 16.6"       # thumb
+)
+PT_PALM = '<ellipse cx="12.4" cy="15.8" rx="4.7" ry="3.8"'
+
 C["pointer"] = ((10, 2), svg(
-    # extended index finger, three folded knuckles, thumb-side wrist
-    '<path d="M8.2 3.6 a1.7 1.7 0 0 1 3.4 0 V10.4 c0.9 -0.6 2 -0.5 2.7 0.2 '
-    'c0.8 -0.6 1.9 -0.4 2.6 0.4 c0.8 -0.4 1.8 -0.2 2.3 0.7 c0.6 0.9 0.9 1.9 0.9 3 '
-    'c0 3.9 -2.6 6.5 -6.5 6.5 c-2.9 0 -4.6 -1.3 -5.8 -3.4 L5.4 13.9 '
-    'c-0.7 -1.2 0.7 -2.5 1.9 -1.7 l0.9 1 Z" '
-    f'fill="{BODY}" stroke="{INK}" stroke-width="1.4" stroke-linejoin="round"/>'
-    # knuckle creases hinting the folded fingers
-    f'<path d="M14.2 11 v2.2 M16.9 11.6 v1.8" stroke="{INK}" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>'
+    # same construction as the move hand (capsule fingers + palm union),
+    # with the index finger extended to point
+    f'<path d="{PT_FINGERS}" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>'
+    f"{PT_PALM} fill=\"{INK}\" stroke=\"{INK}\" stroke-width=\"2.6\"/>"
+    f'<path d="{PT_FINGERS}" fill="none" stroke="{BODY}" stroke-width="2.4" stroke-linecap="round"/>'
+    f"{PT_PALM} fill=\"{BODY}\"/>"
 ))
 
 C["text"] = ((12, 12), svg(
